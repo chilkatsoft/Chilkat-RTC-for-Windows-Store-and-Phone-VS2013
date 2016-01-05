@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{599707cb-7776-4970-aa42-33def7beac93}</ItemsProjectGuid>
+    <ItemsRootNamespace>Chilkat</ItemsRootNamespace>
+    <ItemsProjectName>Chilkat.Shared</ItemsProjectName>
+    <CodeSharingProject>248F659F-DAC5-46E8-AC09-60EC9FC95053</CodeSharingProject>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Atom.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Bounce.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Bz2.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Cache.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Cert.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CertChain.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CertStore.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Charset.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ChilkatPtr.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CkDateTime.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Compression.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Crypt2.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Csv.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Dh.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DirTree.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Dkim.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Dsa.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DtObj.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Ecc.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Email.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)EmailBundle.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FileAccess.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Ftp2.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Global.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Gzip.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Hashtable.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HtmlToText.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HtmlToXml.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Http.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HttpRequest.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HttpResponse.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Imap.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)JavaKeyStore.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Log.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Mailboxes.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MailMan.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MessageSet.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Mht.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Mime.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Ntlm.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Pem.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Pfx.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PrivateKey.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Prng.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PublicKey.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Rsa.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Rss.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Scp.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SFtp.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SFtpDir.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SFtpFile.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Socket.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Spider.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Ssh.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SshKey.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StringArray.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Tar.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TrustedRoots.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)UnixCompress.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Upload.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Url.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Xml.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)XmlCertVault.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Xmp.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Zip.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ZipEntry.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Atom.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Bounce.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Bz2.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Cache.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Cert.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CertChain.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CertStore.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Charset.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ChilkatPtr.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CkDateTime.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Compression.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Crypt2.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Csv.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Dh.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DirTree.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Dkim.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Dsa.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DtObj.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Ecc.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Email.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)EmailBundle.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FileAccess.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Ftp2.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Global.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Gzip.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Hashtable.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HtmlToText.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HtmlToXml.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Http.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HttpRequest.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HttpResponse.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Imap.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)JavaKeyStore.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Log.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Mailboxes.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MailMan.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MessageSet.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Mht.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Mime.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Ntlm.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Pem.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Pfx.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PrivateKey.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Prng.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PublicKey.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Rsa.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Rss.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Scp.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SFtp.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SFtpDir.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SFtpFile.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Socket.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Spider.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Ssh.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SshKey.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)StringArray.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Tar.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TrustedRoots.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)UnixCompress.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Upload.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Url.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Xml.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)XmlCertVault.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Xmp.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Zip.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ZipEntry.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+</Project>
