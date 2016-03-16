@@ -10,9 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkMultiByteBase.h"
-
-class CkByteData;
+#include "CkClassWithCallbacks.h"
 
 class CkCert;
 class CkTask;
@@ -27,10 +25,9 @@ class CkBaseProgress;
  
 
 // CLASS: CkTrustedRoots
-class CK_VISIBLE_PUBLIC CkTrustedRoots  : public CkMultiByteBase
+class CK_VISIBLE_PUBLIC CkTrustedRoots  : public CkClassWithCallbacks
 {
     private:
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkTrustedRoots(const CkTrustedRoots &);
@@ -92,7 +89,7 @@ class CK_VISIBLE_PUBLIC CkTrustedRoots  : public CkMultiByteBase
 
 
 	// Adds a certificate to the collection of trusted roots.
-	bool AddCert(const CkCert &cert);
+	bool AddCert(CkCert &cert);
 
 
 	// Adds the trusted certificates from a Java key store to the collection of trusted

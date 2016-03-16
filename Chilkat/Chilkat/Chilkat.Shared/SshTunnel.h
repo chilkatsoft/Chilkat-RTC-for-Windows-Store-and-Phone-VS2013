@@ -5,12 +5,17 @@
 
 class CkSshTunnelW;
 
+#if !defined(CK_SFX_INCLUDED)
+#define CK_SFX_INCLUDED
+#endif
+	
 #include "include/CkBaseProgressW.h"
 #include "CxDelegates.h"
 #include "CxEventArgs.h"
 #include "include/CkSshTunnelW.h"
 
 	
+#include "chilkatClassDecls.h"
 	
 using namespace Platform;
 using namespace Windows::Foundation;
@@ -20,6 +25,7 @@ namespace Chilkat
 {
 
 	ref class SshKey;
+	ref class Ssh;
 
 
 public ref class SshTunnel sealed
@@ -96,6 +102,21 @@ public ref class SshTunnel sealed
 		Boolean get();
 		void set(Boolean);
 	}
+	property Boolean LastMethodSuccess
+	{
+		Boolean get();
+		void set(Boolean);
+	}
+	property Platform::String ^AcceptLog
+	{
+		Platform::String ^get();
+		void set(Platform::String ^);
+	}
+	property Platform::String ^AcceptLogPath
+	{
+		Platform::String ^get();
+		void set(Platform::String ^);
+	}
 	property int32 ConnectTimeoutMs
 	{
 		int32 get();
@@ -110,6 +131,11 @@ public ref class SshTunnel sealed
 	{
 		int32 get();
 		void set(int32);
+	}
+	property Boolean DynamicPortForwarding
+	{
+		Boolean get();
+		void set(Boolean);
 	}
 	property Platform::String ^HttpProxyAuthMethod
 	{
@@ -146,9 +172,29 @@ public ref class SshTunnel sealed
 		int32 get();
 		void set(int32);
 	}
+	property Platform::String ^InboundSocksPassword
+	{
+		Platform::String ^get();
+		void set(Platform::String ^);
+	}
+	property Platform::String ^InboundSocksUsername
+	{
+		Platform::String ^get();
+		void set(Platform::String ^);
+	}
 	property Boolean IsAccepting
 	{
 		Boolean get();
+	}
+	property Boolean KeepAcceptLog
+	{
+		Boolean get();
+		void set(Boolean);
+	}
+	property Boolean KeepTunnelLog
+	{
+		Boolean get();
+		void set(Boolean);
 	}
 	property Platform::String ^ListenBindIpAddress
 	{
@@ -209,32 +255,7 @@ public ref class SshTunnel sealed
 		Boolean get();
 		void set(Boolean);
 	}
-	property Boolean DynamicPortForwarding
-	{
-		Boolean get();
-		void set(Boolean);
-	}
-	property Platform::String ^InboundSocksUsername
-	{
-		Platform::String ^get();
-		void set(Platform::String ^);
-	}
-	property Platform::String ^InboundSocksPassword
-	{
-		Platform::String ^get();
-		void set(Platform::String ^);
-	}
-	property Boolean KeepAcceptLog
-	{
-		Boolean get();
-		void set(Boolean);
-	}
-	property Platform::String ^AcceptLog
-	{
-		Platform::String ^get();
-		void set(Platform::String ^);
-	}
-	property Platform::String ^AcceptLogPath
+	property Platform::String ^TunnelLog
 	{
 		Platform::String ^get();
 		void set(Platform::String ^);
@@ -244,15 +265,9 @@ public ref class SshTunnel sealed
 		Platform::String ^get();
 		void set(Platform::String ^);
 	}
-	property Platform::String ^TunnelLog
+	property Platform::String ^HostKeyFingerprint
 	{
 		Platform::String ^get();
-		void set(Platform::String ^);
-	}
-	property Boolean KeepTunnelLog
-	{
-		Boolean get();
-		void set(Boolean);
 	}
 
 
@@ -261,23 +276,25 @@ public ref class SshTunnel sealed
 	// ----------------------
 	Boolean SaveLastError(Platform::String ^path);
 
-	IAsyncOperation<Boolean>^ BeginAcceptingAsync(int listenPort);
-
-	Boolean StopAccepting(Boolean waitForThread);
-
-	Boolean UnlockComponent(Platform::String ^unlockCode);
-
-	IAsyncOperation<Boolean>^ ConnectAsync(Platform::String ^hostname, int port);
-
 	IAsyncOperation<Boolean>^ AuthenticatePkAsync(Platform::String ^username, SshKey ^privateKey);
 
 	IAsyncOperation<Boolean>^ AuthenticatePwAsync(Platform::String ^login, Platform::String ^password);
 
 	IAsyncOperation<Boolean>^ AuthenticatePwPkAsync(Platform::String ^username, Platform::String ^password, SshKey ^privateKey);
 
+	IAsyncOperation<Boolean>^ BeginAcceptingAsync(int listenPort);
+
 	Boolean CloseTunnel(Boolean waitForThreads);
 
+	IAsyncOperation<Boolean>^ ConnectAsync(Platform::String ^hostname, int port);
+
 	Boolean DisconnectAllClients(Boolean waitForThreads);
+
+	Boolean StopAccepting(Boolean waitForThread);
+
+	Boolean UnlockComponent(Platform::String ^unlockCode);
+
+	IAsyncOperation<Boolean>^ ConnectThroughSshAsync(Ssh ^ssh, Platform::String ^hostname, int port);
 
 
 

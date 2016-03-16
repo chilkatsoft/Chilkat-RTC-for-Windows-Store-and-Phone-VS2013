@@ -10,7 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkWideCharBase.h"
+#include "CkClassWithCallbacksW.h"
 
 class CkByteData;
 class CkTaskW;
@@ -25,11 +25,10 @@ class CkBaseProgressW;
  
 
 // CLASS: CkScpW
-class CK_VISIBLE_PUBLIC CkScpW  : public CkWideCharBase
+class CK_VISIBLE_PUBLIC CkScpW  : public CkClassWithCallbacksW
 {
     private:
 	bool m_cbOwned;
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkScpW(const CkScpW &);
@@ -251,12 +250,12 @@ class CK_VISIBLE_PUBLIC CkScpW  : public CkWideCharBase
 	CkTaskW *SyncTreeUploadAsync(const wchar_t *localBaseDir, const wchar_t *remoteBaseDir, int mode, bool bRecurse);
 
 	// Uploads binary data to a file on the SSH server.
-	bool UploadBinary(const wchar_t *remotePath, const CkByteData &binData);
+	bool UploadBinary(const wchar_t *remotePath, CkByteData &binData);
 
 	// Creates an asynchronous task to call the UploadBinary method with the arguments
 	// provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *UploadBinaryAsync(const wchar_t *remotePath, const CkByteData &binData);
+	CkTaskW *UploadBinaryAsync(const wchar_t *remotePath, CkByteData &binData);
 
 	// Uploads the binary data to a file on the remote SSH server. The binary data is
 	// passed in encoded string representation (such as base64, or hex).

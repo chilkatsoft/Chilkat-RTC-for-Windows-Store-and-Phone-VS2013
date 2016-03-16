@@ -277,6 +277,8 @@ public ref class Tar sealed
 
 	IAsyncOperation<Boolean>^ WriteTarGzAsync(Platform::String ^gzPath);
 
+	Boolean AddDirRoot2(Platform::String ^rootPrefix, Platform::String ^rootPath);
+
 
 
 };

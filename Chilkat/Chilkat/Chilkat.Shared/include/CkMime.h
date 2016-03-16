@@ -12,8 +12,6 @@
 #include "CkString.h"
 #include "CkMultiByteBase.h"
 
-class CkByteData;
-
 class CkCert;
 class CkPrivateKey;
 class CkByteData;
@@ -33,7 +31,6 @@ class CkXmlCertVault;
 class CK_VISIBLE_PUBLIC CkMime  : public CkMultiByteBase
 {
     private:
-	
 
 	// Don't allow assignment or copying these objects.
 	CkMime(const CkMime &);
@@ -406,7 +403,7 @@ class CK_VISIBLE_PUBLIC CkMime  : public CkMultiByteBase
 	// Signs the message using the certificate provided. If successful, the message is
 	// converted to "multipart/signed" and the original message will be contained in
 	// the first sub-part.
-	bool AddDetachedSignature(const CkCert &cert);
+	bool AddDetachedSignature(CkCert &cert);
 
 
 	// Same as AddDetachedSignature, except an extra argument is provided to control
@@ -415,14 +412,14 @@ class CK_VISIBLE_PUBLIC CkMime  : public CkMultiByteBase
 	// object into a multipart/signed MIME with two sub-parts. The first contains the
 	// original content of the calling object, and the second contains the digital
 	// signature.
-	bool AddDetachedSignature2(const CkCert &cert, bool transferHeaderFields);
+	bool AddDetachedSignature2(CkCert &cert, bool transferHeaderFields);
 
 
 	// Adds a detached signature using a certificate and it's associated private key.
 	// This method would be used when the private key is external to the certificate --
 	// for example, if a PFX/P12 file is not used, but instead a pair of .cer and .pem
 	// files are used (one for the certificate and one for the associated private key).
-	bool AddDetachedSignaturePk(const CkCert &cert, const CkPrivateKey &privateKey);
+	bool AddDetachedSignaturePk(CkCert &cert, CkPrivateKey &privateKey);
 
 
 	// Same as AddDetachedSignaturePk, except an extra argument is provided to control
@@ -431,7 +428,7 @@ class CK_VISIBLE_PUBLIC CkMime  : public CkMultiByteBase
 	// object into a multipart/signed MIME with two sub-parts. The first contains the
 	// original content of the calling object, and the second contains the digital
 	// signature.
-	bool AddDetachedSignaturePk2(const CkCert &cert, const CkPrivateKey &privateKey, bool transferHeaderFields);
+	bool AddDetachedSignaturePk2(CkCert &cert, CkPrivateKey &privateKey, bool transferHeaderFields);
 
 
 	// Adds a certificate to the object's internal list of certificates to be used when
@@ -452,7 +449,7 @@ class CK_VISIBLE_PUBLIC CkMime  : public CkMultiByteBase
 	// 
 	// The pfxFileData contains the bytes of a PFX file (also known as PKCS12 or .p12).
 	// 
-	bool AddPfxSourceData(const CkByteData &pfxData, const char *password);
+	bool AddPfxSourceData(CkByteData &pfxData, const char *password);
 
 
 	// Adds a PFX file to the object's internal list of sources to be searched for
@@ -470,7 +467,7 @@ class CK_VISIBLE_PUBLIC CkMime  : public CkMultiByteBase
 	// messages with unlimited nesting levels can be created. If the calling Mime
 	// object is not already multipart, it is automatically converted to
 	// multipart/mixed first.
-	bool AppendPart(const CkMime &mime);
+	bool AppendPart(CkMime &mime);
 
 
 	// Loads a file and creates a Mime message object using the file extension to
@@ -666,7 +663,7 @@ class CK_VISIBLE_PUBLIC CkMime  : public CkMultiByteBase
 	// 
 	// Note: This is commonly referred to as an "opaque" signature.
 	// 
-	bool ConvertToSigned(const CkCert &cert);
+	bool ConvertToSigned(CkCert &cert);
 
 
 	// Digitally signs the MIME to convert it to an "opaque" signed message using a
@@ -674,7 +671,7 @@ class CK_VISIBLE_PUBLIC CkMime  : public CkMultiByteBase
 	// private key is external to the certificate -- for example, if a PFX/P12 file is
 	// not used, but instead a pair of .cer and .pem files are used (one for the
 	// certificate and one for the associated private key).
-	bool ConvertToSignedPk(const CkCert &cert, const CkPrivateKey &privateKey);
+	bool ConvertToSignedPk(CkCert &cert, CkPrivateKey &privateKey);
 
 
 	// Decrypts PKCS7 encrypted MIME (also known as S/MIME). Information about the
@@ -692,7 +689,7 @@ class CK_VISIBLE_PUBLIC CkMime  : public CkMultiByteBase
 
 	// The same as Decrypt, but useful when the certificate and private key are
 	// available in separate files (as opposed to a single file such as a .pfx/.p12).
-	bool Decrypt2(const CkCert &cert, const CkPrivateKey &privateKey);
+	bool Decrypt2(CkCert &cert, CkPrivateKey &privateKey);
 
 
 	// Decrypts PKCS7 encrypted MIME (also known as S/MIME) using a specific
@@ -706,7 +703,7 @@ class CK_VISIBLE_PUBLIC CkMime  : public CkMultiByteBase
 	// the bytes of the PKCS12 file to be passed directly, thus allowing PKCS12's to be
 	// persisted and retrieved from non-file-based locations, such as in LDAP or a
 	// database.
-	bool DecryptUsingPfxData(const CkByteData &pfxData, const char *password);
+	bool DecryptUsingPfxData(CkByteData &pfxData, const char *password);
 
 
 	// Decrypts MIME using a specific PFX file (also known as PKCS12) as the source for
@@ -717,7 +714,7 @@ class CK_VISIBLE_PUBLIC CkMime  : public CkMultiByteBase
 
 	// Encrypts the MIME to create PKCS7 encrypted MIME. A digital certificate (which
 	// always contains a public-key) is used to encrypt.
-	bool Encrypt(const CkCert &cert);
+	bool Encrypt(CkCert &cert);
 
 
 	// Encrypt MIME using any number of digital certificates. Each certificate to be
@@ -726,7 +723,6 @@ class CK_VISIBLE_PUBLIC CkMime  : public CkMultiByteBase
 	bool EncryptN(void);
 
 
-#ifndef MOBILE_MIME
 	// Recursively descends through the parts of a MIME message and extracts all parts
 	// having a filename to a file. The files are created in dirPath. Returns a
 	// (Ck)StringArray object containing the names of the files created. The filenames
@@ -735,7 +731,6 @@ class CK_VISIBLE_PUBLIC CkMime  : public CkMultiByteBase
 	// The caller is responsible for deleting the object returned by this method.
 	CkStringArray *ExtractPartsToFiles(const char *dirPath);
 
-#endif
 
 	// Finds and returns the issuer certificate. If the certificate is a root or
 	// self-issued, then the certificate returned is a copy of the caller certificate.
@@ -1019,7 +1014,7 @@ class CK_VISIBLE_PUBLIC CkMime  : public CkMultiByteBase
 
 
 	// Loads a MIME document from an in-memory byte array.
-	bool LoadMimeBytes(const CkByteData &binData);
+	bool LoadMimeBytes(CkByteData &binData);
 
 
 	// Discards the current contents of the MIME object and loads a new MIME message
@@ -1040,7 +1035,7 @@ class CK_VISIBLE_PUBLIC CkMime  : public CkMultiByteBase
 	// Clears the Mime object and initializes it such that the header contains a
 	// "content-type: message/rfc822" line and the body is the MIME text of the Mime
 	// object passed to the method.
-	bool NewMessageRfc822(const CkMime &mimeObject);
+	bool NewMessageRfc822(CkMime &mimeObject);
 
 
 	// Discards the current MIME message header fields and contents, if any, an
@@ -1087,7 +1082,7 @@ class CK_VISIBLE_PUBLIC CkMime  : public CkMultiByteBase
 
 
 	// Sets the MIME message body from a byte array.
-	bool SetBodyFromBinary(const CkByteData &binData);
+	bool SetBodyFromBinary(CkByteData &binData);
 
 
 	// Sets the MIME message body from a Base64 or Quoted-Printable encoded string.
@@ -1171,7 +1166,7 @@ class CK_VISIBLE_PUBLIC CkMime  : public CkMultiByteBase
 	// appropriate. One instance where SetCSP is necessary is when using the Crypto-Pro
 	// CSP for the GOST R 34.10-2001 and GOST R 34.10-94 providers.
 	// 
-	bool SetCSP(const CkCsp &csp);
+	bool SetCSP(CkCsp &csp);
 
 #endif
 
@@ -1182,7 +1177,7 @@ class CK_VISIBLE_PUBLIC CkMime  : public CkMultiByteBase
 
 
 	// Allows a certificate to be explicitly specified for verifying a signature.
-	bool SetVerifyCert(const CkCert &cert);
+	bool SetVerifyCert(CkCert &cert);
 
 
 	// Unlocks the component allowing for the full functionality to be used. If this
@@ -1250,6 +1245,18 @@ class CK_VISIBLE_PUBLIC CkMime  : public CkMultiByteBase
 	// if it was correctly pre-installed on the computer.
 	// 
 	bool Verify(void);
+
+
+	// Returns a string summarizing the MIME structure. The output format is specified
+	// by ARG1 and can be "text" or "xml".
+	bool GetStructure(const char *fmt, CkString &outStr);
+
+	// Returns a string summarizing the MIME structure. The output format is specified
+	// by ARG1 and can be "text" or "xml".
+	const char *getStructure(const char *fmt);
+	// Returns a string summarizing the MIME structure. The output format is specified
+	// by ARG1 and can be "text" or "xml".
+	const char *structure(const char *fmt);
 
 
 

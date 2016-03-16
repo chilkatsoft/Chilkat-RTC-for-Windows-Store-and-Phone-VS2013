@@ -96,7 +96,7 @@ class CK_VISIBLE_PUBLIC CkBounceW  : public CkWideCharBase
 	// BounceData) according to how the email is classified. This feature can only be
 	// used if Chilkat Mail is downloaded and installed, and it also requires Chilkat
 	// Mail to be licensed in addition to Chilkat Bounce.
-	bool ExamineEmail(const CkEmailW &email);
+	bool ExamineEmail(CkEmailW &email);
 
 	// Examines an email from a .eml file and sets the properties (BounceType,
 	// BounceAddress, BounceData) according to how the email is classified.

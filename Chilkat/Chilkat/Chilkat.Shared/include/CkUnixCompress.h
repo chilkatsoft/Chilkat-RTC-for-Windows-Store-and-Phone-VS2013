@@ -10,9 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkMultiByteBase.h"
-
-class CkByteData;
+#include "CkClassWithCallbacks.h"
 
 class CkTask;
 class CkByteData;
@@ -26,10 +24,9 @@ class CkBaseProgress;
  
 
 // CLASS: CkUnixCompress
-class CK_VISIBLE_PUBLIC CkUnixCompress  : public CkMultiByteBase
+class CK_VISIBLE_PUBLIC CkUnixCompress  : public CkClassWithCallbacks
 {
     private:
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkUnixCompress(const CkUnixCompress &);
@@ -91,12 +88,12 @@ class CK_VISIBLE_PUBLIC CkUnixCompress  : public CkMultiByteBase
 
 	// Unix compresses and creates a .Z file from in-memory data. (This compression
 	// uses the LZW (Lempel-Ziv-Welch) compression algorithm.)
-	bool CompressMemToFile(const CkByteData &inData, const char *destPath);
+	bool CompressMemToFile(CkByteData &inData, const char *destPath);
 
 
 	// Compresses in-memory data to an in-memory image of a .Z file. (This compression
 	// uses the LZW (Lempel-Ziv-Welch) compression algorithm.)
-	bool CompressMemory(const CkByteData &inData, CkByteData &outData);
+	bool CompressMemory(CkByteData &inData, CkByteData &outData);
 
 
 	// Compresses a string to an in-memory image of a .Z file. Prior to compression,
@@ -167,25 +164,25 @@ class CK_VISIBLE_PUBLIC CkUnixCompress  : public CkMultiByteBase
 
 	// Uncompresses from an in-memory image of a .Z file to a file. (This compression
 	// uses the LZW (Lempel-Ziv-Welch) compression algorithm.)
-	bool UncompressMemToFile(const CkByteData &inData, const char *destPath);
+	bool UncompressMemToFile(CkByteData &inData, const char *destPath);
 
 
 	// Uncompresses from an in-memory image of a .Z file directly into memory. (This
 	// compression uses the LZW (Lempel-Ziv-Welch) compression algorithm.)
-	bool UncompressMemory(const CkByteData &inData, CkByteData &outData);
+	bool UncompressMemory(CkByteData &inData, CkByteData &outData);
 
 
 	// Uncompresses from an in-memory image of a .Z file directly to a string. The  charset
 	// specifies the character encoding used to interpret the bytes resulting from the
 	// decompression. The  charset can be any one of a large number of character encodings,
 	// such as "utf-8", "iso-8859-1", "Windows-1252", "ucs-2", etc.
-	bool UncompressString(const CkByteData &inData, const char *inCharset, CkString &outStr);
+	bool UncompressString(CkByteData &inData, const char *inCharset, CkString &outStr);
 
 	// Uncompresses from an in-memory image of a .Z file directly to a string. The  charset
 	// specifies the character encoding used to interpret the bytes resulting from the
 	// decompression. The  charset can be any one of a large number of character encodings,
 	// such as "utf-8", "iso-8859-1", "Windows-1252", "ucs-2", etc.
-	const char *uncompressString(const CkByteData &inData, const char *inCharset);
+	const char *uncompressString(CkByteData &inData, const char *inCharset);
 
 	// Unlocks the component allowing for the full functionality to be used.
 	bool UnlockComponent(const char *unlockCode);

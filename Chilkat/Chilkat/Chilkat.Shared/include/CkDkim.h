@@ -10,9 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkMultiByteBase.h"
-
-class CkByteData;
+#include "CkClassWithCallbacks.h"
 
 class CkByteData;
 class CkTask;
@@ -26,10 +24,9 @@ class CkBaseProgress;
  
 
 // CLASS: CkDkim
-class CK_VISIBLE_PUBLIC CkDkim  : public CkMultiByteBase
+class CK_VISIBLE_PUBLIC CkDkim  : public CkClassWithCallbacks
 {
     private:
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkDkim(const CkDkim &);
@@ -199,14 +196,14 @@ class CK_VISIBLE_PUBLIC CkDkim  : public CkMultiByteBase
 	// this method, your program must set both the DkimDomain and DkimSelector
 	// properties, and it must load a private key by calling LoadDkimPk or
 	// LoadDkimPkFile.
-	bool AddDkimSignature(const CkByteData &mimeIn, CkByteData &outBytes);
+	bool AddDkimSignature(CkByteData &mimeIn, CkByteData &outBytes);
 
 
 	// Constructs and prepends a DomainKey-Signature header to the MIME. Prior to
 	// calling this method, your program must set both the DomainKeyDomain and
 	// DomainKeySelector properties, and it must load a private key by calling
 	// LoadDomainKeyPk or LoadDomainKeyPkFile.
-	bool AddDomainKeySignature(const CkByteData &mimeIn, CkByteData &outBytes);
+	bool AddDomainKeySignature(CkByteData &mimeIn, CkByteData &outBytes);
 
 
 	// Loads an RSA private key to be used for creating a DKIM-Signature. Any valid RSA
@@ -221,7 +218,7 @@ class CK_VISIBLE_PUBLIC CkDkim  : public CkMultiByteBase
 	// private key binary format, such as DER, may be passed to this method. This
 	// method will automatically determine the format and parse it correctly. A
 	// password is only required if key is encrypted.
-	bool LoadDkimPkBytes(const CkByteData &privateKeyDer, const char *optionalPassword);
+	bool LoadDkimPkBytes(CkByteData &privateKeyDer, const char *optionalPassword);
 
 
 	// Loads an RSA private key file to be used for creating a DKIM-Signature. The file
@@ -244,7 +241,7 @@ class CK_VISIBLE_PUBLIC CkDkim  : public CkMultiByteBase
 	// valid RSA private key binary format, such as DER, may be passed to this method.
 	// This method will automatically determine the format and parse it correctly. A
 	// password is only required if key is encrypted.
-	bool LoadDomainKeyPkBytes(const CkByteData &privateKeyDer, const char *optionalPassword);
+	bool LoadDomainKeyPkBytes(CkByteData &privateKeyDer, const char *optionalPassword);
 
 
 	// Loads an RSA private key file to be used for creating a DomainKey-Signature. The
@@ -273,11 +270,11 @@ class CK_VISIBLE_PUBLIC CkDkim  : public CkMultiByteBase
 
 
 	// Returns the number of DKIM-Signature header fields found in mimeData.
-	int NumDkimSignatures(const CkByteData &mimeData);
+	int NumDkimSignatures(CkByteData &mimeData);
 
 
 	// Returns the number of DomainKey-Signature header fields found in mimeData.
-	int NumDomainKeySignatures(const CkByteData &mimeData);
+	int NumDomainKeySignatures(CkByteData &mimeData);
 
 
 	// Useful if your application is going to verify many emails from a single domain
@@ -316,7 +313,7 @@ class CK_VISIBLE_PUBLIC CkDkim  : public CkMultiByteBase
 	// email as it is received. This will cause DKIM signature verification to fail
 	// because the body of the MIME is modified.
 	// 
-	bool VerifyDkimSignature(int sigIdx, const CkByteData &mimeData);
+	bool VerifyDkimSignature(int sigIdx, CkByteData &mimeData);
 
 	// Verifies the Nth DKIM-Signature header in the  mimeData. (In most cases, there is
 	// only one signature.) The 1st signature is at sigIndex 0.
@@ -325,7 +322,7 @@ class CK_VISIBLE_PUBLIC CkDkim  : public CkMultiByteBase
 	// email as it is received. This will cause DKIM signature verification to fail
 	// because the body of the MIME is modified.
 	// 
-	CkTask *VerifyDkimSignatureAsync(int sigIdx, const CkByteData &mimeData);
+	CkTask *VerifyDkimSignatureAsync(int sigIdx, CkByteData &mimeData);
 
 
 	// Verifies the Nth DomainKey-Signature header in the  mimeData. (In most cases, there
@@ -335,7 +332,7 @@ class CK_VISIBLE_PUBLIC CkDkim  : public CkMultiByteBase
 	// email as it is received. This will cause DomainKey signature verification to
 	// fail because the body of the MIME is modified.
 	// 
-	bool VerifyDomainKeySignature(int sigIdx, const CkByteData &mimeData);
+	bool VerifyDomainKeySignature(int sigIdx, CkByteData &mimeData);
 
 	// Verifies the Nth DomainKey-Signature header in the  mimeData. (In most cases, there
 	// is only one signature.) The 1st signature is at sigIndex 0.
@@ -344,7 +341,7 @@ class CK_VISIBLE_PUBLIC CkDkim  : public CkMultiByteBase
 	// email as it is received. This will cause DomainKey signature verification to
 	// fail because the body of the MIME is modified.
 	// 
-	CkTask *VerifyDomainKeySignatureAsync(int sigIdx, const CkByteData &mimeData);
+	CkTask *VerifyDomainKeySignatureAsync(int sigIdx, CkByteData &mimeData);
 
 
 

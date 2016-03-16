@@ -10,7 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkWideCharBase.h"
+#include "CkClassWithCallbacksW.h"
 
 class CkByteData;
 class CkTaskW;
@@ -25,11 +25,10 @@ class CkBaseProgressW;
  
 
 // CLASS: CkGzipW
-class CK_VISIBLE_PUBLIC CkGzipW  : public CkWideCharBase
+class CK_VISIBLE_PUBLIC CkGzipW  : public CkClassWithCallbacksW
 {
     private:
 	bool m_cbOwned;
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkGzipW(const CkGzipW &);
@@ -177,20 +176,20 @@ class CK_VISIBLE_PUBLIC CkGzipW  : public CkWideCharBase
 	CkTaskW *CompressFileToMemAsync(const wchar_t *inFilename);
 
 	// Gzip compresses and creates a .gz file from in-memory data.
-	bool CompressMemToFile(const CkByteData &inData, const wchar_t *destPath);
+	bool CompressMemToFile(CkByteData &inData, const wchar_t *destPath);
 
 	// Creates an asynchronous task to call the CompressMemToFile method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *CompressMemToFileAsync(const CkByteData &inData, const wchar_t *destPath);
+	CkTaskW *CompressMemToFileAsync(CkByteData &inData, const wchar_t *destPath);
 
 	// Compresses in-memory data to an in-memory image of a .gz file.
-	bool CompressMemory(const CkByteData &inData, CkByteData &outData);
+	bool CompressMemory(CkByteData &inData, CkByteData &outData);
 
 	// Creates an asynchronous task to call the CompressMemory method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *CompressMemoryAsync(const CkByteData &inData);
+	CkTaskW *CompressMemoryAsync(CkByteData &inData);
 
 	// Gzip compresses a string and writes the output to a byte array. The string is
 	// first converted to the charset specified by ARG2. Typical charsets are "utf-8",
@@ -252,10 +251,10 @@ class CK_VISIBLE_PUBLIC CkGzipW  : public CkWideCharBase
 
 	// Encodes binary data to a printable string. The encoding mode is determined by
 	//  encoding. It may be "base64", "hex", "quoted-printable", or "url".
-	bool Encode(const CkByteData &byteData, const wchar_t *encoding, CkString &outStr);
+	bool Encode(CkByteData &byteData, const wchar_t *encoding, CkString &outStr);
 	// Encodes binary data to a printable string. The encoding mode is determined by
 	//  encoding. It may be "base64", "hex", "quoted-printable", or "url".
-	const wchar_t *encode(const CkByteData &byteData, const wchar_t *encoding);
+	const wchar_t *encode(CkByteData &byteData, const wchar_t *encoding);
 
 	// Determines if the inGzFilename is a Gzip formatted file. Returns true if it is a Gzip
 	// formatted file, otherwise returns false.
@@ -263,7 +262,7 @@ class CK_VISIBLE_PUBLIC CkGzipW  : public CkWideCharBase
 
 	// Determines if the in-memory bytes (inGzData) contain a Gzip formatted file. Returns
 	// true if it is Gzip format, otherwise returns false.
-	bool ExamineMemory(const CkByteData &inGzData);
+	bool ExamineMemory(CkByteData &inGzData);
 
 	// Gets the last-modification date/time to be embedded within the .gz.
 	// The caller is responsible for deleting the object returned by this method.
@@ -345,38 +344,38 @@ class CK_VISIBLE_PUBLIC CkGzipW  : public CkWideCharBase
 	CkTaskW *UncompressFileToStringAsync(const wchar_t *inFilename, const wchar_t *inCharset);
 
 	// Un-Gzips from an in-memory image of a .gz file to a file.
-	bool UncompressMemToFile(const CkByteData &inData, const wchar_t *destPath);
+	bool UncompressMemToFile(CkByteData &inData, const wchar_t *destPath);
 
 	// Creates an asynchronous task to call the UncompressMemToFile method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *UncompressMemToFileAsync(const CkByteData &inData, const wchar_t *destPath);
+	CkTaskW *UncompressMemToFileAsync(CkByteData &inData, const wchar_t *destPath);
 
 	// Un-Gzips from an in-memory image of a .gz file directly into memory.
-	bool UncompressMemory(const CkByteData &inData, CkByteData &outData);
+	bool UncompressMemory(CkByteData &inData, CkByteData &outData);
 
 	// Creates an asynchronous task to call the UncompressMemory method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *UncompressMemoryAsync(const CkByteData &inData);
+	CkTaskW *UncompressMemoryAsync(CkByteData &inData);
 
 	// The reverse of CompressString.
 	// 
 	// The bytes in inData are uncompressed, then converted from  inCharset (if necessary) to
 	// return a string.
 	// 
-	bool UncompressString(const CkByteData &inData, const wchar_t *inCharset, CkString &outStr);
+	bool UncompressString(CkByteData &inData, const wchar_t *inCharset, CkString &outStr);
 	// The reverse of CompressString.
 	// 
 	// The bytes in inData are uncompressed, then converted from  inCharset (if necessary) to
 	// return a string.
 	// 
-	const wchar_t *uncompressString(const CkByteData &inData, const wchar_t *inCharset);
+	const wchar_t *uncompressString(CkByteData &inData, const wchar_t *inCharset);
 
 	// Creates an asynchronous task to call the UncompressString method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *UncompressStringAsync(const CkByteData &inData, const wchar_t *inCharset);
+	CkTaskW *UncompressStringAsync(CkByteData &inData, const wchar_t *inCharset);
 
 	// The same as UncompressString, except the compressed data is provided in encoded
 	// string form based on the value of  encoding. The  encoding can be "Base64", "modBase64",
@@ -393,7 +392,7 @@ class CK_VISIBLE_PUBLIC CkGzipW  : public CkWideCharBase
 	bool UnlockComponent(const wchar_t *unlockCode);
 
 	// A convenience method for writing a binary byte array to a file.
-	bool WriteFile(const wchar_t *path, const CkByteData &binaryData);
+	bool WriteFile(const wchar_t *path, CkByteData &binaryData);
 
 	// Converts base64-gzip .xfdl data to a decompressed XML string. The xfldData contains
 	// the base64 data. This method returns the decoded/decompressed XML string.

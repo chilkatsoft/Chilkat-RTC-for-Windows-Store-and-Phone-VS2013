@@ -10,7 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkWideCharBase.h"
+#include "CkClassWithCallbacksW.h"
 
 class CkTaskW;
 class CkByteData;
@@ -24,11 +24,10 @@ class CkBaseProgressW;
  
 
 // CLASS: CkBz2W
-class CK_VISIBLE_PUBLIC CkBz2W  : public CkWideCharBase
+class CK_VISIBLE_PUBLIC CkBz2W  : public CkClassWithCallbacksW
 {
     private:
 	bool m_cbOwned;
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkBz2W(const CkBz2W &);
@@ -87,20 +86,20 @@ class CK_VISIBLE_PUBLIC CkBz2W  : public CkWideCharBase
 	CkTaskW *CompressFileToMemAsync(const wchar_t *inFilename);
 
 	// BZip2 compresses and creates a .bz2 file from in-memory data.
-	bool CompressMemToFile(const CkByteData &inData, const wchar_t *toPath);
+	bool CompressMemToFile(CkByteData &inData, const wchar_t *toPath);
 
 	// Creates an asynchronous task to call the CompressMemToFile method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *CompressMemToFileAsync(const CkByteData &inData, const wchar_t *toPath);
+	CkTaskW *CompressMemToFileAsync(CkByteData &inData, const wchar_t *toPath);
 
 	// Compresses in-memory data to an in-memory image of a .bz2 file.
-	bool CompressMemory(const CkByteData &inData, CkByteData &outBytes);
+	bool CompressMemory(CkByteData &inData, CkByteData &outBytes);
 
 	// Creates an asynchronous task to call the CompressMemory method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *CompressMemoryAsync(const CkByteData &inData);
+	CkTaskW *CompressMemoryAsync(CkByteData &inData);
 
 	// Unzips a .bz2 file.
 	bool UncompressFile(const wchar_t *inFilename, const wchar_t *toPath);
@@ -119,20 +118,20 @@ class CK_VISIBLE_PUBLIC CkBz2W  : public CkWideCharBase
 	CkTaskW *UncompressFileToMemAsync(const wchar_t *inFilename);
 
 	// Unzips from an in-memory image of a .bz2 file to a file.
-	bool UncompressMemToFile(const CkByteData &inData, const wchar_t *toPath);
+	bool UncompressMemToFile(CkByteData &inData, const wchar_t *toPath);
 
 	// Creates an asynchronous task to call the UncompressMemToFile method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *UncompressMemToFileAsync(const CkByteData &inData, const wchar_t *toPath);
+	CkTaskW *UncompressMemToFileAsync(CkByteData &inData, const wchar_t *toPath);
 
 	// Unzips from an in-memory image of a .bz2 file directly into memory.
-	bool UncompressMemory(const CkByteData &inData, CkByteData &outBytes);
+	bool UncompressMemory(CkByteData &inData, CkByteData &outBytes);
 
 	// Creates an asynchronous task to call the UncompressMemory method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *UncompressMemoryAsync(const CkByteData &inData);
+	CkTaskW *UncompressMemoryAsync(CkByteData &inData);
 
 	// Unlocks the component allowing for the full functionality to be used. If a
 	// permanent (purchased) unlock code is passed, there is no expiration. Any other

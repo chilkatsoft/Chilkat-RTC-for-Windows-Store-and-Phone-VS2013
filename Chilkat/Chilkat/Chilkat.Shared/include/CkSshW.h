@@ -10,7 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkWideCharBase.h"
+#include "CkClassWithCallbacksW.h"
 
 class CkSshKeyW;
 class CkTaskW;
@@ -26,11 +26,10 @@ class CkBaseProgressW;
  
 
 // CLASS: CkSshW
-class CK_VISIBLE_PUBLIC CkSshW  : public CkWideCharBase
+class CK_VISIBLE_PUBLIC CkSshW  : public CkClassWithCallbacksW
 {
     private:
 	bool m_cbOwned;
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkSshW(const CkSshW &);
@@ -647,6 +646,27 @@ class CK_VISIBLE_PUBLIC CkSshW  : public CkWideCharBase
 	// authentication via the StartKeyboardAuth and ContinueKeyboardAuth methods.
 	void put_UserAuthBanner(const wchar_t *newVal);
 
+	// Enables or disables the use of compression w/ the SSH connection. The default
+	// value is true, meaning that compression is used if the server supports it.
+	// 
+	// Some older SSH servers have been found that claim to support compression, but
+	// actually fail when compression is used. PuTTY does not enable compression by
+	// default. If trouble is encountered where the SSH server disconnects immediately
+	// after the connection is seemingly established (i.e. during authentication), then
+	// check to see if disabling compression resolves the problem.
+	// 
+	bool get_EnableCompression(void);
+	// Enables or disables the use of compression w/ the SSH connection. The default
+	// value is true, meaning that compression is used if the server supports it.
+	// 
+	// Some older SSH servers have been found that claim to support compression, but
+	// actually fail when compression is used. PuTTY does not enable compression by
+	// default. If trouble is encountered where the SSH server disconnects immediately
+	// after the connection is seemingly established (i.e. during authentication), then
+	// check to see if disabling compression resolves the problem.
+	// 
+	void put_EnableCompression(bool newVal);
+
 
 
 	// ----------------------
@@ -874,12 +894,12 @@ class CK_VISIBLE_PUBLIC CkSshW  : public CkWideCharBase
 	CkTaskW *ChannelSendCloseAsync(int channelNum);
 
 	// Sends byte data on the channel indicated by channelNum.
-	bool ChannelSendData(int channelNum, const CkByteData &data);
+	bool ChannelSendData(int channelNum, CkByteData &data);
 
 	// Creates an asynchronous task to call the ChannelSendData method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *ChannelSendDataAsync(int channelNum, const CkByteData &data);
+	CkTaskW *ChannelSendDataAsync(int channelNum, CkByteData &data);
 
 	// Sends an EOF for the channel indicated by channelNum. Once an EOF is sent, no
 	// additional data may be sent on the channel. However, the channel remains open

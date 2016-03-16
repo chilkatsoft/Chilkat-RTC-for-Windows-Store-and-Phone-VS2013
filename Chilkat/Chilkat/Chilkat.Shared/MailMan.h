@@ -150,6 +150,10 @@ public ref class MailMan sealed
 		Platform::String ^get();
 		void set(Platform::String ^);
 	}
+	property int32 ConnectFailReason
+	{
+		int32 get();
+	}
 	property int32 ConnectTimeout
 	{
 		int32 get();
@@ -484,6 +488,11 @@ public ref class MailMan sealed
 	{
 		Platform::String ^get();
 	}
+	property Platform::String ^TlsPinSet
+	{
+		Platform::String ^get();
+		void set(Platform::String ^);
+	}
 	property Platform::String ^TlsVersion
 	{
 		Platform::String ^get();
@@ -492,11 +501,6 @@ public ref class MailMan sealed
 	{
 		Boolean get();
 		void set(Boolean);
-	}
-	property Platform::String ^TlsPinSet
-	{
-		Platform::String ^get();
-		void set(Platform::String ^);
 	}
 
 
@@ -593,7 +597,11 @@ public ref class MailMan sealed
 
 	IAsyncOperation<Boolean>^ OpenSmtpConnectionAsync(void);
 
+	IAsyncOperation<Boolean>^ Pop3AuthenticateAsync(void);
+
 	IAsyncOperation<Boolean>^ Pop3BeginSessionAsync(void);
+
+	IAsyncOperation<Boolean>^ Pop3ConnectAsync(void);
 
 	IAsyncOperation<Boolean>^ Pop3EndSessionAsync(void);
 

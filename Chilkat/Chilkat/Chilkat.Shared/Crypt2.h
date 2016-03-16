@@ -25,6 +25,7 @@ namespace Chilkat
 {
 
 	ref class Cert;
+	ref class Stream;
 	ref class CertChain;
 	ref class PrivateKey;
 	ref class XmlCertVault;
@@ -313,6 +314,8 @@ public ref class Crypt2 sealed
 
 	Platform::String ^DecryptEncoded(Platform::String ^str);
 
+	IAsyncOperation<Boolean>^ DecryptStreamAsync(Stream ^strm);
+
 	Platform::String ^DecryptString(Windows::Foundation::Collections::IVector<uint8>^data);
 
 	Platform::String ^DecryptStringENC(Platform::String ^str);
@@ -326,6 +329,8 @@ public ref class Crypt2 sealed
 	Platform::String ^EncryptBytesENC(Windows::Foundation::Collections::IVector<uint8>^data);
 
 	Platform::String ^EncryptEncoded(Platform::String ^str);
+
+	IAsyncOperation<Boolean>^ EncryptStreamAsync(Stream ^strm);
 
 	Windows::Foundation::Collections::IVector<uint8>^EncryptString(Platform::String ^str);
 

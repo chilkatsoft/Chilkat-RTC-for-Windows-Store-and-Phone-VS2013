@@ -348,6 +348,11 @@ public ref class Imap sealed
 	{
 		Platform::String ^get();
 	}
+	property Platform::String ^TlsPinSet
+	{
+		Platform::String ^get();
+		void set(Platform::String ^);
+	}
 	property Platform::String ^TlsVersion
 	{
 		Platform::String ^get();
@@ -359,11 +364,6 @@ public ref class Imap sealed
 	property int32 UidValidity
 	{
 		int32 get();
-	}
-	property Platform::String ^TlsPinSet
-	{
-		Platform::String ^get();
-		void set(Platform::String ^);
 	}
 
 
@@ -450,7 +450,7 @@ public ref class Imap sealed
 
 	int GetMailAttachSize(Email ^email, int attachIndex);
 
-	IAsyncOperation<int>^ GetMailFlagAsync(Email ^email, Platform::String ^flagName);
+	int GetMailFlag(Email ^email, Platform::String ^flagName);
 
 	int GetMailNumAttach(Email ^email);
 

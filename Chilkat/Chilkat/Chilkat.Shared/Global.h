@@ -119,6 +119,8 @@ public ref class Global sealed
 
 	Boolean UnlockBundle(Platform::String ^bundleUnlockCode);
 
+	Boolean FinalizeThreadPool(void);
+
 
 
 };

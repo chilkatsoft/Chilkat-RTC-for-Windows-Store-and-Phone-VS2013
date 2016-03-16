@@ -141,5 +141,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Scp.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Ecc.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Prng.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)JsonArray.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)JsonObject.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Stream.cpp" />
   </ItemGroup>
 </Project>

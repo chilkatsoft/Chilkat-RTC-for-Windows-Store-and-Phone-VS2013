@@ -10,7 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkWideCharBase.h"
+#include "CkClassWithCallbacksW.h"
 
 class CkByteData;
 class CkHttpResponseW;
@@ -31,11 +31,10 @@ class CkHttpProgressW;
  
 
 // CLASS: CkHttpW
-class CK_VISIBLE_PUBLIC CkHttpW  : public CkWideCharBase
+class CK_VISIBLE_PUBLIC CkHttpW  : public CkClassWithCallbacksW
 {
     private:
 	bool m_cbOwned;
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkHttpW(const CkHttpW &);
@@ -149,12 +148,35 @@ class CK_VISIBLE_PUBLIC CkHttpW  : public CkWideCharBase
 	// compatible services from other different providers.
 	void put_AwsEndpoint(const wchar_t *newVal);
 
+	// The AWS (S3) region, such as "us-east-1", "us-west-2", "eu-west-1",
+	// "eu-central-1", etc. This propery defaults to "us-east-1". It is only used when
+	// the AwsSignatureVersion property is set to 4. When the AwsSignatureVersion
+	// property is set to 2, then this property is unused.
+	void get_AwsRegion(CkString &str);
+	// The AWS (S3) region, such as "us-east-1", "us-west-2", "eu-west-1",
+	// "eu-central-1", etc. This propery defaults to "us-east-1". It is only used when
+	// the AwsSignatureVersion property is set to 4. When the AwsSignatureVersion
+	// property is set to 2, then this property is unused.
+	const wchar_t *awsRegion(void);
+	// The AWS (S3) region, such as "us-east-1", "us-west-2", "eu-west-1",
+	// "eu-central-1", etc. This propery defaults to "us-east-1". It is only used when
+	// the AwsSignatureVersion property is set to 4. When the AwsSignatureVersion
+	// property is set to 2, then this property is unused.
+	void put_AwsRegion(const wchar_t *newVal);
+
 	// The AWS Secret Key to be used with the Amazon S3 methods listed below.
 	void get_AwsSecretKey(CkString &str);
 	// The AWS Secret Key to be used with the Amazon S3 methods listed below.
 	const wchar_t *awsSecretKey(void);
 	// The AWS Secret Key to be used with the Amazon S3 methods listed below.
 	void put_AwsSecretKey(const wchar_t *newVal);
+
+	// Selects the AWS Signature Version algorithm. The default value is 2. May be set
+	// to 4 to select AWS Signature Version 4.
+	int get_AwsSignatureVersion(void);
+	// Selects the AWS Signature Version algorithm. The default value is 2. May be set
+	// to 4 to select AWS Signature Version 4.
+	void put_AwsSignatureVersion(int newVal);
 
 	// The AWS sub-resources to be used with the Amazon S3 methods listed below.
 	// 
@@ -379,6 +401,41 @@ class CK_VISIBLE_PUBLIC CkHttpW  : public CkWideCharBase
 	// names, such as "165.164.55.124".
 	// 
 	void put_ClientIpAddress(const wchar_t *newVal);
+
+	// This property will be set to the status of the last HTTP connection made (or
+	// failed to be made) by any HTTP method.
+	// 
+	// Possible values are:
+	// 0 = success
+	// 
+	// Normal (non-TLS) sockets:
+	// 1 = empty hostname
+	// 2 = DNS lookup failed
+	// 3 = DNS timeout
+	// 4 = Aborted by application.
+	// 5 = Internal failure.
+	// 6 = Connect Timed Out
+	// 7 = Connect Rejected (or failed for some other reason)
+	// 
+	// SSL/TLS:
+	// 100 = TLS internal error.
+	// 101 = Failed to send client hello.
+	// 102 = Unexpected handshake message.
+	// 103 = Failed to read server hello.
+	// 104 = No server certificate.
+	// 105 = Unexpected TLS protocol version.
+	// 106 = Server certificate verify failed (the server certificate is expired or the cert's signature verification failed).
+	// 107 = Unacceptable TLS protocol version.
+	// 109 = Failed to read handshake messages.
+	// 110 = Failed to send client certificate handshake message.
+	// 111 = Failed to send client key exchange handshake message.
+	// 112 = Client certificate's private key not accessible.
+	// 113 = Failed to send client cert verify handshake message.
+	// 114 = Failed to send change cipher spec handshake message.
+	// 115 = Failed to send finished handshake message.
+	// 116 = Server's Finished message is invalid.
+	// 
+	int get_ConnectFailReason(void);
 
 	// The amount of time in seconds to wait before timing out when connecting to an
 	// HTTP server.
@@ -1065,19 +1122,28 @@ class CK_VISIBLE_PUBLIC CkHttpW  : public CkWideCharBase
 	void put_OAuthRealm(const wchar_t *newVal);
 
 	// The OAuth signature method, such as "HMAC-SHA1" to be used in the Authorization
-	// header. The default is "HMAC-SHA1". It is also possible to choose "RSA-SHA1", in
-	// which case the RSA private key would need to be provided via the SetOAuthRsaKey
-	// method.
+	// header. The default is "HMAC-SHA1". It is also possible to choose "RSA-SHA1" or
+	// "RSA-SHA2", in which case the RSA private key would need to be provided via the
+	// SetOAuthRsaKey method.
+	// 
+	// Note: RSA-SHA2 is supported starting in Chilkat v9.5.0.56
+	// 
 	void get_OAuthSigMethod(CkString &str);
 	// The OAuth signature method, such as "HMAC-SHA1" to be used in the Authorization
-	// header. The default is "HMAC-SHA1". It is also possible to choose "RSA-SHA1", in
-	// which case the RSA private key would need to be provided via the SetOAuthRsaKey
-	// method.
+	// header. The default is "HMAC-SHA1". It is also possible to choose "RSA-SHA1" or
+	// "RSA-SHA2", in which case the RSA private key would need to be provided via the
+	// SetOAuthRsaKey method.
+	// 
+	// Note: RSA-SHA2 is supported starting in Chilkat v9.5.0.56
+	// 
 	const wchar_t *oAuthSigMethod(void);
 	// The OAuth signature method, such as "HMAC-SHA1" to be used in the Authorization
-	// header. The default is "HMAC-SHA1". It is also possible to choose "RSA-SHA1", in
-	// which case the RSA private key would need to be provided via the SetOAuthRsaKey
-	// method.
+	// header. The default is "HMAC-SHA1". It is also possible to choose "RSA-SHA1" or
+	// "RSA-SHA2", in which case the RSA private key would need to be provided via the
+	// SetOAuthRsaKey method.
+	// 
+	// Note: RSA-SHA2 is supported starting in Chilkat v9.5.0.56
+	// 
 	void put_OAuthSigMethod(const wchar_t *newVal);
 
 	// The OAuth token to be used in the Authorization header.
@@ -2274,12 +2340,12 @@ class CK_VISIBLE_PUBLIC CkHttpW  : public CkWideCharBase
 	// and a "Content-Encoding: gzip" header is automatically added to indicate that
 	// the request data needs to be ungzipped when received (at the server).
 	// The caller is responsible for deleting the object returned by this method.
-	CkHttpResponseW *PBinary(const wchar_t *verb, const wchar_t *url, const CkByteData &byteData, const wchar_t *contentType, bool md5, bool gzip);
+	CkHttpResponseW *PBinary(const wchar_t *verb, const wchar_t *url, CkByteData &byteData, const wchar_t *contentType, bool md5, bool gzip);
 
 	// Creates an asynchronous task to call the PBinary method with the arguments
 	// provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *PBinaryAsync(const wchar_t *verb, const wchar_t *url, const CkByteData &byteData, const wchar_t *contentType, bool md5, bool gzip);
+	CkTaskW *PBinaryAsync(const wchar_t *verb, const wchar_t *url, CkByteData &byteData, const wchar_t *contentType, bool md5, bool gzip);
 
 	// Sends an HTTP request to the  url. The verb can be "POST" or "PUT". The body of
 	// the HTTP request contains the text passed in  textData. The  contentType is a content type
@@ -2313,7 +2379,7 @@ class CK_VISIBLE_PUBLIC CkHttpW  : public CkWideCharBase
 	// of the HTTP response are required, call PBinary instead (which returns the HTTP
 	// response object).
 	// 
-	bool PostBinary(const wchar_t *url, const CkByteData &byteData, const wchar_t *contentType, bool md5, bool gzip, CkString &outStr);
+	bool PostBinary(const wchar_t *url, CkByteData &byteData, const wchar_t *contentType, bool md5, bool gzip, CkString &outStr);
 	// Sends an HTTP POST request to the url. The body of the HTTP request contains
 	// the bytes passed in  byteData. The  contentType is a content type such as "image/gif",
 	// "application/pdf", etc. If  md5 is true, then a Content-MD5 header is added
@@ -2329,12 +2395,12 @@ class CK_VISIBLE_PUBLIC CkHttpW  : public CkWideCharBase
 	// of the HTTP response are required, call PBinary instead (which returns the HTTP
 	// response object).
 	// 
-	const wchar_t *postBinary(const wchar_t *url, const CkByteData &byteData, const wchar_t *contentType, bool md5, bool gzip);
+	const wchar_t *postBinary(const wchar_t *url, CkByteData &byteData, const wchar_t *contentType, bool md5, bool gzip);
 
 	// Creates an asynchronous task to call the PostBinary method with the arguments
 	// provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *PostBinaryAsync(const wchar_t *url, const CkByteData &byteData, const wchar_t *contentType, bool md5, bool gzip);
+	CkTaskW *PostBinaryAsync(const wchar_t *url, CkByteData &byteData, const wchar_t *contentType, bool md5, bool gzip);
 
 	// A simplified way of sending a JSON POST and receiving the JSON response. The
 	// HTTP response is returned in an HTTP response object. The content type of the
@@ -2403,7 +2469,7 @@ class CK_VISIBLE_PUBLIC CkHttpW  : public CkWideCharBase
 	// of the HTTP response are required, call PBinary instead (which returns the HTTP
 	// response object).
 	// 
-	bool PutBinary(const wchar_t *url, const CkByteData &byteData, const wchar_t *contentType, bool md5, bool gzip, CkString &outStr);
+	bool PutBinary(const wchar_t *url, CkByteData &byteData, const wchar_t *contentType, bool md5, bool gzip, CkString &outStr);
 	// Sends an HTTP PUT request to the url. The body of the HTTP request is  byteData. The
 	//  contentType is a content type such as "image/gif", "application/pdf", etc. If  md5 is
 	// true, then a Content-MD5 header is added with the base64 MD5 hash of the  byteData.
@@ -2419,12 +2485,12 @@ class CK_VISIBLE_PUBLIC CkHttpW  : public CkWideCharBase
 	// of the HTTP response are required, call PBinary instead (which returns the HTTP
 	// response object).
 	// 
-	const wchar_t *putBinary(const wchar_t *url, const CkByteData &byteData, const wchar_t *contentType, bool md5, bool gzip);
+	const wchar_t *putBinary(const wchar_t *url, CkByteData &byteData, const wchar_t *contentType, bool md5, bool gzip);
 
 	// Creates an asynchronous task to call the PutBinary method with the arguments
 	// provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *PutBinaryAsync(const wchar_t *url, const CkByteData &byteData, const wchar_t *contentType, bool md5, bool gzip);
+	CkTaskW *PutBinaryAsync(const wchar_t *url, CkByteData &byteData, const wchar_t *contentType, bool md5, bool gzip);
 
 	// Sends an HTTP PUT request to the url. The body of the HTTP request is  textData. The
 	//  charset should be set to a charset name such as "iso-8859-1", "windows-1252",
@@ -2716,12 +2782,12 @@ class CK_VISIBLE_PUBLIC CkHttpW  : public CkWideCharBase
 	// adding each header with a call to SetRequestHeader. This applies to all S3
 	// methods, even if not explicitly stated.
 	// 
-	bool S3_UploadBytes(const CkByteData &objectContent, const wchar_t *contentType, const wchar_t *bucketName, const wchar_t *objectName);
+	bool S3_UploadBytes(CkByteData &objectContent, const wchar_t *contentType, const wchar_t *bucketName, const wchar_t *objectName);
 
 	// Creates an asynchronous task to call the S3_UploadBytes method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *S3_UploadBytesAsync(const CkByteData &objectContent, const wchar_t *contentType, const wchar_t *bucketName, const wchar_t *objectName);
+	CkTaskW *S3_UploadBytesAsync(CkByteData &objectContent, const wchar_t *contentType, const wchar_t *bucketName, const wchar_t *objectName);
 
 	// Uploads a file to the Amazon S3 service.
 	// 
@@ -2801,12 +2867,12 @@ class CK_VISIBLE_PUBLIC CkHttpW  : public CkWideCharBase
 	// requests, as well as GET, HEAD, file uploads, and XMLHTTP. To send via HTTPS
 	// (i.e. TLS), set the ARG3 property = true. Otherwise set it to false.
 	// The caller is responsible for deleting the object returned by this method.
-	CkHttpResponseW *SynchronousRequest(const wchar_t *domain, int port, bool ssl, const CkHttpRequestW &req);
+	CkHttpResponseW *SynchronousRequest(const wchar_t *domain, int port, bool ssl, CkHttpRequestW &req);
 
 	// Creates an asynchronous task to call the SynchronousRequest method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *SynchronousRequestAsync(const wchar_t *domain, int port, bool ssl, const CkHttpRequestW &req);
+	CkTaskW *SynchronousRequestAsync(const wchar_t *domain, int port, bool ssl, CkHttpRequestW &req);
 
 	// Unlocks the Http class/component. It is necessary to call Http.UnlockComponent
 	// before calling any other methods. Passing any string to UnlockComponent will

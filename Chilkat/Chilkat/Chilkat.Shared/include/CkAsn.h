@@ -14,8 +14,6 @@
 
 class CkByteData;
 
-class CkByteData;
-
 
 
 #if !defined(__sun__) && !defined(__sun)
@@ -27,7 +25,6 @@ class CkByteData;
 class CK_VISIBLE_PUBLIC CkAsn  : public CkMultiByteBase
 {
     private:
-	
 
 	// Don't allow assignment or copying these objects.
 	CkAsn(const CkAsn &);
@@ -321,7 +318,7 @@ class CK_VISIBLE_PUBLIC CkAsn  : public CkMultiByteBase
 
 
 	// Loads ASN.1 from binary DER.
-	bool LoadBinary(const CkByteData &derBytes);
+	bool LoadBinary(CkByteData &derBytes);
 
 
 	// Loads ASN.1 from a binary DER file.

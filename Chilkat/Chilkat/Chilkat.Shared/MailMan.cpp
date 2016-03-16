@@ -149,6 +149,10 @@ void Chilkat::MailMan::ClientIpAddress::set(String ^newVal)
     {
         if (m_impl) m_impl->put_ClientIpAddress(newVal ? newVal->Data() : L"");
     }
+int Chilkat::MailMan::ConnectFailReason::get()
+    {
+    return m_impl ? m_impl->get_ConnectFailReason() : 0;
+    }
 int Chilkat::MailMan::ConnectTimeout::get()
     {
     return m_impl ? m_impl->get_ConnectTimeout() : 0;
@@ -657,6 +661,14 @@ String ^Chilkat::MailMan::TlsCipherSuite::get()
     {
     return ref new String(m_impl ? m_impl->tlsCipherSuite() : L"");
     }
+String ^Chilkat::MailMan::TlsPinSet::get()
+    {
+    return ref new String(m_impl ? m_impl->tlsPinSet() : L"");
+    }
+void Chilkat::MailMan::TlsPinSet::set(String ^newVal)
+    {
+        if (m_impl) m_impl->put_TlsPinSet(newVal ? newVal->Data() : L"");
+    }
 String ^Chilkat::MailMan::TlsVersion::get()
     {
     return ref new String(m_impl ? m_impl->tlsVersion() : L"");
@@ -668,14 +680,6 @@ Boolean Chilkat::MailMan::UseApop::get()
 void Chilkat::MailMan::UseApop::set(Boolean newVal)
     {
         if (m_impl) m_impl->put_UseApop(newVal);
-    }
-String ^Chilkat::MailMan::TlsPinSet::get()
-    {
-    return ref new String(m_impl ? m_impl->tlsPinSet() : L"");
-    }
-void Chilkat::MailMan::TlsPinSet::set(String ^newVal)
-    {
-        if (m_impl) m_impl->put_TlsPinSet(newVal ? newVal->Data() : L"");
     }
 
 
@@ -802,7 +806,7 @@ return create_async([this, bundle]() -> Boolean
 
 	if (m_impl == nullptr) { return false; }
 	if (bundle == nullptr) { return false; }
-	const CkEmailBundleW* pObj0 = bundle->m_impl;
+	CkEmailBundleW* pObj0 = bundle->m_impl;
 	 if (!pObj0) { return false; }
 	// --- prep output arg ---
 	CxMailManProgress cxProgress(m_impl);
@@ -853,7 +857,7 @@ return create_async([this, email]() -> Boolean
 
 	if (m_impl == nullptr) { return false; }
 	if (email == nullptr) { return false; }
-	const CkEmailW* pObj0 = email->m_impl;
+	CkEmailW* pObj0 = email->m_impl;
 	 if (!pObj0) { return false; }
 	// --- prep output arg ---
 	CxMailManProgress cxProgress(m_impl);
@@ -872,7 +876,7 @@ return create_async([this, uidlArray]() -> Boolean
 
 	if (m_impl == nullptr) { return false; }
 	if (uidlArray == nullptr) { return false; }
-	const CkStringArrayW* pObj0 = uidlArray->m_impl;
+	CkStringArrayW* pObj0 = uidlArray->m_impl;
 	 if (!pObj0) { return false; }
 	// --- prep output arg ---
 	CxMailManProgress cxProgress(m_impl);
@@ -971,7 +975,7 @@ return create_async([this, uidlArray]() -> EmailBundle ^
 
 	if (m_impl == nullptr) { return nullptr; }
 	if (uidlArray == nullptr) { return nullptr; }
-	const CkStringArrayW* pObj0 = uidlArray->m_impl;
+	CkStringArrayW* pObj0 = uidlArray->m_impl;
 	 if (!pObj0) { return nullptr; }
 	// --- prep output arg ---
 	CxMailManProgress cxProgress(m_impl);
@@ -994,7 +998,7 @@ return create_async([this, uidlArray, numBodyLines]() -> EmailBundle ^
 
 	if (m_impl == nullptr) { return nullptr; }
 	if (uidlArray == nullptr) { return nullptr; }
-	const CkStringArrayW* pObj0 = uidlArray->m_impl;
+	CkStringArrayW* pObj0 = uidlArray->m_impl;
 	 if (!pObj0) { return nullptr; }
 	// --- prep output arg ---
 	CxMailManProgress cxProgress(m_impl);
@@ -1017,7 +1021,7 @@ return create_async([this, uidlArray]() -> StringArray ^
 
 	if (m_impl == nullptr) { return nullptr; }
 	if (uidlArray == nullptr) { return nullptr; }
-	const CkStringArrayW* pObj0 = uidlArray->m_impl;
+	CkStringArrayW* pObj0 = uidlArray->m_impl;
 	 if (!pObj0) { return nullptr; }
 	// --- prep output arg ---
 	CxMailManProgress cxProgress(m_impl);
@@ -1114,7 +1118,7 @@ return create_async([this, email]() -> Email ^
 
 	if (m_impl == nullptr) { return nullptr; }
 	if (email == nullptr) { return nullptr; }
-	const CkEmailW* pObj0 = email->m_impl;
+	CkEmailW* pObj0 = email->m_impl;
 	 if (!pObj0) { return nullptr; }
 	// --- prep output arg ---
 	CxMailManProgress cxProgress(m_impl);
@@ -1417,6 +1421,22 @@ return create_async([this]() -> Boolean
 
 });
     }
+IAsyncOperation<Boolean>^ MailMan::Pop3AuthenticateAsync(void)
+    {
+return create_async([this]() -> Boolean
+{
+// This runs in a thread pool thread...
+
+	if (m_impl == nullptr) { return false; }
+	// --- prep output arg ---
+	CxMailManProgress cxProgress(m_impl);
+	cxProgress.m_sender = this;
+	// gType = bool
+	// cppType = bool
+	return m_impl->Pop3Authenticate();
+
+});
+    }
 IAsyncOperation<Boolean>^ MailMan::Pop3BeginSessionAsync(void)
     {
 return create_async([this]() -> Boolean
@@ -1430,6 +1450,22 @@ return create_async([this]() -> Boolean
 	// gType = bool
 	// cppType = bool
 	return m_impl->Pop3BeginSession();
+
+});
+    }
+IAsyncOperation<Boolean>^ MailMan::Pop3ConnectAsync(void)
+    {
+return create_async([this]() -> Boolean
+{
+// This runs in a thread pool thread...
+
+	if (m_impl == nullptr) { return false; }
+	// --- prep output arg ---
+	CxMailManProgress cxProgress(m_impl);
+	cxProgress.m_sender = this;
+	// gType = bool
+	// cppType = bool
+	return m_impl->Pop3Connect();
 
 });
     }
@@ -1535,7 +1571,7 @@ Platform::String ^MailMan::RenderToMime(Email ^email)
     {
 	if (m_impl == nullptr) { return nullptr; }
 	if (email == nullptr) { return nullptr; }
-	const CkEmailW* pObj0 = email->m_impl;
+	CkEmailW* pObj0 = email->m_impl;
 	 if (!pObj0) { return nullptr; }
 	// --- prep output arg ---
 	CxMailManProgress cxProgress(m_impl);
@@ -1571,7 +1607,7 @@ return create_async([this, bundle]() -> Boolean
 
 	if (m_impl == nullptr) { return false; }
 	if (bundle == nullptr) { return false; }
-	const CkEmailBundleW* pObj0 = bundle->m_impl;
+	CkEmailBundleW* pObj0 = bundle->m_impl;
 	 if (!pObj0) { return false; }
 	// --- prep output arg ---
 	CxMailManProgress cxProgress(m_impl);
@@ -1590,7 +1626,7 @@ return create_async([this, email]() -> Boolean
 
 	if (m_impl == nullptr) { return false; }
 	if (email == nullptr) { return false; }
-	const CkEmailW* pObj0 = email->m_impl;
+	CkEmailW* pObj0 = email->m_impl;
 	 if (!pObj0) { return false; }
 	// --- prep output arg ---
 	CxMailManProgress cxProgress(m_impl);
@@ -1691,7 +1727,7 @@ Boolean MailMan::SetDecryptCert2(Cert ^cert, PrivateKey ^key)
     {
 	if (m_impl == nullptr) { return false; }
 	if (cert == nullptr) { return false; }
-	const CkCertW* pObj0 = cert->m_impl;
+	CkCertW* pObj0 = cert->m_impl;
 	 if (!pObj0) { return false; }
 	if (key == nullptr) { return false; }
 	CkPrivateKeyW* pObj1 = key->m_impl;
@@ -1913,7 +1949,7 @@ return create_async([this, uidlArray]() -> StringArray ^
 
 	if (m_impl == nullptr) { return nullptr; }
 	if (uidlArray == nullptr) { return nullptr; }
-	const CkStringArrayW* pObj0 = uidlArray->m_impl;
+	CkStringArrayW* pObj0 = uidlArray->m_impl;
 	 if (!pObj0) { return nullptr; }
 	// --- prep output arg ---
 	CxMailManProgress cxProgress(m_impl);

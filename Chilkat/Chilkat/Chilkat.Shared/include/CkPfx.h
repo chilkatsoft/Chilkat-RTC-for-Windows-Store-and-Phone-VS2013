@@ -12,8 +12,6 @@
 #include "CkString.h"
 #include "CkMultiByteBase.h"
 
-class CkByteData;
-
 class CkCert;
 class CkPrivateKey;
 class CkCertChain;
@@ -32,7 +30,6 @@ class CkXmlCertVault;
 class CK_VISIBLE_PUBLIC CkPfx  : public CkMultiByteBase
 {
     private:
-	
 
 	// Don't allow assignment or copying these objects.
 	CkPfx(const CkPfx &);
@@ -123,7 +120,7 @@ class CK_VISIBLE_PUBLIC CkPfx  : public CkMultiByteBase
 
 
 	// Loads a PFX from in-memory bytes.
-	bool LoadPfxBytes(const CkByteData &pfxData, const char *password);
+	bool LoadPfxBytes(CkByteData &pfxData, const char *password);
 
 
 	// Loads a PFX from encoded byte data. The ARG2 can by any encoding, such as

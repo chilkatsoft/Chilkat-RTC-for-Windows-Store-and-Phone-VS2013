@@ -364,6 +364,8 @@ public ref class Mime sealed
 
 	Boolean Verify(void);
 
+	Platform::String ^GetStructure(Platform::String ^fmt);
+
 
 
 };

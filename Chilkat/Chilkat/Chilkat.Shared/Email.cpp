@@ -1742,7 +1742,7 @@ Boolean Email::SetEncryptCert(Cert ^cert)
     {
 	if (m_impl == nullptr) { return false; }
 	if (cert == nullptr) { return false; }
-	const CkCertW* pObj0 = cert->m_impl;
+	CkCertW* pObj0 = cert->m_impl;
 	 if (!pObj0) { return false; }
 	// --- prep output arg ---
 	// gType = bool
@@ -1837,7 +1837,7 @@ Boolean Email::SetSigningCert(Cert ^cert)
     {
 	if (m_impl == nullptr) { return false; }
 	if (cert == nullptr) { return false; }
-	const CkCertW* pObj0 = cert->m_impl;
+	CkCertW* pObj0 = cert->m_impl;
 	 if (!pObj0) { return false; }
 	// --- prep output arg ---
 	// gType = bool
@@ -1848,7 +1848,7 @@ Boolean Email::SetSigningCert2(Cert ^cert, PrivateKey ^key)
     {
 	if (m_impl == nullptr) { return false; }
 	if (cert == nullptr) { return false; }
-	const CkCertW* pObj0 = cert->m_impl;
+	CkCertW* pObj0 = cert->m_impl;
 	 if (!pObj0) { return false; }
 	if (key == nullptr) { return false; }
 	CkPrivateKeyW* pObj1 = key->m_impl;
@@ -1870,7 +1870,7 @@ Boolean Email::UidlEquals(Email ^e)
     {
 	if (m_impl == nullptr) { return false; }
 	if (e == nullptr) { return false; }
-	const CkEmailW* pObj0 = e->m_impl;
+	CkEmailW* pObj0 = e->m_impl;
 	 if (!pObj0) { return false; }
 	// --- prep output arg ---
 	// gType = bool

@@ -10,9 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkMultiByteBase.h"
-
-class CkByteData;
+#include "CkClassWithCallbacks.h"
 
 class CkCert;
 class CkPrivateKey;
@@ -32,10 +30,9 @@ class CkBaseProgress;
  
 
 // CLASS: CkPem
-class CK_VISIBLE_PUBLIC CkPem  : public CkMultiByteBase
+class CK_VISIBLE_PUBLIC CkPem  : public CkClassWithCallbacks
 {
     private:
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkPem(const CkPem &);
@@ -222,10 +219,10 @@ class CK_VISIBLE_PUBLIC CkPem  : public CkMultiByteBase
 
 
 	// Loads the PEM from the contents of an in-memory PKCS7 container (.p7b).
-	bool LoadP7b(const CkByteData &p7bData);
+	bool LoadP7b(CkByteData &p7bData);
 
 	// Loads the PEM from the contents of an in-memory PKCS7 container (.p7b).
-	CkTask *LoadP7bAsync(const CkByteData &p7bData);
+	CkTask *LoadP7bAsync(CkByteData &p7bData);
 
 
 	// Loads the contents of a PKCS7 container (.p7b file).

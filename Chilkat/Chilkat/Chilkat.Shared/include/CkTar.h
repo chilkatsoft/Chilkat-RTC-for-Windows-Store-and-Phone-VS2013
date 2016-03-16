@@ -10,9 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkMultiByteBase.h"
-
-class CkByteData;
+#include "CkClassWithCallbacks.h"
 
 class CkTask;
 class CkByteData;
@@ -26,10 +24,9 @@ class CkTarProgress;
  
 
 // CLASS: CkTar
-class CK_VISIBLE_PUBLIC CkTar  : public CkMultiByteBase
+class CK_VISIBLE_PUBLIC CkTar  : public CkClassWithCallbacks
 {
     private:
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkTar(const CkTar &);
@@ -480,20 +477,20 @@ class CK_VISIBLE_PUBLIC CkTar  : public CkMultiByteBase
 
 	// Memory-to-memory untar. The first file matching the UntarMatchPattern property
 	// is extracted and returned.
-	bool UntarFirstMatchingToMemory(const CkByteData &tarFileBytes, const char *matchPattern, CkByteData &outBytes);
+	bool UntarFirstMatchingToMemory(CkByteData &tarFileBytes, const char *matchPattern, CkByteData &outBytes);
 
 
 	// Extracts the files and directories from an in-memory TAR archive, reconstructing
 	// the directory tree(s) in the local filesystem. The files are extracted to the
 	// directory specified by the UntarFromDir property. Returns the number of files
 	// and directories extracted, or -1 for failure.
-	int UntarFromMemory(const CkByteData &tarFileBytes);
+	int UntarFromMemory(CkByteData &tarFileBytes);
 
 	// Extracts the files and directories from an in-memory TAR archive, reconstructing
 	// the directory tree(s) in the local filesystem. The files are extracted to the
 	// directory specified by the UntarFromDir property. Returns the number of files
 	// and directories extracted, or -1 for failure.
-	CkTask *UntarFromMemoryAsync(const CkByteData &tarFileBytes);
+	CkTask *UntarFromMemoryAsync(CkByteData &tarFileBytes);
 
 
 	// Extracts the files and directories from a tar.gz (or tar.gzip) archive,
@@ -556,6 +553,18 @@ class CK_VISIBLE_PUBLIC CkTar  : public CkMultiByteBase
 	// trees previously added by calling AddDirRoot one or more times are included in
 	// the output file.
 	CkTask *WriteTarGzAsync(const char *gzPath);
+
+
+	// Adds a directory tree to be included in the next call to one of the WriteTar*
+	// methods. To include multiple directory trees in a .tar, call AddDirRoot2 (and/or
+	// AddDirRoot) multiple times followed by a single call to WriteTar.
+	// 
+	// The ARG1 adds a prefix to the path in the TAR for all files added under this
+	// root. The ARG1 should not end with a forward-slash char. For example: This is
+	// good: "abc/123", but this is not good: "abc/123/". If the DirPrefix property is
+	// also set, its prefix will added first.
+	// 
+	bool AddDirRoot2(const char *rootPrefix, const char *rootPath);
 
 
 

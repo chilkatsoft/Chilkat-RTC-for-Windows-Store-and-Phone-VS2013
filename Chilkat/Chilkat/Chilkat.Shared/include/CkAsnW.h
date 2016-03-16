@@ -295,7 +295,7 @@ class CK_VISIBLE_PUBLIC CkAsnW  : public CkWideCharBase
 	bool LoadAsnXml(const wchar_t *xmlStr);
 
 	// Loads ASN.1 from binary DER.
-	bool LoadBinary(const CkByteData &derBytes);
+	bool LoadBinary(CkByteData &derBytes);
 
 	// Loads ASN.1 from a binary DER file.
 	bool LoadBinaryFile(const wchar_t *path);

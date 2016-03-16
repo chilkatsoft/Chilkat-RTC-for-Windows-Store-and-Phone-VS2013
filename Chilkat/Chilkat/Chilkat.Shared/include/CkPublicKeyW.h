@@ -124,7 +124,7 @@ class CK_VISIBLE_PUBLIC CkPublicKeyW  : public CkWideCharBase
 	bool LoadBase64(const wchar_t *keyStr);
 
 	// Loads a public key from in-memory PKCS8 DER formatted byte data.
-	bool LoadOpenSslDer(const CkByteData &data);
+	bool LoadOpenSslDer(CkByteData &data);
 
 	// Loads a public key from an PKCS8 DER format file.
 	bool LoadOpenSslDerFile(const wchar_t *path);
@@ -139,7 +139,7 @@ class CK_VISIBLE_PUBLIC CkPublicKeyW  : public CkWideCharBase
 	bool LoadPkcs1Pem(const wchar_t *str);
 
 	// Loads a public key from in-memory PKCS1 DER formatted byte data.
-	bool LoadRsaDer(const CkByteData &data);
+	bool LoadRsaDer(CkByteData &data);
 
 	// Loads a public key from an PKCS1 DER formatted file.
 	bool LoadRsaDerFile(const wchar_t *path);

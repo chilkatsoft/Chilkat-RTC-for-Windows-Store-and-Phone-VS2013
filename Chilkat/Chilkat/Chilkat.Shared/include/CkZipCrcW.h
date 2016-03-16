@@ -10,7 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkWideCharBase.h"
+#include "CkClassWithCallbacksW.h"
 
 class CkByteData;
 class CkTaskW;
@@ -24,11 +24,10 @@ class CkBaseProgressW;
  
 
 // CLASS: CkZipCrcW
-class CK_VISIBLE_PUBLIC CkZipCrcW  : public CkWideCharBase
+class CK_VISIBLE_PUBLIC CkZipCrcW  : public CkClassWithCallbacksW
 {
     private:
 	bool m_cbOwned;
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkZipCrcW(const CkZipCrcW &);
@@ -74,7 +73,7 @@ class CK_VISIBLE_PUBLIC CkZipCrcW  : public CkWideCharBase
 	// Calculates a 32-bit CRC for in-memory byte data. This is the 32-bit CRC that
 	// would be found in a Zip file header if a file containing the ARG1 was added to a
 	// zip archive.
-	int CalculateCrc(const CkByteData &data);
+	int CalculateCrc(CkByteData &data);
 
 	// Finalizes and returns the Zip CRC value calculated by calling BeginStream
 	// followed by multiple calls to MoreData.
@@ -90,7 +89,7 @@ class CK_VISIBLE_PUBLIC CkZipCrcW  : public CkWideCharBase
 	CkTaskW *FileCrcAsync(const wchar_t *path);
 
 	// Converts a 32-bit integer to a hexidecimal string.
-	void MoreData(const CkByteData &data);
+	void MoreData(CkByteData &data);
 
 	// Converts a 32-bit integer to a hexidecimal string.
 	bool ToHex(int crc, CkString &outStr);

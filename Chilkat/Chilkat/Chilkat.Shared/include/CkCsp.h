@@ -12,8 +12,6 @@
 #include "CkString.h"
 #include "CkMultiByteBase.h"
 
-class CkByteData;
-
 class CkStringArray;
 
 
@@ -27,7 +25,6 @@ class CkStringArray;
 class CK_VISIBLE_PUBLIC CkCsp  : public CkMultiByteBase
 {
     private:
-	
 
 	// Don't allow assignment or copying these objects.
 	CkCsp(const CkCsp &);

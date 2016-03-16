@@ -14,8 +14,6 @@
 
 class CkByteData;
 
-class CkByteData;
-
 
 
 #if !defined(__sun__) && !defined(__sun)
@@ -27,7 +25,6 @@ class CkByteData;
 class CK_VISIBLE_PUBLIC CkPublicKey  : public CkMultiByteBase
 {
     private:
-	
 
 	// Don't allow assignment or copying these objects.
 	CkPublicKey(const CkPublicKey &);
@@ -134,7 +131,7 @@ class CK_VISIBLE_PUBLIC CkPublicKey  : public CkMultiByteBase
 
 
 	// Loads a public key from in-memory PKCS8 DER formatted byte data.
-	bool LoadOpenSslDer(const CkByteData &data);
+	bool LoadOpenSslDer(CkByteData &data);
 
 
 	// Loads a public key from an PKCS8 DER format file.
@@ -154,7 +151,7 @@ class CK_VISIBLE_PUBLIC CkPublicKey  : public CkMultiByteBase
 
 
 	// Loads a public key from in-memory PKCS1 DER formatted byte data.
-	bool LoadRsaDer(const CkByteData &data);
+	bool LoadRsaDer(CkByteData &data);
 
 
 	// Loads a public key from an PKCS1 DER formatted file.

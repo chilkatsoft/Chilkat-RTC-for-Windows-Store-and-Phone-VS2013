@@ -134,7 +134,7 @@ class CK_VISIBLE_PUBLIC CkHtmlToXmlW  : public CkWideCharBase
 	const wchar_t *readFileToString(const wchar_t *filename, const wchar_t *srcCharset);
 
 	// Sets the Html property from a byte array.
-	void SetHtmlBytes(const CkByteData &inData);
+	void SetHtmlBytes(CkByteData &inData);
 
 	// Sets the Html property by loading the HTML from a file.
 	bool SetHtmlFromFile(const wchar_t *filename);
@@ -161,7 +161,7 @@ class CK_VISIBLE_PUBLIC CkHtmlToXmlW  : public CkWideCharBase
 	bool UnlockComponent(const wchar_t *unlockCode);
 
 	// Convenience method for saving a byte array to a file.
-	bool WriteFile(const wchar_t *path, const CkByteData &fileData);
+	bool WriteFile(const wchar_t *path, CkByteData &fileData);
 
 	// Convenience method for saving a string to a file. The character encoding of the
 	// output text file is specified by  charset (the string is converted to this charset

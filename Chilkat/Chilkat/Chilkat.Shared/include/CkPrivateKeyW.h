@@ -293,7 +293,7 @@ class CK_VISIBLE_PUBLIC CkPrivateKeyW  : public CkWideCharBase
 	// will parse appropriately. The private key should be successfully loaded even
 	// when the wrong format data is passed to the wrong method.
 	// 
-	bool LoadPkcs8(const CkByteData &data);
+	bool LoadPkcs8(CkByteData &data);
 
 	// Loads a private key from in-memory password-protected PKCS8 byte data.
 	// 
@@ -312,7 +312,7 @@ class CK_VISIBLE_PUBLIC CkPrivateKeyW  : public CkWideCharBase
 	// will parse appropriately. The private key should be successfully loaded even
 	// when the wrong format data is passed to the wrong method.
 	// 
-	bool LoadPkcs8Encrypted(const CkByteData &data, const wchar_t *password);
+	bool LoadPkcs8Encrypted(CkByteData &data, const wchar_t *password);
 
 	// Loads a private key from an encrypted PKCS8 file.
 	// 
@@ -337,7 +337,7 @@ class CK_VISIBLE_PUBLIC CkPrivateKeyW  : public CkWideCharBase
 	// will parse appropriately. The private key should be successfully loaded even
 	// when the wrong format data is passed to the wrong method.
 	// 
-	bool LoadPvk(const CkByteData &data, const wchar_t *password);
+	bool LoadPvk(CkByteData &data, const wchar_t *password);
 #endif
 
 #if defined(CK_CRYPTOAPI_INCLUDED)
@@ -371,7 +371,7 @@ class CK_VISIBLE_PUBLIC CkPrivateKeyW  : public CkWideCharBase
 	// will parse appropriately. The private key should be successfully loaded even
 	// when the wrong format data is passed to the wrong method.
 	// 
-	bool LoadRsaDer(const CkByteData &data);
+	bool LoadRsaDer(CkByteData &data);
 
 	// Loads a private key from an RSA DER format file.
 	// 

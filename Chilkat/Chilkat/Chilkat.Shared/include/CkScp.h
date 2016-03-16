@@ -10,9 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkMultiByteBase.h"
-
-class CkByteData;
+#include "CkClassWithCallbacks.h"
 
 class CkTask;
 class CkByteData;
@@ -27,10 +25,9 @@ class CkBaseProgress;
  
 
 // CLASS: CkScp
-class CK_VISIBLE_PUBLIC CkScp  : public CkMultiByteBase
+class CK_VISIBLE_PUBLIC CkScp  : public CkClassWithCallbacks
 {
     private:
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkScp(const CkScp &);
@@ -262,10 +259,10 @@ class CK_VISIBLE_PUBLIC CkScp  : public CkMultiByteBase
 
 
 	// Uploads binary data to a file on the SSH server.
-	bool UploadBinary(const char *remotePath, const CkByteData &binData);
+	bool UploadBinary(const char *remotePath, CkByteData &binData);
 
 	// Uploads binary data to a file on the SSH server.
-	CkTask *UploadBinaryAsync(const char *remotePath, const CkByteData &binData);
+	CkTask *UploadBinaryAsync(const char *remotePath, CkByteData &binData);
 
 
 	// Uploads the binary data to a file on the remote SSH server. The binary data is

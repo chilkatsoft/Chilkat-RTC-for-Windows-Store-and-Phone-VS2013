@@ -10,7 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkMultiByteBase.h"
+#include "CkClassWithCallbacks.h"
 
 class CkByteData;
 class CkTask;
@@ -34,10 +34,9 @@ class CkMailManProgress;
  
 
 // CLASS: CkMailMan
-class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
+class CK_VISIBLE_PUBLIC CkMailMan  : public CkClassWithCallbacks
 {
     private:
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkMailMan(const CkMailMan &);
@@ -223,6 +222,41 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// names, such as "165.164.55.124".
 	// 
 	void put_ClientIpAddress(const char *newVal);
+
+	// This property will be set to the status of the last HTTP connection made (or
+	// failed to be made) by any HTTP method.
+	// 
+	// Possible values are:
+	// 0 = success
+	// 
+	// Normal (non-TLS) sockets:
+	// 1 = empty hostname
+	// 2 = DNS lookup failed
+	// 3 = DNS timeout
+	// 4 = Aborted by application.
+	// 5 = Internal failure.
+	// 6 = Connect Timed Out
+	// 7 = Connect Rejected (or failed for some other reason)
+	// 
+	// SSL/TLS:
+	// 100 = TLS internal error.
+	// 101 = Failed to send client hello.
+	// 102 = Unexpected handshake message.
+	// 103 = Failed to read server hello.
+	// 104 = No server certificate.
+	// 105 = Unexpected TLS protocol version.
+	// 106 = Server certificate verify failed (the server certificate is expired or the cert's signature verification failed).
+	// 107 = Unacceptable TLS protocol version.
+	// 109 = Failed to read handshake messages.
+	// 110 = Failed to send client certificate handshake message.
+	// 111 = Failed to send client key exchange handshake message.
+	// 112 = Client certificate's private key not accessible.
+	// 113 = Failed to send client cert verify handshake message.
+	// 114 = Failed to send change cipher spec handshake message.
+	// 115 = Failed to send finished handshake message.
+	// 116 = Server's Finished message is invalid.
+	// 
+	int get_ConnectFailReason(void);
 
 	// The time (in seconds) to wait before while trying to connect to a mail server
 	// (POP3 or SMTP). The default value is 30.
@@ -1172,13 +1206,40 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 
 	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
 	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// (Note that the client cannot specifically choose the algorithm is picked because
-	// it is the server that chooses. The client simply provides the server with a list
-	// from which to choose.)
+	// are possible. The TLS ciphers supported in Chilkat v9.5.0.55 and later are:
+	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
+	// TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256
+	// TLS_DHE_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA
+	// TLS_RSA_WITH_AES_256_CBC_SHA256
+	// TLS_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_RSA_WITH_AES_256_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA
+	// TLS_DHE_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_DHE_RSA_WITH_AES_128_CBC_SHA
+	// TLS_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_RSA_WITH_AES_128_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_RC4_128_SHA
+	// TLS_RSA_WITH_RC4_128_SHA
+	// TLS_RSA_WITH_RC4_128_MD5
+	// TLS_DHE_RSA_WITH_DES_CBC_SHA
+	// TLS_RSA_WITH_DES_CBC_SHA
+	// To restrict SSL/TLS connections to one or more specific ciphers, set this
+	// property to a comma-separated list of ciphers such as
+	// "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384".
+	// The order should be in terms of preference, with the preferred algorithms listed
+	// first. (Note that the client cannot specifically choose the algorithm is picked
+	// because it is the server that chooses. The client simply provides the server
+	// with a list from which to choose.)
 	// 
 	// The property can also disallow connections with servers having certificates with
 	// RSA keys less than a certain size. By default, server certificates having RSA
@@ -1186,17 +1247,69 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// connections with servers having keys smaller than 1024 bits. Add the keyword
 	// "rsa2048" to disallow connections with servers having keys smaller than 2048
 	// bits.
+	// 
+	// Note: Prior to Chilkat v9.5.0.55, it was not possible to explicitly list allowed
+	// cipher suites. The deprecated means for indicating allowed ciphers was both
+	// incomplete and unprecise. For example, the following keywords could be listed to
+	// allow matching ciphers: "aes256-cbc", "aes128-cbc", "3des-cbc", and "rc4". These
+	// keywords will still be recognized, but programs should be updated to explicitly
+	// list the allowed ciphers.
+	// 
+	// secure-renegotiation: Starting in Chilkat v9.5.0.55, the keyword
+	// "secure-renegotiation" may be added to require that all renegotions be done
+	// securely (as per RFC 5746).
+	// 
+	// best-practices: Starting in Chilkat v9.5.0.55, this property may be set to the
+	// single keyword "best-practices". This will allow ciphers based on the current
+	// best practices. As new versions of Chilkat are released, the best practices may
+	// change. Changes will be noted here. The current best practices are:
+	// 
+	//     If the server uses an RSA key, it must be 1024 bits or greater.
+	//     All renegotations must be secure renegotiations.
+	//     All ciphers using RC4, DES, or 3DES are disallowed.
+	// 
+	// Example: The following string would restrict to 2 specific cipher suites,
+	// require RSA keys to be 1024 bits or greater, and require secure renegotiations:
+	// "TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, rsa1024,
+	// secure-renegotiation"
 	// 
 	void get_SslAllowedCiphers(CkString &str);
 	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
 	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// (Note that the client cannot specifically choose the algorithm is picked because
-	// it is the server that chooses. The client simply provides the server with a list
-	// from which to choose.)
+	// are possible. The TLS ciphers supported in Chilkat v9.5.0.55 and later are:
+	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
+	// TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256
+	// TLS_DHE_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA
+	// TLS_RSA_WITH_AES_256_CBC_SHA256
+	// TLS_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_RSA_WITH_AES_256_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA
+	// TLS_DHE_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_DHE_RSA_WITH_AES_128_CBC_SHA
+	// TLS_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_RSA_WITH_AES_128_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_RC4_128_SHA
+	// TLS_RSA_WITH_RC4_128_SHA
+	// TLS_RSA_WITH_RC4_128_MD5
+	// TLS_DHE_RSA_WITH_DES_CBC_SHA
+	// TLS_RSA_WITH_DES_CBC_SHA
+	// To restrict SSL/TLS connections to one or more specific ciphers, set this
+	// property to a comma-separated list of ciphers such as
+	// "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384".
+	// The order should be in terms of preference, with the preferred algorithms listed
+	// first. (Note that the client cannot specifically choose the algorithm is picked
+	// because it is the server that chooses. The client simply provides the server
+	// with a list from which to choose.)
 	// 
 	// The property can also disallow connections with servers having certificates with
 	// RSA keys less than a certain size. By default, server certificates having RSA
@@ -1204,17 +1317,69 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// connections with servers having keys smaller than 1024 bits. Add the keyword
 	// "rsa2048" to disallow connections with servers having keys smaller than 2048
 	// bits.
+	// 
+	// Note: Prior to Chilkat v9.5.0.55, it was not possible to explicitly list allowed
+	// cipher suites. The deprecated means for indicating allowed ciphers was both
+	// incomplete and unprecise. For example, the following keywords could be listed to
+	// allow matching ciphers: "aes256-cbc", "aes128-cbc", "3des-cbc", and "rc4". These
+	// keywords will still be recognized, but programs should be updated to explicitly
+	// list the allowed ciphers.
+	// 
+	// secure-renegotiation: Starting in Chilkat v9.5.0.55, the keyword
+	// "secure-renegotiation" may be added to require that all renegotions be done
+	// securely (as per RFC 5746).
+	// 
+	// best-practices: Starting in Chilkat v9.5.0.55, this property may be set to the
+	// single keyword "best-practices". This will allow ciphers based on the current
+	// best practices. As new versions of Chilkat are released, the best practices may
+	// change. Changes will be noted here. The current best practices are:
+	// 
+	//     If the server uses an RSA key, it must be 1024 bits or greater.
+	//     All renegotations must be secure renegotiations.
+	//     All ciphers using RC4, DES, or 3DES are disallowed.
+	// 
+	// Example: The following string would restrict to 2 specific cipher suites,
+	// require RSA keys to be 1024 bits or greater, and require secure renegotiations:
+	// "TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, rsa1024,
+	// secure-renegotiation"
 	// 
 	const char *sslAllowedCiphers(void);
 	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
 	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// (Note that the client cannot specifically choose the algorithm is picked because
-	// it is the server that chooses. The client simply provides the server with a list
-	// from which to choose.)
+	// are possible. The TLS ciphers supported in Chilkat v9.5.0.55 and later are:
+	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
+	// TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256
+	// TLS_DHE_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA
+	// TLS_RSA_WITH_AES_256_CBC_SHA256
+	// TLS_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_RSA_WITH_AES_256_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA
+	// TLS_DHE_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_DHE_RSA_WITH_AES_128_CBC_SHA
+	// TLS_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_RSA_WITH_AES_128_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_RC4_128_SHA
+	// TLS_RSA_WITH_RC4_128_SHA
+	// TLS_RSA_WITH_RC4_128_MD5
+	// TLS_DHE_RSA_WITH_DES_CBC_SHA
+	// TLS_RSA_WITH_DES_CBC_SHA
+	// To restrict SSL/TLS connections to one or more specific ciphers, set this
+	// property to a comma-separated list of ciphers such as
+	// "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384".
+	// The order should be in terms of preference, with the preferred algorithms listed
+	// first. (Note that the client cannot specifically choose the algorithm is picked
+	// because it is the server that chooses. The client simply provides the server
+	// with a list from which to choose.)
 	// 
 	// The property can also disallow connections with servers having certificates with
 	// RSA keys less than a certain size. By default, server certificates having RSA
@@ -1222,6 +1387,31 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// connections with servers having keys smaller than 1024 bits. Add the keyword
 	// "rsa2048" to disallow connections with servers having keys smaller than 2048
 	// bits.
+	// 
+	// Note: Prior to Chilkat v9.5.0.55, it was not possible to explicitly list allowed
+	// cipher suites. The deprecated means for indicating allowed ciphers was both
+	// incomplete and unprecise. For example, the following keywords could be listed to
+	// allow matching ciphers: "aes256-cbc", "aes128-cbc", "3des-cbc", and "rc4". These
+	// keywords will still be recognized, but programs should be updated to explicitly
+	// list the allowed ciphers.
+	// 
+	// secure-renegotiation: Starting in Chilkat v9.5.0.55, the keyword
+	// "secure-renegotiation" may be added to require that all renegotions be done
+	// securely (as per RFC 5746).
+	// 
+	// best-practices: Starting in Chilkat v9.5.0.55, this property may be set to the
+	// single keyword "best-practices". This will allow ciphers based on the current
+	// best practices. As new versions of Chilkat are released, the best practices may
+	// change. Changes will be noted here. The current best practices are:
+	// 
+	//     If the server uses an RSA key, it must be 1024 bits or greater.
+	//     All renegotations must be secure renegotiations.
+	//     All ciphers using RC4, DES, or 3DES are disallowed.
+	// 
+	// Example: The following string would restrict to 2 specific cipher suites,
+	// require RSA keys to be 1024 bits or greater, and require secure renegotiations:
+	// "TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, rsa1024,
+	// secure-renegotiation"
 	// 
 	void put_SslAllowedCiphers(const char *newVal);
 
@@ -1303,24 +1493,6 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
 	const char *tlsCipherSuite(void);
 
-	// Contains the current or last negotiated TLS protocol version. If no TLS
-	// connection has yet to be established, or if a connection as attempted and
-	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
-	// 1.1", and "TLS 1.2".
-	void get_TlsVersion(CkString &str);
-	// Contains the current or last negotiated TLS protocol version. If no TLS
-	// connection has yet to be established, or if a connection as attempted and
-	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
-	// 1.1", and "TLS 1.2".
-	const char *tlsVersion(void);
-
-	// If true, will automatically use APOP authentication if the POP3 server
-	// supports it. The default value of this property is false.
-	bool get_UseApop(void);
-	// If true, will automatically use APOP authentication if the POP3 server
-	// supports it. The default value of this property is false.
-	void put_UseApop(bool newVal);
-
 	// Specifies a set of pins for Public Key Pinning for TLS connections. This
 	// property lists the expected SPKI fingerprints for the server certificates. If
 	// the server's certificate (sent during the TLS handshake) does not match any of
@@ -1376,6 +1548,24 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// 
 	void put_TlsPinSet(const char *newVal);
 
+	// Contains the current or last negotiated TLS protocol version. If no TLS
+	// connection has yet to be established, or if a connection as attempted and
+	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
+	// 1.1", and "TLS 1.2".
+	void get_TlsVersion(CkString &str);
+	// Contains the current or last negotiated TLS protocol version. If no TLS
+	// connection has yet to be established, or if a connection as attempted and
+	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
+	// 1.1", and "TLS 1.2".
+	const char *tlsVersion(void);
+
+	// If true, will automatically use APOP authentication if the POP3 server
+	// supports it. The default value of this property is false.
+	bool get_UseApop(void);
+	// If true, will automatically use APOP authentication if the POP3 server
+	// supports it. The default value of this property is false.
+	void put_UseApop(bool newVal);
+
 
 
 	// ----------------------
@@ -1390,7 +1580,7 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// 
 	// The ARG1 contains the bytes of a PFX file (also known as PKCS12 or .p12).
 	// 
-	bool AddPfxSourceData(const CkByteData &pfxData, const char *password);
+	bool AddPfxSourceData(CkByteData &pfxData, const char *password);
 
 
 	// Adds a PFX file to the object's internal list of sources to be searched for
@@ -1495,7 +1685,7 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// Also, any method call requiring communication with the POP3 server will
 	// automatically re-establish a session based on the current property settings.
 	// 
-	bool DeleteBundle(const CkEmailBundle &bundle);
+	bool DeleteBundle(CkEmailBundle &bundle);
 
 	// Marks multiple emails on the POP3 server for deletion. (Each email in emailBundle that
 	// is also present on the server is marked for deletion.) To complete the deletion
@@ -1511,7 +1701,7 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// Also, any method call requiring communication with the POP3 server will
 	// automatically re-establish a session based on the current property settings.
 	// 
-	CkTask *DeleteBundleAsync(const CkEmailBundle &bundle);
+	CkTask *DeleteBundleAsync(CkEmailBundle &bundle);
 
 
 	// Marks an email for deletion by message number. WARNING: Be very careful if
@@ -1595,7 +1785,7 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// Also, any method call requiring communication with the POP3 server will
 	// automatically re-establish a session based on the current property settings.
 	// 
-	bool DeleteEmail(const CkEmail &email);
+	bool DeleteEmail(CkEmail &email);
 
 	// Marks an email on the POP3 server for deletion. To complete the deletion of an
 	// email, a "QUIT" message must be sent and the POP3 session ended. This will
@@ -1610,7 +1800,7 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// Also, any method call requiring communication with the POP3 server will
 	// automatically re-establish a session based on the current property settings.
 	// 
-	CkTask *DeleteEmailAsync(const CkEmail &email);
+	CkTask *DeleteEmailAsync(CkEmail &email);
 
 
 	// Marks multiple emails on the POP3 server for deletion. (Any email on the server
@@ -1628,7 +1818,7 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// Also, any method call requiring communication with the POP3 server will
 	// automatically re-establish a session based on the current property settings.
 	// 
-	bool DeleteMultiple(const CkStringArray &uidlArray);
+	bool DeleteMultiple(CkStringArray &uidlArray);
 
 	// Marks multiple emails on the POP3 server for deletion. (Any email on the server
 	// having a UIDL equal to a UIDL found in uidlArray is marked for deletion.) To complete
@@ -1645,7 +1835,7 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// Also, any method call requiring communication with the POP3 server will
 	// automatically re-establish a session based on the current property settings.
 	// 
-	CkTask *DeleteMultipleAsync(const CkStringArray &uidlArray);
+	CkTask *DeleteMultipleAsync(CkStringArray &uidlArray);
 
 
 	// Fetches an email by message number. WARNING: Be very careful if calling this
@@ -1739,11 +1929,11 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// Given an array of UIDL strings, fetchs all the emails from the POP3 server whose
 	// UIDL is present in the array, and returns the emails in a bundle.
 	// The caller is responsible for deleting the object returned by this method.
-	CkEmailBundle *FetchMultiple(const CkStringArray &uidlArray);
+	CkEmailBundle *FetchMultiple(CkStringArray &uidlArray);
 
 	// Given an array of UIDL strings, fetchs all the emails from the POP3 server whose
 	// UIDL is present in the array, and returns the emails in a bundle.
-	CkTask *FetchMultipleAsync(const CkStringArray &uidlArray);
+	CkTask *FetchMultipleAsync(CkStringArray &uidlArray);
 
 
 	// Given an array of UIDL strings, fetchs all the email headers from the POP3
@@ -1754,7 +1944,7 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	//  numBodyLines lines of either the plain-text or HTML body will be present).
 	// 
 	// The caller is responsible for deleting the object returned by this method.
-	CkEmailBundle *FetchMultipleHeaders(const CkStringArray &uidlArray, int numBodyLines);
+	CkEmailBundle *FetchMultipleHeaders(CkStringArray &uidlArray, int numBodyLines);
 
 	// Given an array of UIDL strings, fetchs all the email headers from the POP3
 	// server whose UIDL is present in the array.
@@ -1763,7 +1953,7 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// attachments will be missing, and the bodies will be mostly missing (only the 1st
 	//  numBodyLines lines of either the plain-text or HTML body will be present).
 	// 
-	CkTask *FetchMultipleHeadersAsync(const CkStringArray &uidlArray, int numBodyLines);
+	CkTask *FetchMultipleHeadersAsync(CkStringArray &uidlArray, int numBodyLines);
 
 
 	// Given an array of UIDL strings, fetchs all the emails from the POP3 server whose
@@ -1771,13 +1961,13 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// "stringarray" -- an object containing a collection of strings. Returns a null
 	// reference on failure.
 	// The caller is responsible for deleting the object returned by this method.
-	CkStringArray *FetchMultipleMime(const CkStringArray &uidlArray);
+	CkStringArray *FetchMultipleMime(CkStringArray &uidlArray);
 
 	// Given an array of UIDL strings, fetchs all the emails from the POP3 server whose
 	// UIDL is present in the array, and returns the MIME source of each email in an
 	// "stringarray" -- an object containing a collection of strings. Returns a null
 	// reference on failure.
-	CkTask *FetchMultipleMimeAsync(const CkStringArray &uidlArray);
+	CkTask *FetchMultipleMimeAsync(CkStringArray &uidlArray);
 
 
 	// Fetches a single header by message number. Returns an email object on success,
@@ -1857,13 +2047,13 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// server. A new email object (separate from the partial email) is returned. A null
 	// reference is returned on failure.
 	// The caller is responsible for deleting the object returned by this method.
-	CkEmail *GetFullEmail(const CkEmail &email);
+	CkEmail *GetFullEmail(CkEmail &email);
 
 	// If a partial email was obtained using GetHeaders or GetAllHeaders, this method
 	// will take the partial email as an argument, and download the full email from the
 	// server. A new email object (separate from the partial email) is returned. A null
 	// reference is returned on failure.
-	CkTask *GetFullEmailAsync(const CkEmail &email);
+	CkTask *GetFullEmailAsync(CkEmail &email);
 
 
 	// The same as the GetAllHeaders method, except only the emails from  fromIndex to  toIndex
@@ -2092,6 +2282,33 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	CkTask *OpenSmtpConnectionAsync(void);
 
 
+	// Authenticates with the POP3 server using the property settings such as
+	// PopUsername, PopPassword, etc. This method should only be called after a
+	// successful call to Pop3Connect.
+	// 
+	// Note 1: The Pop3BeginSession method both connects and authenticates. It is the
+	// equivalent of calling Pop3Connect followed by Pop3Authenticate.
+	// 
+	// Note 2: All methods that communicate with the POP3 server, such as FetchEmail,
+	// will automatically connect and authenticate if not already connected and
+	// authenticated.
+	// 
+	bool Pop3Authenticate(void);
+
+	// Authenticates with the POP3 server using the property settings such as
+	// PopUsername, PopPassword, etc. This method should only be called after a
+	// successful call to Pop3Connect.
+	// 
+	// Note 1: The Pop3BeginSession method both connects and authenticates. It is the
+	// equivalent of calling Pop3Connect followed by Pop3Authenticate.
+	// 
+	// Note 2: All methods that communicate with the POP3 server, such as FetchEmail,
+	// will automatically connect and authenticate if not already connected and
+	// authenticated.
+	// 
+	CkTask *Pop3AuthenticateAsync(void);
+
+
 	// Call to explicitly begin a POP3 session. It is not necessary to call this method
 	// because any method requiring an established POP3 session will automatically
 	// connect and login if a session is not already open.
@@ -2119,6 +2336,51 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// external causes of blockage.
 	// 
 	CkTask *Pop3BeginSessionAsync(void);
+
+
+	// Explicitly establishes a connection to the POP3 server, which includes
+	// establishing a secure TLS channel if required, and receives the initial
+	// greeting. This method stops short of authenticating. The Pop3Authenticate method
+	// should be called after a successful call to this method.
+	// 
+	// Note 1: The Pop3BeginSession method both connects and authenticates. It is the
+	// equivalent of calling Pop3Connect followed by Pop3Authenticate.
+	// 
+	// Note 2: All methods that communicate with the POP3 server, such as FetchEmail,
+	// will automatically connect and authenticate if not already connected and
+	// authenticated.
+	// 
+	// Important: All TCP-based Internet communications, regardless of the protocol
+	// (such as HTTP, FTP, SSH, IMAP, POP3, SMTP, etc.), and regardless of SSL/TLS,
+	// begin with establishing a TCP connection to a remote host:port. External
+	// security-related infrastructure such as software firewalls (Windows Firewall),
+	// hardware firewalls, anti-virus, at either source or destination (or both) can
+	// block the connection. If the connection fails, make sure to check all potential
+	// external causes of blockage.
+	// 
+	bool Pop3Connect(void);
+
+	// Explicitly establishes a connection to the POP3 server, which includes
+	// establishing a secure TLS channel if required, and receives the initial
+	// greeting. This method stops short of authenticating. The Pop3Authenticate method
+	// should be called after a successful call to this method.
+	// 
+	// Note 1: The Pop3BeginSession method both connects and authenticates. It is the
+	// equivalent of calling Pop3Connect followed by Pop3Authenticate.
+	// 
+	// Note 2: All methods that communicate with the POP3 server, such as FetchEmail,
+	// will automatically connect and authenticate if not already connected and
+	// authenticated.
+	// 
+	// Important: All TCP-based Internet communications, regardless of the protocol
+	// (such as HTTP, FTP, SSH, IMAP, POP3, SMTP, etc.), and regardless of SSL/TLS,
+	// begin with establishing a TCP connection to a remote host:port. External
+	// security-related infrastructure such as software firewalls (Windows Firewall),
+	// hardware firewalls, anti-virus, at either source or destination (or both) can
+	// block the connection. If the connection fails, make sure to check all potential
+	// external causes of blockage.
+	// 
+	CkTask *Pop3ConnectAsync(void);
 
 
 	// Call to explicitly end a POP3 session. If the ImmediateDelete property is set to
@@ -2205,7 +2467,7 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// 
 	// The rendered MIME string is returned on success.
 	// 
-	bool RenderToMime(const CkEmail &email, CkString &outStr);
+	bool RenderToMime(CkEmail &email, CkString &outStr);
 
 	// When an email is sent by calling SendEmail, it is first "rendered" according to
 	// the values of the email properties and contents. It may be digitally signed,
@@ -2218,7 +2480,7 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// 
 	// The rendered MIME string is returned on success.
 	// 
-	const char *renderToMime(const CkEmail &email);
+	const char *renderToMime(CkEmail &email);
 
 	// This method is the same as RenderToMime, but the MIME is returned in a byte
 	// array. If an email uses an 8bit or binary MIME encoding, then calling
@@ -2240,7 +2502,7 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// in the bundle failed and which succeeded, it is best to write a loop that sends
 	// each email separately (via the SendEmail method).
 	// 
-	bool SendBundle(const CkEmailBundle &bundle);
+	bool SendBundle(CkEmailBundle &bundle);
 
 	// Sends a bundle of emails. This is identical to calling SendEmail for each email
 	// in the bundle.
@@ -2253,7 +2515,7 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// in the bundle failed and which succeeded, it is best to write a loop that sends
 	// each email separately (via the SendEmail method).
 	// 
-	CkTask *SendBundleAsync(const CkEmailBundle &bundle);
+	CkTask *SendBundleAsync(CkEmailBundle &bundle);
 
 
 	// Sends a single email. The connection to the SMTP server will remain open so that
@@ -2272,7 +2534,7 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// possible. Otherwise you will need to change your GMail account settings to allow
 	// for sending by less secure apps. See the links below.
 	// 
-	bool SendEmail(const CkEmail &email);
+	bool SendEmail(CkEmail &email);
 
 	// Sends a single email. The connection to the SMTP server will remain open so that
 	// a subsequent call to SendEmail (or other email-sending methods) can re-use the
@@ -2290,7 +2552,7 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// possible. Otherwise you will need to change your GMail account settings to allow
 	// for sending by less secure apps. See the links below.
 	// 
-	CkTask *SendEmailAsync(const CkEmail &email);
+	CkTask *SendEmailAsync(CkEmail &email);
 
 
 	// Provides complete control over the email that is sent. The MIME text passed in
@@ -2335,7 +2597,7 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// are usually the same email addresses found in the MIME headers, but need not be
 	// (unless the SMTP server enforces policies that require them to be the same).
 	// 
-	bool SendMimeBytes(const char *from, const char *recipients, const CkByteData &mimeData);
+	bool SendMimeBytes(const char *from, const char *recipients, CkByteData &mimeData);
 
 	// This method is the same as SendMime, except the MIME is passed in a byte array.
 	// This can be important if the MIME uses a binary encoding, or if a DKIM/DomainKey
@@ -2348,13 +2610,13 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// are usually the same email addresses found in the MIME headers, but need not be
 	// (unless the SMTP server enforces policies that require them to be the same).
 	// 
-	CkTask *SendMimeBytesAsync(const char *from, const char *recipients, const CkByteData &mimeData);
+	CkTask *SendMimeBytesAsync(const char *from, const char *recipients, CkByteData &mimeData);
 
 
 #if defined(CK_SMTPQ_INCLUDED)
 	// This method is the samem as SendMimeQ, except the MIME is passed in a byte array
 	// argument instead of a string argument.
-	bool SendMimeBytesQ(const char *from, const char *recipients, const CkByteData &mimeData);
+	bool SendMimeBytesQ(const char *from, const char *recipients, CkByteData &mimeData);
 
 #endif
 
@@ -2395,7 +2657,7 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// Note: After calling this method, the filename of the .eml that was created will
 	// be available in the LastSendQFilename property.
 	// 
-	bool SendQ(const CkEmail &email);
+	bool SendQ(CkEmail &email);
 
 #endif
 
@@ -2407,7 +2669,7 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// to be written. If ARG2 specifies only the directory, then SendQ2 will
 	// automatically generate the output filename.
 	// 
-	bool SendQ2(const CkEmail &email, const char *queueDir);
+	bool SendQ2(CkEmail &email, const char *queueDir);
 
 #endif
 
@@ -2444,7 +2706,7 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// store, nothing needs to be done -- the mailman will automatically locate and use
 	// the required cert + private key.
 	// 
-	bool SetDecryptCert2(const CkCert &cert, CkPrivateKey &key);
+	bool SetDecryptCert2(CkCert &cert, CkPrivateKey &key);
 
 
 	// Sets the client-side certificate to be used with SSL connections. This is
@@ -2490,7 +2752,7 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 
 	// Explicitly establishes a connection to the SMTP server, which includes
 	// establishing a secure TLS channel if required, and receives the initial
-	// greeting. This method stop short of authenticating. The SmtpAuthenticate method
+	// greeting. This method stops short of authenticating. The SmtpAuthenticate method
 	// should be called after a successful call to this method.
 	// 
 	// Note 1: The OpenSmtpConnection method both connects and authenticates. It is the
@@ -2512,7 +2774,7 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 
 	// Explicitly establishes a connection to the SMTP server, which includes
 	// establishing a secure TLS channel if required, and receives the initial
-	// greeting. This method stop short of authenticating. The SmtpAuthenticate method
+	// greeting. This method stops short of authenticating. The SmtpAuthenticate method
 	// should be called after a successful call to this method.
 	// 
 	// Note 1: The OpenSmtpConnection method both connects and authenticates. It is the
@@ -2710,11 +2972,11 @@ class CK_VISIBLE_PUBLIC CkMailMan  : public CkMultiByteBase
 	// Same as FetchMultipleMime except that the downloaded emails are also deleted
 	// from the server. Returns a null reference on failure.
 	// The caller is responsible for deleting the object returned by this method.
-	CkStringArray *TransferMultipleMime(const CkStringArray &uidlArray);
+	CkStringArray *TransferMultipleMime(CkStringArray &uidlArray);
 
 	// Same as FetchMultipleMime except that the downloaded emails are also deleted
 	// from the server. Returns a null reference on failure.
-	CkTask *TransferMultipleMimeAsync(const CkStringArray &uidlArray);
+	CkTask *TransferMultipleMimeAsync(CkStringArray &uidlArray);
 
 
 	// Unlocks the component. This must be called once at the beginning of your program

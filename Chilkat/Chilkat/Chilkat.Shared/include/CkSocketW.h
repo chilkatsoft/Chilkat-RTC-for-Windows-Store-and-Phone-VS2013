@@ -10,7 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkWideCharBase.h"
+#include "CkClassWithCallbacksW.h"
 
 class CkByteData;
 class CkTaskW;
@@ -27,11 +27,10 @@ class CkBaseProgressW;
  
 
 // CLASS: CkSocketW
-class CK_VISIBLE_PUBLIC CkSocketW  : public CkWideCharBase
+class CK_VISIBLE_PUBLIC CkSocketW  : public CkClassWithCallbacksW
 {
     private:
 	bool m_cbOwned;
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkSocketW(const CkSocketW &);
@@ -686,12 +685,28 @@ class CK_VISIBLE_PUBLIC CkSocketW  : public CkWideCharBase
 	// point. It is provided as a way to keep count of the total number of bytes
 	// received on a socket connection, regardless of which method calls are used to
 	// receive the data.
+	// 
+	// Note: The ReceivedCount may be larger than the number of bytes returned by some
+	// methods. For methods such as ReceiveUntilMatch, the excess received on the
+	// socket (beyond the match), is buffered by Chilkat for subsequent method calls.
+	// The ReceivedCount is updated based on the actual number of bytes received on the
+	// underlying socket in real-time. (The ReceivedCount does not include the overhead
+	// bytes associated with the TLS and/or SSH protocols.
+	// 
 	int get_ReceivedCount(void);
 	// Any method that receives data will increase the value of this property by the
 	// number of bytes received. The application may reset this property to 0 at any
 	// point. It is provided as a way to keep count of the total number of bytes
 	// received on a socket connection, regardless of which method calls are used to
 	// receive the data.
+	// 
+	// Note: The ReceivedCount may be larger than the number of bytes returned by some
+	// methods. For methods such as ReceiveUntilMatch, the excess received on the
+	// socket (beyond the match), is buffered by Chilkat for subsequent method calls.
+	// The ReceivedCount is updated based on the actual number of bytes received on the
+	// underlying socket in real-time. (The ReceivedCount does not include the overhead
+	// bytes associated with the TLS and/or SSH protocols.
+	// 
 	void put_ReceivedCount(int newVal);
 
 	// Contains the last integer received via a call to ReceiveByte, ReceiveInt16, or
@@ -1545,7 +1560,7 @@ class CK_VISIBLE_PUBLIC CkSocketW  : public CkWideCharBase
 	// introduced in Chilkat v9.5.0.52. Applications should use the new model, which is
 	// identified by methods having names ending with "Async" and return a task object.
 	// 
-	bool AsyncSendByteData(const CkByteData &data);
+	bool AsyncSendByteData(CkByteData &data);
 
 	// Initiates a background thread to send bytes on an already-connected socket (ssl
 	// or non-ssl).
@@ -1554,7 +1569,7 @@ class CK_VISIBLE_PUBLIC CkSocketW  : public CkWideCharBase
 	// introduced in Chilkat v9.5.0.52. Applications should use the new model, which is
 	// identified by methods having names ending with "Async" and return a task object.
 	// 
-	bool AsyncSendBytes(const CkByteData &data);
+	bool AsyncSendBytes(CkByteData &data);
 
 	// Initiates a background thread to send text on an already-connected socket (ssl
 	// or non-ssl). Before sending, the stringToSend is first converted (if necessary) to the
@@ -2017,12 +2032,12 @@ class CK_VISIBLE_PUBLIC CkSocketW  : public CkWideCharBase
 	// Sends bytes over a connected SSL or non-SSL socket. If transmission halts for
 	// more than MaxSendIdleMs milliseconds, the send is aborted. This is a blocking
 	// (synchronous) method. It returns only after the bytes have been sent.
-	bool SendBytes(const CkByteData &data);
+	bool SendBytes(CkByteData &data);
 
 	// Creates an asynchronous task to call the SendBytes method with the arguments
 	// provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *SendBytesAsync(const CkByteData &data);
+	CkTaskW *SendBytesAsync(CkByteData &data);
 
 	// The same as SendBytes, except the bytes are provided in encoded string form as
 	// specified by  encodingAlg. The  encodingAlg can be "Base64", "modBase64", "Base32", "Base58",

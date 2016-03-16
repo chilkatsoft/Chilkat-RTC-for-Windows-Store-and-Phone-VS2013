@@ -125,7 +125,7 @@ Boolean TrustedRoots::AddCert(Cert ^cert)
     {
 	if (m_impl == nullptr) { return false; }
 	if (cert == nullptr) { return false; }
-	const CkCertW* pObj0 = cert->m_impl;
+	CkCertW* pObj0 = cert->m_impl;
 	 if (!pObj0) { return false; }
 	// --- prep output arg ---
 	CxTrustedRootsProgress cxProgress(m_impl);

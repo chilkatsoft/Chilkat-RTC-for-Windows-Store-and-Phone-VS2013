@@ -187,6 +187,12 @@ class CK_VISIBLE_PUBLIC CkGlobalW  : public CkWideCharBase
 	// 
 	bool UnlockBundle(const wchar_t *bundleUnlockCode);
 
+	// Called to stop and finalize all threads in the thread pool. Once the thread pool
+	// is finalized, it may not be used again. This method would only be called at the
+	// end of a program prior to exiting. Most applications, even if using async
+	// functionality, should not need to explicitly finalize the thread pool.
+	bool FinalizeThreadPool(void);
+
 
 
 

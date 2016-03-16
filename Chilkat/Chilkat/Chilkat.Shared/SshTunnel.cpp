@@ -10,7 +10,9 @@
 #include "include/CkSshTunnelW.h"
 		
 #include "include/CkSshKeyW.h"
+#include "include/CkSshW.h"
 #include "SshKey.h"
+#include "Ssh.h"
 
 
 using namespace Chilkat;
@@ -77,6 +79,30 @@ void Chilkat::SshTunnel::VerboseLogging::set(Boolean newVal)
     {
         if (m_impl) m_impl->put_VerboseLogging(newVal);
     }
+Boolean Chilkat::SshTunnel::LastMethodSuccess::get()
+    {
+    return m_impl ? m_impl->get_LastMethodSuccess() : false;
+    }
+void Chilkat::SshTunnel::LastMethodSuccess::set(Boolean newVal)
+    {
+        if (m_impl) m_impl->put_LastMethodSuccess(newVal);
+    }
+String ^Chilkat::SshTunnel::AcceptLog::get()
+    {
+    return ref new String(m_impl ? m_impl->acceptLog() : L"");
+    }
+void Chilkat::SshTunnel::AcceptLog::set(String ^newVal)
+    {
+        if (m_impl) m_impl->put_AcceptLog(newVal ? newVal->Data() : L"");
+    }
+String ^Chilkat::SshTunnel::AcceptLogPath::get()
+    {
+    return ref new String(m_impl ? m_impl->acceptLogPath() : L"");
+    }
+void Chilkat::SshTunnel::AcceptLogPath::set(String ^newVal)
+    {
+        if (m_impl) m_impl->put_AcceptLogPath(newVal ? newVal->Data() : L"");
+    }
 int Chilkat::SshTunnel::ConnectTimeoutMs::get()
     {
     return m_impl ? m_impl->get_ConnectTimeoutMs() : 0;
@@ -100,6 +126,14 @@ int Chilkat::SshTunnel::DestPort::get()
 void Chilkat::SshTunnel::DestPort::set(int newVal)
     {
         if (m_impl) m_impl->put_DestPort(newVal);
+    }
+Boolean Chilkat::SshTunnel::DynamicPortForwarding::get()
+    {
+    return m_impl ? m_impl->get_DynamicPortForwarding() : false;
+    }
+void Chilkat::SshTunnel::DynamicPortForwarding::set(Boolean newVal)
+    {
+        if (m_impl) m_impl->put_DynamicPortForwarding(newVal);
     }
 String ^Chilkat::SshTunnel::HttpProxyAuthMethod::get()
     {
@@ -157,9 +191,41 @@ void Chilkat::SshTunnel::IdleTimeoutMs::set(int newVal)
     {
         if (m_impl) m_impl->put_IdleTimeoutMs(newVal);
     }
+String ^Chilkat::SshTunnel::InboundSocksPassword::get()
+    {
+    return ref new String(m_impl ? m_impl->inboundSocksPassword() : L"");
+    }
+void Chilkat::SshTunnel::InboundSocksPassword::set(String ^newVal)
+    {
+        if (m_impl) m_impl->put_InboundSocksPassword(newVal ? newVal->Data() : L"");
+    }
+String ^Chilkat::SshTunnel::InboundSocksUsername::get()
+    {
+    return ref new String(m_impl ? m_impl->inboundSocksUsername() : L"");
+    }
+void Chilkat::SshTunnel::InboundSocksUsername::set(String ^newVal)
+    {
+        if (m_impl) m_impl->put_InboundSocksUsername(newVal ? newVal->Data() : L"");
+    }
 Boolean Chilkat::SshTunnel::IsAccepting::get()
     {
     return m_impl ? m_impl->get_IsAccepting() : false;
+    }
+Boolean Chilkat::SshTunnel::KeepAcceptLog::get()
+    {
+    return m_impl ? m_impl->get_KeepAcceptLog() : false;
+    }
+void Chilkat::SshTunnel::KeepAcceptLog::set(Boolean newVal)
+    {
+        if (m_impl) m_impl->put_KeepAcceptLog(newVal);
+    }
+Boolean Chilkat::SshTunnel::KeepTunnelLog::get()
+    {
+    return m_impl ? m_impl->get_KeepTunnelLog() : false;
+    }
+void Chilkat::SshTunnel::KeepTunnelLog::set(Boolean newVal)
+    {
+        if (m_impl) m_impl->put_KeepTunnelLog(newVal);
     }
 String ^Chilkat::SshTunnel::ListenBindIpAddress::get()
     {
@@ -253,53 +319,13 @@ void Chilkat::SshTunnel::TcpNoDelay::set(Boolean newVal)
     {
         if (m_impl) m_impl->put_TcpNoDelay(newVal);
     }
-Boolean Chilkat::SshTunnel::DynamicPortForwarding::get()
+String ^Chilkat::SshTunnel::TunnelLog::get()
     {
-    return m_impl ? m_impl->get_DynamicPortForwarding() : false;
+    return ref new String(m_impl ? m_impl->tunnelLog() : L"");
     }
-void Chilkat::SshTunnel::DynamicPortForwarding::set(Boolean newVal)
+void Chilkat::SshTunnel::TunnelLog::set(String ^newVal)
     {
-        if (m_impl) m_impl->put_DynamicPortForwarding(newVal);
-    }
-String ^Chilkat::SshTunnel::InboundSocksUsername::get()
-    {
-    return ref new String(m_impl ? m_impl->inboundSocksUsername() : L"");
-    }
-void Chilkat::SshTunnel::InboundSocksUsername::set(String ^newVal)
-    {
-        if (m_impl) m_impl->put_InboundSocksUsername(newVal ? newVal->Data() : L"");
-    }
-String ^Chilkat::SshTunnel::InboundSocksPassword::get()
-    {
-    return ref new String(m_impl ? m_impl->inboundSocksPassword() : L"");
-    }
-void Chilkat::SshTunnel::InboundSocksPassword::set(String ^newVal)
-    {
-        if (m_impl) m_impl->put_InboundSocksPassword(newVal ? newVal->Data() : L"");
-    }
-Boolean Chilkat::SshTunnel::KeepAcceptLog::get()
-    {
-    return m_impl ? m_impl->get_KeepAcceptLog() : false;
-    }
-void Chilkat::SshTunnel::KeepAcceptLog::set(Boolean newVal)
-    {
-        if (m_impl) m_impl->put_KeepAcceptLog(newVal);
-    }
-String ^Chilkat::SshTunnel::AcceptLog::get()
-    {
-    return ref new String(m_impl ? m_impl->acceptLog() : L"");
-    }
-void Chilkat::SshTunnel::AcceptLog::set(String ^newVal)
-    {
-        if (m_impl) m_impl->put_AcceptLog(newVal ? newVal->Data() : L"");
-    }
-String ^Chilkat::SshTunnel::AcceptLogPath::get()
-    {
-    return ref new String(m_impl ? m_impl->acceptLogPath() : L"");
-    }
-void Chilkat::SshTunnel::AcceptLogPath::set(String ^newVal)
-    {
-        if (m_impl) m_impl->put_AcceptLogPath(newVal ? newVal->Data() : L"");
+        if (m_impl) m_impl->put_TunnelLog(newVal ? newVal->Data() : L"");
     }
 String ^Chilkat::SshTunnel::TunnelLogPath::get()
     {
@@ -309,21 +335,9 @@ void Chilkat::SshTunnel::TunnelLogPath::set(String ^newVal)
     {
         if (m_impl) m_impl->put_TunnelLogPath(newVal ? newVal->Data() : L"");
     }
-String ^Chilkat::SshTunnel::TunnelLog::get()
+String ^Chilkat::SshTunnel::HostKeyFingerprint::get()
     {
-    return ref new String(m_impl ? m_impl->tunnelLog() : L"");
-    }
-void Chilkat::SshTunnel::TunnelLog::set(String ^newVal)
-    {
-        if (m_impl) m_impl->put_TunnelLog(newVal ? newVal->Data() : L"");
-    }
-Boolean Chilkat::SshTunnel::KeepTunnelLog::get()
-    {
-    return m_impl ? m_impl->get_KeepTunnelLog() : false;
-    }
-void Chilkat::SshTunnel::KeepTunnelLog::set(Boolean newVal)
-    {
-        if (m_impl) m_impl->put_KeepTunnelLog(newVal);
+    return ref new String(m_impl ? m_impl->hostKeyFingerprint() : L"");
     }
 
 
@@ -336,58 +350,6 @@ Boolean SshTunnel::SaveLastError(Platform::String ^path)
 	// gType = bool
 	// cppType = bool
 	return m_impl->SaveLastError(path ? path->Data() : L"");
-    }
-IAsyncOperation<Boolean>^ SshTunnel::BeginAcceptingAsync(int listenPort)
-    {
-return create_async([this, listenPort]() -> Boolean
-{
-// This runs in a thread pool thread...
-
-	if (m_impl == nullptr) { return false; }
-	// --- prep output arg ---
-	CxSshTunnelProgress cxProgress(m_impl);
-	cxProgress.m_sender = this;
-	// gType = bool
-	// cppType = bool
-	return m_impl->BeginAccepting(listenPort);
-
-});
-    }
-Boolean SshTunnel::StopAccepting(Boolean waitForThread)
-    {
-	if (m_impl == nullptr) { return false; }
-	// --- prep output arg ---
-	CxSshTunnelProgress cxProgress(m_impl);
-	cxProgress.m_sender = this;
-	// gType = bool
-	// cppType = bool
-	return m_impl->StopAccepting(waitForThread);
-    }
-Boolean SshTunnel::UnlockComponent(Platform::String ^unlockCode)
-    {
-	if (m_impl == nullptr) { return false; }
-	// --- prep output arg ---
-	CxSshTunnelProgress cxProgress(m_impl);
-	cxProgress.m_sender = this;
-	// gType = bool
-	// cppType = bool
-	return m_impl->UnlockComponent(unlockCode ? unlockCode->Data() : L"");
-    }
-IAsyncOperation<Boolean>^ SshTunnel::ConnectAsync(Platform::String ^hostname, int port)
-    {
-return create_async([this, hostname, port]() -> Boolean
-{
-// This runs in a thread pool thread...
-
-	if (m_impl == nullptr) { return false; }
-	// --- prep output arg ---
-	CxSshTunnelProgress cxProgress(m_impl);
-	cxProgress.m_sender = this;
-	// gType = bool
-	// cppType = bool
-	return m_impl->Connect(hostname ? hostname->Data() : L"",port);
-
-});
     }
 IAsyncOperation<Boolean>^ SshTunnel::AuthenticatePkAsync(Platform::String ^username, SshKey ^privateKey)
     {
@@ -443,6 +405,22 @@ return create_async([this, username, password, privateKey]() -> Boolean
 
 });
     }
+IAsyncOperation<Boolean>^ SshTunnel::BeginAcceptingAsync(int listenPort)
+    {
+return create_async([this, listenPort]() -> Boolean
+{
+// This runs in a thread pool thread...
+
+	if (m_impl == nullptr) { return false; }
+	// --- prep output arg ---
+	CxSshTunnelProgress cxProgress(m_impl);
+	cxProgress.m_sender = this;
+	// gType = bool
+	// cppType = bool
+	return m_impl->BeginAccepting(listenPort);
+
+});
+    }
 Boolean SshTunnel::CloseTunnel(Boolean waitForThreads)
     {
 	if (m_impl == nullptr) { return false; }
@@ -453,6 +431,22 @@ Boolean SshTunnel::CloseTunnel(Boolean waitForThreads)
 	// cppType = bool
 	return m_impl->CloseTunnel(waitForThreads);
     }
+IAsyncOperation<Boolean>^ SshTunnel::ConnectAsync(Platform::String ^hostname, int port)
+    {
+return create_async([this, hostname, port]() -> Boolean
+{
+// This runs in a thread pool thread...
+
+	if (m_impl == nullptr) { return false; }
+	// --- prep output arg ---
+	CxSshTunnelProgress cxProgress(m_impl);
+	cxProgress.m_sender = this;
+	// gType = bool
+	// cppType = bool
+	return m_impl->Connect(hostname ? hostname->Data() : L"",port);
+
+});
+    }
 Boolean SshTunnel::DisconnectAllClients(Boolean waitForThreads)
     {
 	if (m_impl == nullptr) { return false; }
@@ -462,6 +456,45 @@ Boolean SshTunnel::DisconnectAllClients(Boolean waitForThreads)
 	// gType = bool
 	// cppType = bool
 	return m_impl->DisconnectAllClients(waitForThreads);
+    }
+Boolean SshTunnel::StopAccepting(Boolean waitForThread)
+    {
+	if (m_impl == nullptr) { return false; }
+	// --- prep output arg ---
+	CxSshTunnelProgress cxProgress(m_impl);
+	cxProgress.m_sender = this;
+	// gType = bool
+	// cppType = bool
+	return m_impl->StopAccepting(waitForThread);
+    }
+Boolean SshTunnel::UnlockComponent(Platform::String ^unlockCode)
+    {
+	if (m_impl == nullptr) { return false; }
+	// --- prep output arg ---
+	CxSshTunnelProgress cxProgress(m_impl);
+	cxProgress.m_sender = this;
+	// gType = bool
+	// cppType = bool
+	return m_impl->UnlockComponent(unlockCode ? unlockCode->Data() : L"");
+    }
+IAsyncOperation<Boolean>^ SshTunnel::ConnectThroughSshAsync(Ssh ^ssh, Platform::String ^hostname, int port)
+    {
+return create_async([this, ssh, hostname, port]() -> Boolean
+{
+// This runs in a thread pool thread...
+
+	if (m_impl == nullptr) { return false; }
+	if (ssh == nullptr) { return false; }
+	CkSshW* pObj0 = ssh->m_impl;
+	 if (!pObj0) { return false; }
+	// --- prep output arg ---
+	CxSshTunnelProgress cxProgress(m_impl);
+	cxProgress.m_sender = this;
+	// gType = bool
+	// cppType = bool
+	return m_impl->ConnectThroughSsh(*pObj0,hostname ? hostname->Data() : L"",port);
+
+});
     }
 
 

@@ -12,8 +12,6 @@
 #include "CkString.h"
 #include "CkMultiByteBase.h"
 
-class CkByteData;
-
 
 
 
@@ -26,7 +24,6 @@ class CkByteData;
 class CK_VISIBLE_PUBLIC CkSshKey  : public CkMultiByteBase
 {
     private:
-	
 
 	// Don't allow assignment or copying these objects.
 	CkSshKey(const CkSshKey &);

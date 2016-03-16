@@ -198,10 +198,20 @@ public ref class Http sealed
 		Platform::String ^get();
 		void set(Platform::String ^);
 	}
+	property Platform::String ^AwsRegion
+	{
+		Platform::String ^get();
+		void set(Platform::String ^);
+	}
 	property Platform::String ^AwsSecretKey
 	{
 		Platform::String ^get();
 		void set(Platform::String ^);
+	}
+	property int32 AwsSignatureVersion
+	{
+		int32 get();
+		void set(int32);
 	}
 	property Platform::String ^AwsSubResources
 	{
@@ -217,6 +227,10 @@ public ref class Http sealed
 	{
 		Platform::String ^get();
 		void set(Platform::String ^);
+	}
+	property int32 ConnectFailReason
+	{
+		int32 get();
 	}
 	property int32 ConnectTimeout
 	{

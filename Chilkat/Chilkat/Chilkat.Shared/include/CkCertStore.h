@@ -12,8 +12,6 @@
 #include "CkString.h"
 #include "CkMultiByteBase.h"
 
-class CkByteData;
-
 class CkCert;
 class CkByteData;
 
@@ -28,7 +26,6 @@ class CkByteData;
 class CK_VISIBLE_PUBLIC CkCertStore  : public CkMultiByteBase
 {
     private:
-	
 
 	// Don't allow assignment or copying these objects.
 	CkCertStore(const CkCertStore &);
@@ -86,7 +83,7 @@ class CK_VISIBLE_PUBLIC CkCertStore  : public CkMultiByteBase
 	// (This method only available on Microsoft Windows operating systems.)
 	// Adds a certificate to the store. If the certificate is already in the store, it
 	// is updated with the new information.
-	bool AddCertificate(const CkCert &cert);
+	bool AddCertificate(CkCert &cert);
 
 #endif
 
@@ -227,7 +224,7 @@ class CK_VISIBLE_PUBLIC CkCertStore  : public CkMultiByteBase
 	// within the PFX may be searched via the Find* methods. It is also possible to
 	// iterate from 0 to NumCertficates-1, calling GetCertificate for each index, to
 	// retrieve each certificate within the PFX.
-	bool LoadPfxData(const CkByteData &pfxData, const char *password);
+	bool LoadPfxData(CkByteData &pfxData, const char *password);
 
 
 #if !defined(CHILKAT_MONO)
@@ -339,7 +336,7 @@ class CK_VISIBLE_PUBLIC CkCertStore  : public CkMultiByteBase
 	// (This method only available on Microsoft Windows operating systems.)
 	// Removes the passed certificate from the store. The certificate object passed as
 	// the argument can no longer be used once removed.
-	bool RemoveCertificate(const CkCert &cert);
+	bool RemoveCertificate(CkCert &cert);
 
 #endif
 

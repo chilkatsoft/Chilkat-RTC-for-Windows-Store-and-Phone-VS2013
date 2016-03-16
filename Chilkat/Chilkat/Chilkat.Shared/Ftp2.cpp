@@ -126,6 +126,14 @@ void Chilkat::Ftp2::AllowMlsd::set(Boolean newVal)
     {
         if (m_impl) m_impl->put_AllowMlsd(newVal);
     }
+int64 Chilkat::Ftp2::AsyncBytesReceived64::get()
+    {
+    return m_impl ? m_impl->get_AsyncBytesReceived64() : 0;
+    }
+int64 Chilkat::Ftp2::AsyncBytesSent64::get()
+    {
+    return m_impl ? m_impl->get_AsyncBytesSent64() : 0;
+    }
 Boolean Chilkat::Ftp2::AuthSsl::get()
     {
     return m_impl ? m_impl->get_AuthSsl() : false;
@@ -662,6 +670,14 @@ String ^Chilkat::Ftp2::TlsCipherSuite::get()
     {
     return ref new String(m_impl ? m_impl->tlsCipherSuite() : L"");
     }
+String ^Chilkat::Ftp2::TlsPinSet::get()
+    {
+    return ref new String(m_impl ? m_impl->tlsPinSet() : L"");
+    }
+void Chilkat::Ftp2::TlsPinSet::set(String ^newVal)
+    {
+        if (m_impl) m_impl->put_TlsPinSet(newVal ? newVal->Data() : L"");
+    }
 String ^Chilkat::Ftp2::TlsVersion::get()
     {
     return ref new String(m_impl ? m_impl->tlsVersion() : L"");
@@ -685,14 +701,6 @@ String ^Chilkat::Ftp2::Username::get()
 void Chilkat::Ftp2::Username::set(String ^newVal)
     {
         if (m_impl) m_impl->put_Username(newVal ? newVal->Data() : L"");
-    }
-String ^Chilkat::Ftp2::TlsPinSet::get()
-    {
-    return ref new String(m_impl ? m_impl->tlsPinSet() : L"");
-    }
-void Chilkat::Ftp2::TlsPinSet::set(String ^newVal)
-    {
-        if (m_impl) m_impl->put_TlsPinSet(newVal ? newVal->Data() : L"");
     }
 
 
@@ -955,8 +963,12 @@ return create_async([this]() -> Boolean
 
 });
     }
-int Ftp2::DetermineProxyMethod(void)
+IAsyncOperation<int>^ Ftp2::DetermineProxyMethodAsync(void)
     {
+return create_async([this]() -> int
+{
+// This runs in a thread pool thread...
+
 	if (m_impl == nullptr) { return -1; }
 	// --- prep output arg ---
 	CxFtp2Progress cxProgress(m_impl);
@@ -964,9 +976,15 @@ int Ftp2::DetermineProxyMethod(void)
 	// gType = int
 	// cppType = int
 	return m_impl->DetermineProxyMethod();
+
+});
     }
-Platform::String ^Ftp2::DetermineSettings(void)
+IAsyncOperation<Platform::String ^>^ Ftp2::DetermineSettingsAsync(void)
     {
+return create_async([this]() -> Platform::String ^
+{
+// This runs in a thread pool thread...
+
 	if (m_impl == nullptr) { return nullptr; }
 	// --- prep output arg ---
 	CxFtp2Progress cxProgress(m_impl);
@@ -976,6 +994,8 @@ Platform::String ^Ftp2::DetermineSettings(void)
 	const wchar_t *retStr = m_impl->determineSettings();
 	if (!retStr) return nullptr;
 	return ref new String(retStr);
+
+});
     }
 IAsyncOperation<Platform::String ^>^ Ftp2::DirTreeXmlAsync(void)
     {

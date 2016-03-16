@@ -12,8 +12,6 @@
 #include "CkString.h"
 #include "CkMultiByteBase.h"
 
-class CkByteData;
-
 class CkEmail;
 
 
@@ -27,7 +25,6 @@ class CkEmail;
 class CK_VISIBLE_PUBLIC CkBounce  : public CkMultiByteBase
 {
     private:
-	
 
 	// Don't allow assignment or copying these objects.
 	CkBounce(const CkBounce &);
@@ -95,7 +92,7 @@ class CK_VISIBLE_PUBLIC CkBounce  : public CkMultiByteBase
 	// BounceData) according to how the email is classified. This feature can only be
 	// used if Chilkat Mail is downloaded and installed, and it also requires Chilkat
 	// Mail to be licensed in addition to Chilkat Bounce.
-	bool ExamineEmail(const CkEmail &email);
+	bool ExamineEmail(CkEmail &email);
 
 
 	// Examines an email from a .eml file and sets the properties (BounceType,

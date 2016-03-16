@@ -170,7 +170,7 @@ class CK_VISIBLE_PUBLIC CkXmpW  : public CkWideCharBase
 	bool LoadAppFile(const wchar_t *filename);
 
 	// Loads a JPG or TIFF from an byte buffer containing the image file data.
-	bool LoadFromBuffer(const CkByteData &fileData, const wchar_t *ext);
+	bool LoadFromBuffer(CkByteData &fileData, const wchar_t *ext);
 
 	// Creates and returns a new/empty XMP metadata document as a Chilkat XML object.
 	// The caller is responsible for deleting the object returned by this method.

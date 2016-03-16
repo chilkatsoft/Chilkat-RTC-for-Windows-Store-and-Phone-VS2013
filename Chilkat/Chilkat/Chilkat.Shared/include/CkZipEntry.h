@@ -10,9 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkMultiByteBase.h"
-
-class CkByteData;
+#include "CkClassWithCallbacks.h"
 
 class CkTask;
 class CkByteData;
@@ -27,10 +25,9 @@ class CkBaseProgress;
  
 
 // CLASS: CkZipEntry
-class CK_VISIBLE_PUBLIC CkZipEntry  : public CkMultiByteBase
+class CK_VISIBLE_PUBLIC CkZipEntry  : public CkClassWithCallbacks
 {
     private:
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkZipEntry(const CkZipEntry &);
@@ -184,10 +181,10 @@ class CK_VISIBLE_PUBLIC CkZipEntry  : public CkMultiByteBase
 	// Methods
 	// ----------------------
 	// Appends binary data to the zip entry's file contents.
-	bool AppendData(const CkByteData &inData);
+	bool AppendData(CkByteData &inData);
 
 	// Appends binary data to the zip entry's file contents.
-	CkTask *AppendDataAsync(const CkByteData &inData);
+	CkTask *AppendDataAsync(CkByteData &inData);
 
 
 	// Appends text data to the zip entry's file contents. The text is appended using
@@ -293,7 +290,7 @@ class CK_VISIBLE_PUBLIC CkZipEntry  : public CkMultiByteBase
 
 
 	// Replaces the zip entry's existing contents with new data.
-	bool ReplaceData(const CkByteData &inData);
+	bool ReplaceData(CkByteData &inData);
 
 
 	// Replaces the zip entry's existing contents with new text data. The text will be

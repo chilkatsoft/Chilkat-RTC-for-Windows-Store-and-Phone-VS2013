@@ -10,7 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkWideCharBase.h"
+#include "CkClassWithCallbacksW.h"
 
 class CkByteData;
 class CkEmailW;
@@ -36,11 +36,10 @@ class CkBaseProgressW;
  
 
 // CLASS: CkImapW
-class CK_VISIBLE_PUBLIC CkImapW  : public CkWideCharBase
+class CK_VISIBLE_PUBLIC CkImapW  : public CkClassWithCallbacksW
 {
     private:
 	bool m_cbOwned;
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkImapW(const CkImapW &);
@@ -949,31 +948,6 @@ class CK_VISIBLE_PUBLIC CkImapW  : public CkWideCharBase
 	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
 	const wchar_t *tlsCipherSuite(void);
 
-	// Contains the current or last negotiated TLS protocol version. If no TLS
-	// connection has yet to be established, or if a connection as attempted and
-	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
-	// 1.1", and "TLS 1.2".
-	void get_TlsVersion(CkString &str);
-	// Contains the current or last negotiated TLS protocol version. If no TLS
-	// connection has yet to be established, or if a connection as attempted and
-	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
-	// 1.1", and "TLS 1.2".
-	const wchar_t *tlsVersion(void);
-
-	// A positive integer value containing the UIDNEXT of the currently selected
-	// folder, or 0 if it's not available or no folder is selected.
-	int get_UidNext(void);
-
-	// An integer value containing the UIDVALIDITY of the currently selected mailbox,
-	// or 0 if no mailbox is selected.
-	// 
-	// A client can save the UidValidity value for a mailbox and then compare it with
-	// the UidValidity on a subsequent session. If the new value is larger, the IMAP
-	// server is not keeping UID's unchanged between sessions. Most IMAP servers
-	// maintain UID's between sessions.
-	// 
-	int get_UidValidity(void);
-
 	// Specifies a set of pins for Public Key Pinning for TLS connections. This
 	// property lists the expected SPKI fingerprints for the server certificates. If
 	// the server's certificate (sent during the TLS handshake) does not match any of
@@ -1029,13 +1003,38 @@ class CK_VISIBLE_PUBLIC CkImapW  : public CkWideCharBase
 	// 
 	void put_TlsPinSet(const wchar_t *newVal);
 
+	// Contains the current or last negotiated TLS protocol version. If no TLS
+	// connection has yet to be established, or if a connection as attempted and
+	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
+	// 1.1", and "TLS 1.2".
+	void get_TlsVersion(CkString &str);
+	// Contains the current or last negotiated TLS protocol version. If no TLS
+	// connection has yet to be established, or if a connection as attempted and
+	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
+	// 1.1", and "TLS 1.2".
+	const wchar_t *tlsVersion(void);
+
+	// A positive integer value containing the UIDNEXT of the currently selected
+	// folder, or 0 if it's not available or no folder is selected.
+	int get_UidNext(void);
+
+	// An integer value containing the UIDVALIDITY of the currently selected mailbox,
+	// or 0 if no mailbox is selected.
+	// 
+	// A client can save the UidValidity value for a mailbox and then compare it with
+	// the UidValidity on a subsequent session. If the new value is larger, the IMAP
+	// server is not keeping UID's unchanged between sessions. Most IMAP servers
+	// maintain UID's between sessions.
+	// 
+	int get_UidValidity(void);
+
 
 
 	// ----------------------
 	// Methods
 	// ----------------------
 	// Returns true if the underlying TCP socket is connected to the IMAP server.
-	bool AddPfxSourceData(const CkByteData &pfxData, const wchar_t *password);
+	bool AddPfxSourceData(CkByteData &pfxData, const wchar_t *password);
 
 	// Adds a PFX file to the object's internal list of sources to be searched for
 	// certificates and private keys when decrypting. Multiple PFX files can be added
@@ -1048,12 +1047,12 @@ class CK_VISIBLE_PUBLIC CkImapW  : public CkWideCharBase
 	bool AddPfxSourceFile(const wchar_t *pfxFilePath, const wchar_t *password);
 
 	// Appends an email to an IMAP mailbox.
-	bool AppendMail(const wchar_t *mailbox, const CkEmailW &email);
+	bool AppendMail(const wchar_t *mailbox, CkEmailW &email);
 
 	// Creates an asynchronous task to call the AppendMail method with the arguments
 	// provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *AppendMailAsync(const wchar_t *mailbox, const CkEmailW &email);
+	CkTaskW *AppendMailAsync(const wchar_t *mailbox, CkEmailW &email);
 
 	// Appends an email (represented as MIME text) to an IMAP mailbox.
 	bool AppendMime(const wchar_t *mailbox, const wchar_t *mimeText);
@@ -1291,12 +1290,12 @@ class CK_VISIBLE_PUBLIC CkImapW  : public CkWideCharBase
 	// Retrieves a set of messages from the IMAP server and returns them in an email
 	// bundle object. If the method fails, it may return a NULL reference.
 	// The caller is responsible for deleting the object returned by this method.
-	CkEmailBundleW *FetchBundle(const CkMessageSetW &messageSet);
+	CkEmailBundleW *FetchBundle(CkMessageSetW &messageSet);
 
 	// Creates an asynchronous task to call the FetchBundle method with the arguments
 	// provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *FetchBundleAsync(const CkMessageSetW &messageSet);
+	CkTaskW *FetchBundleAsync(CkMessageSetW &messageSet);
 
 	// Retrieves a set of messages from the IMAP server and returns them in a string
 	// array object (NOTE: it does not return a string array, but an object that
@@ -1304,12 +1303,12 @@ class CK_VISIBLE_PUBLIC CkImapW  : public CkWideCharBase
 	// complete MIME source of an email. On failure, a NULL object reference is
 	// returned.
 	// The caller is responsible for deleting the object returned by this method.
-	CkStringArrayW *FetchBundleAsMime(const CkMessageSetW &messageSet);
+	CkStringArrayW *FetchBundleAsMime(CkMessageSetW &messageSet);
 
 	// Creates an asynchronous task to call the FetchBundleAsMime method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *FetchBundleAsMimeAsync(const CkMessageSetW &messageSet);
+	CkTaskW *FetchBundleAsMimeAsync(CkMessageSetW &messageSet);
 
 	// Fetches a chunk of emails starting at a specific sequence number. A bundle of
 	// fetched emails is returned. The last two arguments are message sets that are
@@ -1348,12 +1347,12 @@ class CK_VISIBLE_PUBLIC CkImapW  : public CkWideCharBase
 	// flags after email headers are retrieved: GetMailNumAttach, GetMailAttachSize,
 	// GetMailAttachFilename, GetMailFlag.
 	// The caller is responsible for deleting the object returned by this method.
-	CkEmailBundleW *FetchHeaders(const CkMessageSetW &messageSet);
+	CkEmailBundleW *FetchHeaders(CkMessageSetW &messageSet);
 
 	// Creates an asynchronous task to call the FetchHeaders method with the arguments
 	// provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *FetchHeadersAsync(const CkMessageSetW &messageSet);
+	CkTaskW *FetchHeadersAsync(CkMessageSetW &messageSet);
 
 	// Downloads email for a range of sequence numbers. The 1st email in a mailbox is
 	// always at sequence number 1. The total number of emails in the currently
@@ -1380,6 +1379,13 @@ class CK_VISIBLE_PUBLIC CkImapW  : public CkWideCharBase
 
 	// Same as FetchSequence, but only the email headers are returned. The email
 	// objects within the bundle will be lacking bodies and attachments.
+	// 
+	// Note: For any method call using sequence numbers, an application must make sure
+	// the sequence numbers are within the valid range. When a mailbox is selected, the
+	// NumMessages property will have been set, and the valid range of sequence numbers
+	// is from 1 to NumMessages. An attempt to fetch sequence numbers outside this
+	// range will result in an error.
+	// 
 	// The caller is responsible for deleting the object returned by this method.
 	CkEmailBundleW *FetchSequenceHeaders(int startSeqNum, int numMessages);
 
@@ -1450,32 +1456,27 @@ class CK_VISIBLE_PUBLIC CkImapW  : public CkWideCharBase
 	CkTaskW *GetAllUidsAsync(void);
 
 	// Returns the Nth attachment filename. Indexing begins at 0.
-	bool GetMailAttachFilename(const CkEmailW &email, int attachIndex, CkString &outStrFilename);
+	bool GetMailAttachFilename(CkEmailW &email, int attachIndex, CkString &outStrFilename);
 	// Returns the Nth attachment filename. Indexing begins at 0.
-	const wchar_t *getMailAttachFilename(const CkEmailW &email, int attachIndex);
+	const wchar_t *getMailAttachFilename(CkEmailW &email, int attachIndex);
 	// Returns the Nth attachment filename. Indexing begins at 0.
-	const wchar_t *mailAttachFilename(const CkEmailW &email, int attachIndex);
+	const wchar_t *mailAttachFilename(CkEmailW &email, int attachIndex);
 
 	// Returns the Nth attachment size in bytes. Indexing begins at 0.
-	int GetMailAttachSize(const CkEmailW &email, int attachIndex);
+	int GetMailAttachSize(CkEmailW &email, int attachIndex);
 
 	// Returns the value of a flag (1 = yes, 0 = no) for an email. Both standard system
 	// flags as well as custom flags may be set. Standard system flags typically begin
 	// with a backslash character, such as "\Seen", "\Answered", "\Flagged", "\Draft",
 	// "\Deleted", and "\Answered". Custom flags can be anything, such as "NonJunk",
 	// "$label1", "$MailFlagBit1", etc. .
-	int GetMailFlag(const CkEmailW &email, const wchar_t *flagName);
-
-	// Creates an asynchronous task to call the GetMailFlag method with the arguments
-	// provided. (Async methods are available starting in Chilkat v9.5.0.52.)
-	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *GetMailFlagAsync(const CkEmailW &email, const wchar_t *flagName);
+	int GetMailFlag(CkEmailW &email, const wchar_t *flagName);
 
 	// Returns the number of email attachments.
-	int GetMailNumAttach(const CkEmailW &email);
+	int GetMailNumAttach(CkEmailW &email);
 
 	// Returns the size (in bytes) of the entire email including attachments.
-	int GetMailSize(const CkEmailW &email);
+	int GetMailSize(CkEmailW &email);
 
 	// Sends a "Status" command to get the status of a ARG1. Returns an XML string
 	// containing the status values as named attributes. Possible status values are:
@@ -2065,12 +2066,12 @@ class CK_VISIBLE_PUBLIC CkImapW  : public CkWideCharBase
 
 	// The same as SendRawCommandB, except that the command is provided as binary bytes
 	// rather than a string.
-	bool SendRawCommandC(const CkByteData &cmd, CkByteData &outBytes);
+	bool SendRawCommandC(CkByteData &cmd, CkByteData &outBytes);
 
 	// Creates an asynchronous task to call the SendRawCommandC method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *SendRawCommandCAsync(const CkByteData &cmd);
+	CkTaskW *SendRawCommandCAsync(CkByteData &cmd);
 
 #if defined(CK_CSP_INCLUDED)
 	// (Only applies to the Microsoft Windows OS) Sets the Cryptographic Service
@@ -2089,7 +2090,7 @@ class CK_VISIBLE_PUBLIC CkImapW  : public CkWideCharBase
 
 	// Used to explicitly specify the certificate and associated private key to be used
 	// for decrypting S/MIME (PKCS7) email.
-	bool SetDecryptCert2(const CkCertW &cert, CkPrivateKeyW &key);
+	bool SetDecryptCert2(CkCertW &cert, CkPrivateKeyW &key);
 
 	// Sets a flag for a single message on the IMAP server. If  value = 1, the flag is
 	// turned on, if  value = 0, the flag is turned off. Standard system flags such as
@@ -2112,12 +2113,12 @@ class CK_VISIBLE_PUBLIC CkImapW  : public CkWideCharBase
 	// flags such as "\Deleted", "\Seen", "\Answered", "\Flagged", "\Draft", and
 	// "\Answered" may be set. Custom flags such as "NonJunk", "$label1",
 	// "$MailFlagBit1", etc. may also be set.
-	bool SetFlags(const CkMessageSetW &messageSet, const wchar_t *flagName, int value);
+	bool SetFlags(CkMessageSetW &messageSet, const wchar_t *flagName, int value);
 
 	// Creates an asynchronous task to call the SetFlags method with the arguments
 	// provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *SetFlagsAsync(const CkMessageSetW &messageSet, const wchar_t *flagName, int value);
+	CkTaskW *SetFlagsAsync(CkMessageSetW &messageSet, const wchar_t *flagName, int value);
 
 	// Sets a flag for a single message on the IMAP server. The UID of the email object
 	// is used to find the message on the IMAP server that is to be affected. If  value =
@@ -2136,12 +2137,12 @@ class CK_VISIBLE_PUBLIC CkImapW  : public CkWideCharBase
 	// Note: Calling this method is identical to calling the SetFlag method, except the
 	// UID is automatically obtained from the email object.
 	// 
-	bool SetMailFlag(const CkEmailW &email, const wchar_t *flagName, int value);
+	bool SetMailFlag(CkEmailW &email, const wchar_t *flagName, int value);
 
 	// Creates an asynchronous task to call the SetMailFlag method with the arguments
 	// provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *SetMailFlagAsync(const CkEmailW &email, const wchar_t *flagName, int value);
+	CkTaskW *SetMailFlagAsync(CkEmailW &email, const wchar_t *flagName, int value);
 
 	// Specifies a client-side certificate to be used for the SSL / TLS connection. In
 	// most cases, servers do not require client-side certificates for SSL/TLS. A

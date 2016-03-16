@@ -12,8 +12,6 @@
 #include "CkString.h"
 #include "CkMultiByteBase.h"
 
-class CkByteData;
-
 class CkPfx;
 class CkCert;
 class CkCertChain;
@@ -33,7 +31,6 @@ class CkXmlCertVault;
 class CK_VISIBLE_PUBLIC CkJavaKeyStore  : public CkMultiByteBase
 {
     private:
-	
 
 	// Don't allow assignment or copying these objects.
 	CkJavaKeyStore(const CkJavaKeyStore &);
@@ -209,7 +206,7 @@ class CK_VISIBLE_PUBLIC CkJavaKeyStore  : public CkMultiByteBase
 
 
 	// Loads a Java keystore from in-memory byte data.
-	bool LoadBinary(const char *password, const CkByteData &jksData);
+	bool LoadBinary(const char *password, CkByteData &jksData);
 
 
 	// Loads a Java keystore from an encoded string (such as base64, hex, etc.)

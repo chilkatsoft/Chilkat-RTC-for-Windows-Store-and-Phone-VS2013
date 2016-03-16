@@ -14,8 +14,6 @@
 
 class CkByteData;
 
-class CkByteData;
-
 
 
 #if !defined(__sun__) && !defined(__sun)
@@ -27,7 +25,6 @@ class CkByteData;
 class CK_VISIBLE_PUBLIC CkXml  : public CkMultiByteBase
 {
     private:
-	
 
 	// Don't allow assignment or copying these objects.
 	CkXml(const CkXml &);
@@ -217,7 +214,7 @@ class CK_VISIBLE_PUBLIC CkXml  : public CkMultiByteBase
 	// Adds an entire subtree as a child. If the child was a subtree within another Xml
 	// document then the subtree is effectively transferred from one XML document to
 	// another.
-	bool AddChildTree(const CkXml &tree);
+	bool AddChildTree(CkXml &tree);
 
 
 	// Adds an attribute to an XML node. If an attribute having the specified name
@@ -260,7 +257,7 @@ class CK_VISIBLE_PUBLIC CkXml  : public CkMultiByteBase
 	// like this: "=?Big5?B?pHCtsw==?=". The data is Base64-encoded and stored between
 	// the last pair of "?" delimiters. Use the DecodeContent method to retrieve the
 	// byte data from a B encoded string.
-	bool BEncodeContent(const char *charset, const CkByteData &inData);
+	bool BEncodeContent(const char *charset, CkByteData &inData);
 
 
 	// Return true if a child having a specific tag contains content that matches a
@@ -354,7 +351,7 @@ class CK_VISIBLE_PUBLIC CkXml  : public CkMultiByteBase
 
 
 	// Copies the tag, content, and attributes to the calling node.
-	void Copy(const CkXml &node);
+	void Copy(CkXml &node);
 
 
 	// Discards the caller's current internal reference and copies the internal
@@ -637,14 +634,14 @@ class CK_VISIBLE_PUBLIC CkXml  : public CkMultiByteBase
 	// document then the subtree is effectively transferred from one XML document to
 	// another. The child tree is inserted in a position after the Nth child (of the
 	// calling node).
-	void InsertChildTreeAfter(int index, const CkXml &tree);
+	void InsertChildTreeAfter(int index, CkXml &tree);
 
 
 	// Adds an entire subtree as a child. If the child was a subtree within another Xml
 	// document then the subtree is effectively transferred from one XML document to
 	// another. The child tree is inserted in a position before the Nth child (of the
 	// calling node).
-	void InsertChildTreeBefore(int index, const CkXml &tree);
+	void InsertChildTreeBefore(int index, CkXml &tree);
 
 
 	// Returns the last Xml child node. A node's children can be enumerated by calling
@@ -733,7 +730,7 @@ class CK_VISIBLE_PUBLIC CkXml  : public CkMultiByteBase
 	// like this: "=?gb2312?Q?=C5=B5=BB=F9?=". Character that are not 7bit are
 	// represented as "=XX" where XX is the hexidecimal value of the byte. Use the
 	// DecodeContent method to retrieve the byte data from a Q encoded string.
-	bool QEncodeContent(const char *charset, const CkByteData &inData);
+	bool QEncodeContent(const char *charset, CkByteData &inData);
 
 
 	// Removes all attributes from an XML node. Should always return True.
@@ -786,12 +783,12 @@ class CK_VISIBLE_PUBLIC CkXml  : public CkMultiByteBase
 	// next call to SearchAllForContent, until the method returns _NULL_.
 	// 
 	// The caller is responsible for deleting the object returned by this method.
-	CkXml *SearchAllForContent(const CkXml *afterPtr, const char *contentPattern);
+	CkXml *SearchAllForContent(CkXml *afterPtr, const char *contentPattern);
 
 
 	// Same as SearchAllForContent except the internal reference of the caller is
 	// updated to point to the search result (instead of returning a new object).
-	bool SearchAllForContent2(const CkXml *afterPtr, const char *contentPattern);
+	bool SearchAllForContent2(CkXml *afterPtr, const char *contentPattern);
 
 
 	// Returns the first node having a tag equal to ARG2, an attribute named ARG3,
@@ -807,12 +804,12 @@ class CK_VISIBLE_PUBLIC CkXml  : public CkMultiByteBase
 	// next call to SearchForAttribute, until the method returns _NULL_.
 	// 
 	// The caller is responsible for deleting the object returned by this method.
-	CkXml *SearchForAttribute(const CkXml *afterPtr, const char *tag, const char *attr, const char *valuePattern);
+	CkXml *SearchForAttribute(CkXml *afterPtr, const char *tag, const char *attr, const char *valuePattern);
 
 
 	// Same as SearchForAttribute except the internal reference of the caller is
 	// updated to point to the search result (instead of returning a new object).
-	bool SearchForAttribute2(const CkXml *afterPtr, const char *tag, const char *attr, const char *valuePattern);
+	bool SearchForAttribute2(CkXml *afterPtr, const char *tag, const char *attr, const char *valuePattern);
 
 
 	// Returns the first node having a tag equal to ARG2, whose content matches ARG3.
@@ -827,12 +824,12 @@ class CK_VISIBLE_PUBLIC CkXml  : public CkMultiByteBase
 	// next call to SearchForContent, until the method returns _NULL_.
 	// 
 	// The caller is responsible for deleting the object returned by this method.
-	CkXml *SearchForContent(const CkXml *afterPtr, const char *tag, const char *contentPattern);
+	CkXml *SearchForContent(CkXml *afterPtr, const char *tag, const char *contentPattern);
 
 
 	// Same as SearchForContent except the internal reference of the caller is updated
 	// to point to the search result (instead of returning a new object).
-	bool SearchForContent2(const CkXml *afterPtr, const char *tag, const char *contentPattern);
+	bool SearchForContent2(CkXml *afterPtr, const char *tag, const char *contentPattern);
 
 
 	// Returns the first node having a tag equal to ARG2. The search is breadth-first
@@ -845,12 +842,12 @@ class CK_VISIBLE_PUBLIC CkXml  : public CkMultiByteBase
 	// next call to SearchForTag, until the method returns _NULL_.
 	// 
 	// The caller is responsible for deleting the object returned by this method.
-	CkXml *SearchForTag(const CkXml *afterPtr, const char *tag);
+	CkXml *SearchForTag(CkXml *afterPtr, const char *tag);
 
 
 	// Same as SearchForTag except the internal reference of the caller is updated to
 	// point to the search result (instead of returning a new object).
-	bool SearchForTag2(const CkXml *afterPtr, const char *tag);
+	bool SearchForTag2(CkXml *afterPtr, const char *tag);
 
 
 	// Sets the node's content to a block of binary data with optional Zip compression
@@ -858,7 +855,7 @@ class CK_VISIBLE_PUBLIC CkXml  : public CkMultiByteBase
 	// format whenever XML text is generated. If the zipFlag is True, the data is first
 	// compressed. If the encryptFlag is True, the data is AES encrypted using the
 	// Rijndael 128-bit symmetric-encryption algorithm.
-	bool SetBinaryContent(const CkByteData &inData, bool zipFlag, bool encryptFlag, const char *password);
+	bool SetBinaryContent(CkByteData &inData, bool zipFlag, bool encryptFlag, const char *password);
 
 
 #if !defined(CHILKAT_MONO)
@@ -907,11 +904,11 @@ class CK_VISIBLE_PUBLIC CkXml  : public CkMultiByteBase
 
 
 	// Swaps another node's tag, content, and attributes with this one.
-	bool SwapNode(const CkXml &node);
+	bool SwapNode(CkXml &node);
 
 
 	// Swaps another node's tag, content, attributes, and children with this one.
-	bool SwapTree(const CkXml &tree);
+	bool SwapTree(CkXml &tree);
 
 
 	// Returns the content of the 1st node found in the sub-tree rooted at the caller

@@ -12,8 +12,6 @@
 #include "CkString.h"
 #include "CkMultiByteBase.h"
 
-class CkByteData;
-
 
 
 
@@ -26,7 +24,6 @@ class CkByteData;
 class CK_VISIBLE_PUBLIC CkGlobal  : public CkMultiByteBase
 {
     private:
-	
 
 	// Don't allow assignment or copying these objects.
 	CkGlobal(const CkGlobal &);
@@ -186,6 +183,13 @@ class CK_VISIBLE_PUBLIC CkGlobal  : public CkMultiByteBase
 	// instead.
 	// 
 	bool UnlockBundle(const char *bundleUnlockCode);
+
+
+	// Called to stop and finalize all threads in the thread pool. Once the thread pool
+	// is finalized, it may not be used again. This method would only be called at the
+	// end of a program prior to exiting. Most applications, even if using async
+	// functionality, should not need to explicitly finalize the thread pool.
+	bool FinalizeThreadPool(void);
 
 
 

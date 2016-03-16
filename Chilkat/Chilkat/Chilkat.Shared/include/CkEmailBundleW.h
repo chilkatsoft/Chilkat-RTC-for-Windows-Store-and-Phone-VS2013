@@ -63,7 +63,7 @@ class CK_VISIBLE_PUBLIC CkEmailBundleW  : public CkWideCharBase
 	// Methods
 	// ----------------------
 	// Adds an email object to the bundle.
-	bool AddEmail(const CkEmailW &email);
+	bool AddEmail(CkEmailW &email);
 
 	// Returns the first email having a header field matching the headerFieldName and  headerFieldValue exactly
 	// (case sensitive). If no matching email is found, returns _NULL_.
@@ -114,7 +114,7 @@ class CK_VISIBLE_PUBLIC CkEmailBundleW  : public CkWideCharBase
 
 	// Removes an email from the bundle. This does not remove the email from the mail
 	// server.
-	bool RemoveEmail(const CkEmailW &email);
+	bool RemoveEmail(CkEmailW &email);
 
 	// Removes the Nth email in a bundle. (Indexing begins at 0.)
 	bool RemoveEmailByIndex(int index);

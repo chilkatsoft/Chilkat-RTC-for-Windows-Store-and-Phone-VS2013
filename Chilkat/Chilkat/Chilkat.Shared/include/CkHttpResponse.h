@@ -13,8 +13,6 @@
 #include "CkMultiByteBase.h"
 
 class CkByteData;
-
-class CkByteData;
 class CkTask;
 
 
@@ -28,7 +26,6 @@ class CkTask;
 class CK_VISIBLE_PUBLIC CkHttpResponse  : public CkMultiByteBase
 {
     private:
-	
 
 	// Don't allow assignment or copying these objects.
 	CkHttpResponse(const CkHttpResponse &);

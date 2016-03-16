@@ -10,9 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkMultiByteBase.h"
-
-class CkByteData;
+#include "CkClassWithCallbacks.h"
 
 class CkTask;
 class CkByteData;
@@ -26,10 +24,9 @@ class CkBaseProgress;
  
 
 // CLASS: CkBz2
-class CK_VISIBLE_PUBLIC CkBz2  : public CkMultiByteBase
+class CK_VISIBLE_PUBLIC CkBz2  : public CkClassWithCallbacks
 {
     private:
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkBz2(const CkBz2 &);
@@ -80,17 +77,17 @@ class CK_VISIBLE_PUBLIC CkBz2  : public CkMultiByteBase
 
 
 	// BZip2 compresses and creates a .bz2 file from in-memory data.
-	bool CompressMemToFile(const CkByteData &inData, const char *toPath);
+	bool CompressMemToFile(CkByteData &inData, const char *toPath);
 
 	// BZip2 compresses and creates a .bz2 file from in-memory data.
-	CkTask *CompressMemToFileAsync(const CkByteData &inData, const char *toPath);
+	CkTask *CompressMemToFileAsync(CkByteData &inData, const char *toPath);
 
 
 	// Compresses in-memory data to an in-memory image of a .bz2 file.
-	bool CompressMemory(const CkByteData &inData, CkByteData &outBytes);
+	bool CompressMemory(CkByteData &inData, CkByteData &outBytes);
 
 	// Compresses in-memory data to an in-memory image of a .bz2 file.
-	CkTask *CompressMemoryAsync(const CkByteData &inData);
+	CkTask *CompressMemoryAsync(CkByteData &inData);
 
 
 	// Unzips a .bz2 file.
@@ -108,17 +105,17 @@ class CK_VISIBLE_PUBLIC CkBz2  : public CkMultiByteBase
 
 
 	// Unzips from an in-memory image of a .bz2 file to a file.
-	bool UncompressMemToFile(const CkByteData &inData, const char *toPath);
+	bool UncompressMemToFile(CkByteData &inData, const char *toPath);
 
 	// Unzips from an in-memory image of a .bz2 file to a file.
-	CkTask *UncompressMemToFileAsync(const CkByteData &inData, const char *toPath);
+	CkTask *UncompressMemToFileAsync(CkByteData &inData, const char *toPath);
 
 
 	// Unzips from an in-memory image of a .bz2 file directly into memory.
-	bool UncompressMemory(const CkByteData &inData, CkByteData &outBytes);
+	bool UncompressMemory(CkByteData &inData, CkByteData &outBytes);
 
 	// Unzips from an in-memory image of a .bz2 file directly into memory.
-	CkTask *UncompressMemoryAsync(const CkByteData &inData);
+	CkTask *UncompressMemoryAsync(CkByteData &inData);
 
 
 	// Unlocks the component allowing for the full functionality to be used. If a

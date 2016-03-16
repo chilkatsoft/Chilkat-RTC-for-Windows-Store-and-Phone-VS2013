@@ -10,9 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkMultiByteBase.h"
-
-class CkByteData;
+#include "CkClassWithCallbacks.h"
 
 class CkTask;
 class CkSshKey;
@@ -27,10 +25,9 @@ class CkBaseProgress;
  
 
 // CLASS: CkSshTunnel
-class CK_VISIBLE_PUBLIC CkSshTunnel  : public CkMultiByteBase
+class CK_VISIBLE_PUBLIC CkSshTunnel  : public CkClassWithCallbacks
 {
     private:
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkSshTunnel(const CkSshTunnel &);
@@ -545,6 +542,13 @@ class CK_VISIBLE_PUBLIC CkSshTunnel  : public CkMultiByteBase
 	const char *tunnelLogPath(void);
 	// Set to keep a log file of the SSH tunnel thread.
 	void put_TunnelLogPath(const char *newVal);
+
+	// Set after connecting to an SSH server. The format of the fingerprint looks like
+	// this: "ssh-rsa 1024 68:ff:d1:4e:6c:ff:d7:b0:d6:58:73:85:07:bc:2e:d5"
+	void get_HostKeyFingerprint(CkString &str);
+	// Set after connecting to an SSH server. The format of the fingerprint looks like
+	// this: "ssh-rsa 1024 68:ff:d1:4e:6c:ff:d7:b0:d6:58:73:85:07:bc:2e:d5"
+	const char *hostKeyFingerprint(void);
 
 
 

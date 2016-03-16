@@ -1,5 +1,5 @@
 
-# Chilkat v9.5.0.55 Runtime Component for VS2013 Windows Store and Windows Phone Apps
+# Chilkat v9.5.0.56 Runtime Component for VS2013 Windows Store and Windows Phone Apps
 
 This repo is the full version (and trial) of the Chilkat Runtime Component for Windows Store and Windows Phone applications using Visual Studio 2013.  The Chilkat API contains both commercial and freeware classes.  Commercial classes must be licensed for use beyond 30 days.  The "Chilkat Bundle" provides licenses to all existing Chilkat commercial classes.
 

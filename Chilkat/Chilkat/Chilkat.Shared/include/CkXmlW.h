@@ -215,7 +215,7 @@ class CK_VISIBLE_PUBLIC CkXmlW  : public CkWideCharBase
 	// Adds an entire subtree as a child. If the child was a subtree within another Xml
 	// document then the subtree is effectively transferred from one XML document to
 	// another.
-	bool AddChildTree(const CkXmlW &tree);
+	bool AddChildTree(CkXmlW &tree);
 
 	// Adds an attribute to an XML node. If an attribute having the specified name
 	// already exists, the value is updated.
@@ -250,7 +250,7 @@ class CK_VISIBLE_PUBLIC CkXmlW  : public CkWideCharBase
 	// like this: "=?Big5?B?pHCtsw==?=". The data is Base64-encoded and stored between
 	// the last pair of "?" delimiters. Use the DecodeContent method to retrieve the
 	// byte data from a B encoded string.
-	bool BEncodeContent(const wchar_t *charset, const CkByteData &inData);
+	bool BEncodeContent(const wchar_t *charset, CkByteData &inData);
 
 	// Return true if a child having a specific tag contains content that matches a
 	// wildcarded pattern.
@@ -339,7 +339,7 @@ class CK_VISIBLE_PUBLIC CkXmlW  : public CkWideCharBase
 	bool ContentMatches(const wchar_t *pattern, bool caseSensitive);
 
 	// Copies the tag, content, and attributes to the calling node.
-	void Copy(const CkXmlW &node);
+	void Copy(CkXmlW &node);
 
 	// Discards the caller's current internal reference and copies the internal
 	// reference from copyFromNode. Effectively updates the caller node to point to the same
@@ -569,13 +569,13 @@ class CK_VISIBLE_PUBLIC CkXmlW  : public CkWideCharBase
 	// document then the subtree is effectively transferred from one XML document to
 	// another. The child tree is inserted in a position after the Nth child (of the
 	// calling node).
-	void InsertChildTreeAfter(int index, const CkXmlW &tree);
+	void InsertChildTreeAfter(int index, CkXmlW &tree);
 
 	// Adds an entire subtree as a child. If the child was a subtree within another Xml
 	// document then the subtree is effectively transferred from one XML document to
 	// another. The child tree is inserted in a position before the Nth child (of the
 	// calling node).
-	void InsertChildTreeBefore(int index, const CkXmlW &tree);
+	void InsertChildTreeBefore(int index, CkXmlW &tree);
 
 	// Returns the last Xml child node. A node's children can be enumerated by calling
 	// LastChild and then repeatedly calling PreviousSibling, until a NULL is returned.
@@ -647,7 +647,7 @@ class CK_VISIBLE_PUBLIC CkXmlW  : public CkWideCharBase
 	// like this: "=?gb2312?Q?=C5=B5=BB=F9?=". Character that are not 7bit are
 	// represented as "=XX" where XX is the hexidecimal value of the byte. Use the
 	// DecodeContent method to retrieve the byte data from a Q encoded string.
-	bool QEncodeContent(const wchar_t *charset, const CkByteData &inData);
+	bool QEncodeContent(const wchar_t *charset, CkByteData &inData);
 
 	// Removes all attributes from an XML node. Should always return True.
 	bool RemoveAllAttributes(void);
@@ -690,11 +690,11 @@ class CK_VISIBLE_PUBLIC CkXmlW  : public CkWideCharBase
 	// next call to SearchAllForContent, until the method returns _NULL_.
 	// 
 	// The caller is responsible for deleting the object returned by this method.
-	CkXmlW *SearchAllForContent(const CkXmlW *afterPtr, const wchar_t *contentPattern);
+	CkXmlW *SearchAllForContent(CkXmlW *afterPtr, const wchar_t *contentPattern);
 
 	// Same as SearchAllForContent except the internal reference of the caller is
 	// updated to point to the search result (instead of returning a new object).
-	bool SearchAllForContent2(const CkXmlW *afterPtr, const wchar_t *contentPattern);
+	bool SearchAllForContent2(CkXmlW *afterPtr, const wchar_t *contentPattern);
 
 	// Returns the first node having a tag equal to ARG2, an attribute named ARG3,
 	// whose value matches ARG4. The ARG4 is a case-sensitive string that may contain
@@ -709,11 +709,11 @@ class CK_VISIBLE_PUBLIC CkXmlW  : public CkWideCharBase
 	// next call to SearchForAttribute, until the method returns _NULL_.
 	// 
 	// The caller is responsible for deleting the object returned by this method.
-	CkXmlW *SearchForAttribute(const CkXmlW *afterPtr, const wchar_t *tag, const wchar_t *attr, const wchar_t *valuePattern);
+	CkXmlW *SearchForAttribute(CkXmlW *afterPtr, const wchar_t *tag, const wchar_t *attr, const wchar_t *valuePattern);
 
 	// Same as SearchForAttribute except the internal reference of the caller is
 	// updated to point to the search result (instead of returning a new object).
-	bool SearchForAttribute2(const CkXmlW *afterPtr, const wchar_t *tag, const wchar_t *attr, const wchar_t *valuePattern);
+	bool SearchForAttribute2(CkXmlW *afterPtr, const wchar_t *tag, const wchar_t *attr, const wchar_t *valuePattern);
 
 	// Returns the first node having a tag equal to ARG2, whose content matches ARG3.
 	// The ARG3 is a case-sensitive string that may contain any number of '*'s, each
@@ -727,11 +727,11 @@ class CK_VISIBLE_PUBLIC CkXmlW  : public CkWideCharBase
 	// next call to SearchForContent, until the method returns _NULL_.
 	// 
 	// The caller is responsible for deleting the object returned by this method.
-	CkXmlW *SearchForContent(const CkXmlW *afterPtr, const wchar_t *tag, const wchar_t *contentPattern);
+	CkXmlW *SearchForContent(CkXmlW *afterPtr, const wchar_t *tag, const wchar_t *contentPattern);
 
 	// Same as SearchForContent except the internal reference of the caller is updated
 	// to point to the search result (instead of returning a new object).
-	bool SearchForContent2(const CkXmlW *afterPtr, const wchar_t *tag, const wchar_t *contentPattern);
+	bool SearchForContent2(CkXmlW *afterPtr, const wchar_t *tag, const wchar_t *contentPattern);
 
 	// Returns the first node having a tag equal to ARG2. The search is breadth-first
 	// over the sub-tree rooted at the caller. A match is returned only after the
@@ -743,18 +743,18 @@ class CK_VISIBLE_PUBLIC CkXmlW  : public CkWideCharBase
 	// next call to SearchForTag, until the method returns _NULL_.
 	// 
 	// The caller is responsible for deleting the object returned by this method.
-	CkXmlW *SearchForTag(const CkXmlW *afterPtr, const wchar_t *tag);
+	CkXmlW *SearchForTag(CkXmlW *afterPtr, const wchar_t *tag);
 
 	// Same as SearchForTag except the internal reference of the caller is updated to
 	// point to the search result (instead of returning a new object).
-	bool SearchForTag2(const CkXmlW *afterPtr, const wchar_t *tag);
+	bool SearchForTag2(CkXmlW *afterPtr, const wchar_t *tag);
 
 	// Sets the node's content to a block of binary data with optional Zip compression
 	// and/or AES encryption. The binary data is automatically converted to base64
 	// format whenever XML text is generated. If the zipFlag is True, the data is first
 	// compressed. If the encryptFlag is True, the data is AES encrypted using the
 	// Rijndael 128-bit symmetric-encryption algorithm.
-	bool SetBinaryContent(const CkByteData &inData, bool zipFlag, bool encryptFlag, const wchar_t *password);
+	bool SetBinaryContent(CkByteData &inData, bool zipFlag, bool encryptFlag, const wchar_t *password);
 
 #if !defined(CHILKAT_MONO)
 	// The same as SetBinaryContent but the data is provided via a pointer and byte
@@ -793,10 +793,10 @@ class CK_VISIBLE_PUBLIC CkXmlW  : public CkWideCharBase
 	void SortRecordsByContentInt(const wchar_t *sortTag, bool ascending);
 
 	// Swaps another node's tag, content, and attributes with this one.
-	bool SwapNode(const CkXmlW &node);
+	bool SwapNode(CkXmlW &node);
 
 	// Swaps another node's tag, content, attributes, and children with this one.
-	bool SwapTree(const CkXmlW &tree);
+	bool SwapTree(CkXmlW &tree);
 
 	// Returns the content of the 1st node found in the sub-tree rooted at the caller
 	// that has a given tag. (Note: The search for the node having tag ARG is not

@@ -24,6 +24,7 @@ using namespace concurrency;
 namespace Chilkat
 {
 
+	ref class Stream;
 
 
 public ref class Compression sealed
@@ -154,6 +155,8 @@ public ref class Compression sealed
 
 	IAsyncOperation<Boolean>^ CompressFileAsync(Platform::String ^srcPath, Platform::String ^destPath);
 
+	IAsyncOperation<Boolean>^ CompressStreamAsync(Stream ^strm);
+
 	IAsyncOperation<Windows::Foundation::Collections::IVector<uint8>^>^ CompressStringAsync(Platform::String ^str);
 
 	IAsyncOperation<Platform::String ^>^ CompressStringENCAsync(Platform::String ^str);
@@ -163,6 +166,8 @@ public ref class Compression sealed
 	IAsyncOperation<Windows::Foundation::Collections::IVector<uint8>^>^ DecompressBytesENCAsync(Platform::String ^str);
 
 	IAsyncOperation<Boolean>^ DecompressFileAsync(Platform::String ^srcPath, Platform::String ^destPath);
+
+	IAsyncOperation<Boolean>^ DecompressStreamAsync(Stream ^strm);
 
 	IAsyncOperation<Platform::String ^>^ DecompressStringAsync(Windows::Foundation::Collections::IVector<uint8>^data);
 

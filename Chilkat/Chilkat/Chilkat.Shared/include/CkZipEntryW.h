@@ -10,7 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkWideCharBase.h"
+#include "CkClassWithCallbacksW.h"
 
 class CkByteData;
 class CkTaskW;
@@ -25,11 +25,10 @@ class CkBaseProgressW;
  
 
 // CLASS: CkZipEntryW
-class CK_VISIBLE_PUBLIC CkZipEntryW  : public CkWideCharBase
+class CK_VISIBLE_PUBLIC CkZipEntryW  : public CkClassWithCallbacksW
 {
     private:
 	bool m_cbOwned;
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkZipEntryW(const CkZipEntryW &);
@@ -189,12 +188,12 @@ class CK_VISIBLE_PUBLIC CkZipEntryW  : public CkWideCharBase
 	// Methods
 	// ----------------------
 	// Appends binary data to the zip entry's file contents.
-	bool AppendData(const CkByteData &inData);
+	bool AppendData(CkByteData &inData);
 
 	// Creates an asynchronous task to call the AppendData method with the arguments
 	// provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *AppendDataAsync(const CkByteData &inData);
+	CkTaskW *AppendDataAsync(CkByteData &inData);
 
 	// Appends text data to the zip entry's file contents. The text is appended using
 	// the character encoding specified by the  charset, which can be "utf-8", "ansi", etc.
@@ -293,7 +292,7 @@ class CK_VISIBLE_PUBLIC CkZipEntryW  : public CkWideCharBase
 	CkZipEntryW *NextMatchingEntry(const wchar_t *matchStr);
 
 	// Replaces the zip entry's existing contents with new data.
-	bool ReplaceData(const CkByteData &inData);
+	bool ReplaceData(CkByteData &inData);
 
 	// Replaces the zip entry's existing contents with new text data. The text will be
 	// stored using the character encoding as specified by  charset, which can be "utf-8",

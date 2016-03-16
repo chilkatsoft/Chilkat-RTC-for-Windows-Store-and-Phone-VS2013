@@ -10,7 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkWideCharBase.h"
+#include "CkClassWithCallbacksW.h"
 
 class CkCertW;
 class CkPrivateKeyW;
@@ -30,11 +30,10 @@ class CkBaseProgressW;
  
 
 // CLASS: CkPemW
-class CK_VISIBLE_PUBLIC CkPemW  : public CkWideCharBase
+class CK_VISIBLE_PUBLIC CkPemW  : public CkClassWithCallbacksW
 {
     private:
 	bool m_cbOwned;
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkPemW(const CkPemW &);
@@ -217,12 +216,12 @@ class CK_VISIBLE_PUBLIC CkPemW  : public CkWideCharBase
 	CkPublicKeyW *GetPublicKey(int index);
 
 	// Loads the PEM from the contents of an in-memory PKCS7 container (.p7b).
-	bool LoadP7b(const CkByteData &p7bData);
+	bool LoadP7b(CkByteData &p7bData);
 
 	// Creates an asynchronous task to call the LoadP7b method with the arguments
 	// provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *LoadP7bAsync(const CkByteData &p7bData);
+	CkTaskW *LoadP7bAsync(CkByteData &p7bData);
 
 	// Loads the contents of a PKCS7 container (.p7b file).
 	bool LoadP7bFile(const wchar_t *path);

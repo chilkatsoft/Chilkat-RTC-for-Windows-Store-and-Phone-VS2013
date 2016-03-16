@@ -87,7 +87,7 @@ class CK_VISIBLE_PUBLIC CkCertStoreW  : public CkWideCharBase
 	// (This method only available on Microsoft Windows operating systems.)
 	// Adds a certificate to the store. If the certificate is already in the store, it
 	// is updated with the new information.
-	bool AddCertificate(const CkCertW &cert);
+	bool AddCertificate(CkCertW &cert);
 #endif
 
 #if defined(CK_WINCERTSTORE_INCLUDED)
@@ -212,7 +212,7 @@ class CK_VISIBLE_PUBLIC CkCertStoreW  : public CkWideCharBase
 	// within the PFX may be searched via the Find* methods. It is also possible to
 	// iterate from 0 to NumCertficates-1, calling GetCertificate for each index, to
 	// retrieve each certificate within the PFX.
-	bool LoadPfxData(const CkByteData &pfxData, const wchar_t *password);
+	bool LoadPfxData(CkByteData &pfxData, const wchar_t *password);
 
 #if !defined(CHILKAT_MONO)
 	// Loads a PFX from an in-memory image of a PFX file. Once loaded, the certificates
@@ -316,7 +316,7 @@ class CK_VISIBLE_PUBLIC CkCertStoreW  : public CkWideCharBase
 	// (This method only available on Microsoft Windows operating systems.)
 	// Removes the passed certificate from the store. The certificate object passed as
 	// the argument can no longer be used once removed.
-	bool RemoveCertificate(const CkCertW &cert);
+	bool RemoveCertificate(CkCertW &cert);
 #endif
 
 

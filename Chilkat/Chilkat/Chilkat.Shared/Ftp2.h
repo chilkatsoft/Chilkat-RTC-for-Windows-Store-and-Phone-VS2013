@@ -187,6 +187,14 @@ public ref class Ftp2 sealed
 		Boolean get();
 		void set(Boolean);
 	}
+	property int64 AsyncBytesReceived64
+	{
+		int64 get();
+	}
+	property int64 AsyncBytesSent64
+	{
+		int64 get();
+	}
 	property Boolean AuthSsl
 	{
 		Boolean get();
@@ -540,6 +548,11 @@ public ref class Ftp2 sealed
 	{
 		Platform::String ^get();
 	}
+	property Platform::String ^TlsPinSet
+	{
+		Platform::String ^get();
+		void set(Platform::String ^);
+	}
 	property Platform::String ^TlsVersion
 	{
 		Platform::String ^get();
@@ -554,11 +567,6 @@ public ref class Ftp2 sealed
 		void set(Boolean);
 	}
 	property Platform::String ^Username
-	{
-		Platform::String ^get();
-		void set(Platform::String ^);
-	}
-	property Platform::String ^TlsPinSet
 	{
 		Platform::String ^get();
 		void set(Platform::String ^);
@@ -602,9 +610,9 @@ public ref class Ftp2 sealed
 
 	IAsyncOperation<Boolean>^ DeleteTreeAsync(void);
 
-	int DetermineProxyMethod(void);
+	IAsyncOperation<int>^ DetermineProxyMethodAsync(void);
 
-	Platform::String ^DetermineSettings(void);
+	IAsyncOperation<Platform::String ^>^ DetermineSettingsAsync(void);
 
 	IAsyncOperation<Platform::String ^>^ DirTreeXmlAsync(void);
 

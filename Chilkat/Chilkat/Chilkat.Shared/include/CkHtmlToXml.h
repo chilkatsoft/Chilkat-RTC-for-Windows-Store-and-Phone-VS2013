@@ -14,8 +14,6 @@
 
 class CkByteData;
 
-class CkByteData;
-
 
 
 #if !defined(__sun__) && !defined(__sun)
@@ -27,7 +25,6 @@ class CkByteData;
 class CK_VISIBLE_PUBLIC CkHtmlToXml  : public CkMultiByteBase
 {
     private:
-	
 
 	// Don't allow assignment or copying these objects.
 	CkHtmlToXml(const CkHtmlToXml &);
@@ -139,7 +136,7 @@ class CK_VISIBLE_PUBLIC CkHtmlToXml  : public CkMultiByteBase
 	const char *readFileToString(const char *filename, const char *srcCharset);
 
 	// Sets the Html property from a byte array.
-	void SetHtmlBytes(const CkByteData &inData);
+	void SetHtmlBytes(CkByteData &inData);
 
 
 	// Sets the Html property by loading the HTML from a file.
@@ -172,7 +169,7 @@ class CK_VISIBLE_PUBLIC CkHtmlToXml  : public CkMultiByteBase
 
 
 	// Convenience method for saving a byte array to a file.
-	bool WriteFile(const char *path, const CkByteData &fileData);
+	bool WriteFile(const char *path, CkByteData &fileData);
 
 
 	// Convenience method for saving a string to a file. The character encoding of the

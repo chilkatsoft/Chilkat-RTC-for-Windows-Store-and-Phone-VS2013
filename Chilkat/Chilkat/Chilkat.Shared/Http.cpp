@@ -152,6 +152,14 @@ void Chilkat::Http::AwsEndpoint::set(String ^newVal)
     {
         if (m_impl) m_impl->put_AwsEndpoint(newVal ? newVal->Data() : L"");
     }
+String ^Chilkat::Http::AwsRegion::get()
+    {
+    return ref new String(m_impl ? m_impl->awsRegion() : L"");
+    }
+void Chilkat::Http::AwsRegion::set(String ^newVal)
+    {
+        if (m_impl) m_impl->put_AwsRegion(newVal ? newVal->Data() : L"");
+    }
 String ^Chilkat::Http::AwsSecretKey::get()
     {
     return ref new String(m_impl ? m_impl->awsSecretKey() : L"");
@@ -159,6 +167,14 @@ String ^Chilkat::Http::AwsSecretKey::get()
 void Chilkat::Http::AwsSecretKey::set(String ^newVal)
     {
         if (m_impl) m_impl->put_AwsSecretKey(newVal ? newVal->Data() : L"");
+    }
+int Chilkat::Http::AwsSignatureVersion::get()
+    {
+    return m_impl ? m_impl->get_AwsSignatureVersion() : 0;
+    }
+void Chilkat::Http::AwsSignatureVersion::set(int newVal)
+    {
+        if (m_impl) m_impl->put_AwsSignatureVersion(newVal);
     }
 String ^Chilkat::Http::AwsSubResources::get()
     {
@@ -183,6 +199,10 @@ String ^Chilkat::Http::ClientIpAddress::get()
 void Chilkat::Http::ClientIpAddress::set(String ^newVal)
     {
         if (m_impl) m_impl->put_ClientIpAddress(newVal ? newVal->Data() : L"");
+    }
+int Chilkat::Http::ConnectFailReason::get()
+    {
+    return m_impl ? m_impl->get_ConnectFailReason() : 0;
     }
 int Chilkat::Http::ConnectTimeout::get()
     {
@@ -1726,7 +1746,7 @@ return create_async([this, domain, port, ssl, req]() -> HttpResponse ^
 
 	if (m_impl == nullptr) { return nullptr; }
 	if (req == nullptr) { return nullptr; }
-	const CkHttpRequestW* pObj3 = req->m_impl;
+	CkHttpRequestW* pObj3 = req->m_impl;
 	 if (!pObj3) { return nullptr; }
 	// --- prep output arg ---
 	CxHttpProgress cxProgress(m_impl);

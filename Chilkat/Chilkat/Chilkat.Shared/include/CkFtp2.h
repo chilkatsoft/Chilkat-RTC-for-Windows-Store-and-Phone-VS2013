@@ -10,7 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkMultiByteBase.h"
+#include "CkClassWithCallbacks.h"
 
 class CkTask;
 class CkByteData;
@@ -26,10 +26,9 @@ class CkFtp2Progress;
  
 
 // CLASS: CkFtp2
-class CK_VISIBLE_PUBLIC CkFtp2  : public CkMultiByteBase
+class CK_VISIBLE_PUBLIC CkFtp2  : public CkClassWithCallbacks
 {
     private:
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkFtp2(const CkFtp2 &);
@@ -1326,13 +1325,40 @@ class CK_VISIBLE_PUBLIC CkFtp2  : public CkMultiByteBase
 
 	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
 	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// (Note that the client cannot specifically choose the algorithm is picked because
-	// it is the server that chooses. The client simply provides the server with a list
-	// from which to choose.)
+	// are possible. The TLS ciphers supported in Chilkat v9.5.0.55 and later are:
+	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
+	// TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256
+	// TLS_DHE_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA
+	// TLS_RSA_WITH_AES_256_CBC_SHA256
+	// TLS_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_RSA_WITH_AES_256_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA
+	// TLS_DHE_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_DHE_RSA_WITH_AES_128_CBC_SHA
+	// TLS_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_RSA_WITH_AES_128_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_RC4_128_SHA
+	// TLS_RSA_WITH_RC4_128_SHA
+	// TLS_RSA_WITH_RC4_128_MD5
+	// TLS_DHE_RSA_WITH_DES_CBC_SHA
+	// TLS_RSA_WITH_DES_CBC_SHA
+	// To restrict SSL/TLS connections to one or more specific ciphers, set this
+	// property to a comma-separated list of ciphers such as
+	// "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384".
+	// The order should be in terms of preference, with the preferred algorithms listed
+	// first. (Note that the client cannot specifically choose the algorithm is picked
+	// because it is the server that chooses. The client simply provides the server
+	// with a list from which to choose.)
 	// 
 	// The property can also disallow connections with servers having certificates with
 	// RSA keys less than a certain size. By default, server certificates having RSA
@@ -1340,17 +1366,69 @@ class CK_VISIBLE_PUBLIC CkFtp2  : public CkMultiByteBase
 	// connections with servers having keys smaller than 1024 bits. Add the keyword
 	// "rsa2048" to disallow connections with servers having keys smaller than 2048
 	// bits.
+	// 
+	// Note: Prior to Chilkat v9.5.0.55, it was not possible to explicitly list allowed
+	// cipher suites. The deprecated means for indicating allowed ciphers was both
+	// incomplete and unprecise. For example, the following keywords could be listed to
+	// allow matching ciphers: "aes256-cbc", "aes128-cbc", "3des-cbc", and "rc4". These
+	// keywords will still be recognized, but programs should be updated to explicitly
+	// list the allowed ciphers.
+	// 
+	// secure-renegotiation: Starting in Chilkat v9.5.0.55, the keyword
+	// "secure-renegotiation" may be added to require that all renegotions be done
+	// securely (as per RFC 5746).
+	// 
+	// best-practices: Starting in Chilkat v9.5.0.55, this property may be set to the
+	// single keyword "best-practices". This will allow ciphers based on the current
+	// best practices. As new versions of Chilkat are released, the best practices may
+	// change. Changes will be noted here. The current best practices are:
+	// 
+	//     If the server uses an RSA key, it must be 1024 bits or greater.
+	//     All renegotations must be secure renegotiations.
+	//     All ciphers using RC4, DES, or 3DES are disallowed.
+	// 
+	// Example: The following string would restrict to 2 specific cipher suites,
+	// require RSA keys to be 1024 bits or greater, and require secure renegotiations:
+	// "TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, rsa1024,
+	// secure-renegotiation"
 	// 
 	void get_SslAllowedCiphers(CkString &str);
 	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
 	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// (Note that the client cannot specifically choose the algorithm is picked because
-	// it is the server that chooses. The client simply provides the server with a list
-	// from which to choose.)
+	// are possible. The TLS ciphers supported in Chilkat v9.5.0.55 and later are:
+	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
+	// TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256
+	// TLS_DHE_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA
+	// TLS_RSA_WITH_AES_256_CBC_SHA256
+	// TLS_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_RSA_WITH_AES_256_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA
+	// TLS_DHE_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_DHE_RSA_WITH_AES_128_CBC_SHA
+	// TLS_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_RSA_WITH_AES_128_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_RC4_128_SHA
+	// TLS_RSA_WITH_RC4_128_SHA
+	// TLS_RSA_WITH_RC4_128_MD5
+	// TLS_DHE_RSA_WITH_DES_CBC_SHA
+	// TLS_RSA_WITH_DES_CBC_SHA
+	// To restrict SSL/TLS connections to one or more specific ciphers, set this
+	// property to a comma-separated list of ciphers such as
+	// "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384".
+	// The order should be in terms of preference, with the preferred algorithms listed
+	// first. (Note that the client cannot specifically choose the algorithm is picked
+	// because it is the server that chooses. The client simply provides the server
+	// with a list from which to choose.)
 	// 
 	// The property can also disallow connections with servers having certificates with
 	// RSA keys less than a certain size. By default, server certificates having RSA
@@ -1358,17 +1436,69 @@ class CK_VISIBLE_PUBLIC CkFtp2  : public CkMultiByteBase
 	// connections with servers having keys smaller than 1024 bits. Add the keyword
 	// "rsa2048" to disallow connections with servers having keys smaller than 2048
 	// bits.
+	// 
+	// Note: Prior to Chilkat v9.5.0.55, it was not possible to explicitly list allowed
+	// cipher suites. The deprecated means for indicating allowed ciphers was both
+	// incomplete and unprecise. For example, the following keywords could be listed to
+	// allow matching ciphers: "aes256-cbc", "aes128-cbc", "3des-cbc", and "rc4". These
+	// keywords will still be recognized, but programs should be updated to explicitly
+	// list the allowed ciphers.
+	// 
+	// secure-renegotiation: Starting in Chilkat v9.5.0.55, the keyword
+	// "secure-renegotiation" may be added to require that all renegotions be done
+	// securely (as per RFC 5746).
+	// 
+	// best-practices: Starting in Chilkat v9.5.0.55, this property may be set to the
+	// single keyword "best-practices". This will allow ciphers based on the current
+	// best practices. As new versions of Chilkat are released, the best practices may
+	// change. Changes will be noted here. The current best practices are:
+	// 
+	//     If the server uses an RSA key, it must be 1024 bits or greater.
+	//     All renegotations must be secure renegotiations.
+	//     All ciphers using RC4, DES, or 3DES are disallowed.
+	// 
+	// Example: The following string would restrict to 2 specific cipher suites,
+	// require RSA keys to be 1024 bits or greater, and require secure renegotiations:
+	// "TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, rsa1024,
+	// secure-renegotiation"
 	// 
 	const char *sslAllowedCiphers(void);
 	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
 	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// (Note that the client cannot specifically choose the algorithm is picked because
-	// it is the server that chooses. The client simply provides the server with a list
-	// from which to choose.)
+	// are possible. The TLS ciphers supported in Chilkat v9.5.0.55 and later are:
+	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
+	// TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256
+	// TLS_DHE_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA
+	// TLS_RSA_WITH_AES_256_CBC_SHA256
+	// TLS_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_RSA_WITH_AES_256_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA
+	// TLS_DHE_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_DHE_RSA_WITH_AES_128_CBC_SHA
+	// TLS_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_RSA_WITH_AES_128_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_RC4_128_SHA
+	// TLS_RSA_WITH_RC4_128_SHA
+	// TLS_RSA_WITH_RC4_128_MD5
+	// TLS_DHE_RSA_WITH_DES_CBC_SHA
+	// TLS_RSA_WITH_DES_CBC_SHA
+	// To restrict SSL/TLS connections to one or more specific ciphers, set this
+	// property to a comma-separated list of ciphers such as
+	// "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384".
+	// The order should be in terms of preference, with the preferred algorithms listed
+	// first. (Note that the client cannot specifically choose the algorithm is picked
+	// because it is the server that chooses. The client simply provides the server
+	// with a list from which to choose.)
 	// 
 	// The property can also disallow connections with servers having certificates with
 	// RSA keys less than a certain size. By default, server certificates having RSA
@@ -1376,6 +1506,31 @@ class CK_VISIBLE_PUBLIC CkFtp2  : public CkMultiByteBase
 	// connections with servers having keys smaller than 1024 bits. Add the keyword
 	// "rsa2048" to disallow connections with servers having keys smaller than 2048
 	// bits.
+	// 
+	// Note: Prior to Chilkat v9.5.0.55, it was not possible to explicitly list allowed
+	// cipher suites. The deprecated means for indicating allowed ciphers was both
+	// incomplete and unprecise. For example, the following keywords could be listed to
+	// allow matching ciphers: "aes256-cbc", "aes128-cbc", "3des-cbc", and "rc4". These
+	// keywords will still be recognized, but programs should be updated to explicitly
+	// list the allowed ciphers.
+	// 
+	// secure-renegotiation: Starting in Chilkat v9.5.0.55, the keyword
+	// "secure-renegotiation" may be added to require that all renegotions be done
+	// securely (as per RFC 5746).
+	// 
+	// best-practices: Starting in Chilkat v9.5.0.55, this property may be set to the
+	// single keyword "best-practices". This will allow ciphers based on the current
+	// best practices. As new versions of Chilkat are released, the best practices may
+	// change. Changes will be noted here. The current best practices are:
+	// 
+	//     If the server uses an RSA key, it must be 1024 bits or greater.
+	//     All renegotations must be secure renegotiations.
+	//     All ciphers using RC4, DES, or 3DES are disallowed.
+	// 
+	// Example: The following string would restrict to 2 specific cipher suites,
+	// require RSA keys to be 1024 bits or greater, and require secure renegotiations:
+	// "TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, rsa1024,
+	// secure-renegotiation"
 	// 
 	void put_SslAllowedCiphers(const char *newVal);
 
@@ -1537,57 +1692,6 @@ class CK_VISIBLE_PUBLIC CkFtp2  : public CkMultiByteBase
 	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
 	const char *tlsCipherSuite(void);
 
-	// Contains the current or last negotiated TLS protocol version. If no TLS
-	// connection has yet to be established, or if a connection as attempted and
-	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
-	// 1.1", and "TLS 1.2".
-	void get_TlsVersion(CkString &str);
-	// Contains the current or last negotiated TLS protocol version. If no TLS
-	// connection has yet to be established, or if a connection as attempted and
-	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
-	// 1.1", and "TLS 1.2".
-	const char *tlsVersion(void);
-
-	// The average upload rate in bytes/second. This property is updated in real-time
-	// during any FTP upload (asynchronous or synchronous).
-	int get_UploadTransferRate(void);
-
-	// If true, the FTP2 component will use the EPSV command instead of PASV for
-	// passive mode data transfers. The default value of this property is false. (It
-	// is somewhat uncommon for FTP servers to support EPSV.)
-	// 
-	// Note: If the AutoFeat property is true, then the FTP server's features are
-	// automatically queried after connecting. In this case, if the AutoSetUseEpsv
-	// property is also set to true, the UseEpsv property is automatically set to
-	// true if the FTP server supports EPSV.
-	// 
-	// Important: EPSV can cause problems with some deep-inspection firewalls. If a
-	// passive data connection cannot be established, make sure to test with both the
-	// AutoSetUseEpsv and UseEpsv properties set equal to false.
-	// 
-	bool get_UseEpsv(void);
-	// If true, the FTP2 component will use the EPSV command instead of PASV for
-	// passive mode data transfers. The default value of this property is false. (It
-	// is somewhat uncommon for FTP servers to support EPSV.)
-	// 
-	// Note: If the AutoFeat property is true, then the FTP server's features are
-	// automatically queried after connecting. In this case, if the AutoSetUseEpsv
-	// property is also set to true, the UseEpsv property is automatically set to
-	// true if the FTP server supports EPSV.
-	// 
-	// Important: EPSV can cause problems with some deep-inspection firewalls. If a
-	// passive data connection cannot be established, make sure to test with both the
-	// AutoSetUseEpsv and UseEpsv properties set equal to false.
-	// 
-	void put_UseEpsv(bool newVal);
-
-	// Username for logging into the FTP server. Defaults to "anonymous".
-	void get_Username(CkString &str);
-	// Username for logging into the FTP server. Defaults to "anonymous".
-	const char *username(void);
-	// Username for logging into the FTP server. Defaults to "anonymous".
-	void put_Username(const char *newVal);
-
 	// Specifies a set of pins for Public Key Pinning for TLS connections. This
 	// property lists the expected SPKI fingerprints for the server certificates. If
 	// the server's certificate (sent during the TLS handshake) does not match any of
@@ -1643,6 +1747,57 @@ class CK_VISIBLE_PUBLIC CkFtp2  : public CkMultiByteBase
 	// 
 	void put_TlsPinSet(const char *newVal);
 
+	// Contains the current or last negotiated TLS protocol version. If no TLS
+	// connection has yet to be established, or if a connection as attempted and
+	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
+	// 1.1", and "TLS 1.2".
+	void get_TlsVersion(CkString &str);
+	// Contains the current or last negotiated TLS protocol version. If no TLS
+	// connection has yet to be established, or if a connection as attempted and
+	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
+	// 1.1", and "TLS 1.2".
+	const char *tlsVersion(void);
+
+	// The average upload rate in bytes/second. This property is updated in real-time
+	// during any FTP upload (asynchronous or synchronous).
+	int get_UploadTransferRate(void);
+
+	// If true, the FTP2 component will use the EPSV command instead of PASV for
+	// passive mode data transfers. The default value of this property is false. (It
+	// is somewhat uncommon for FTP servers to support EPSV.)
+	// 
+	// Note: If the AutoFeat property is true, then the FTP server's features are
+	// automatically queried after connecting. In this case, if the AutoSetUseEpsv
+	// property is also set to true, the UseEpsv property is automatically set to
+	// true if the FTP server supports EPSV.
+	// 
+	// Important: EPSV can cause problems with some deep-inspection firewalls. If a
+	// passive data connection cannot be established, make sure to test with both the
+	// AutoSetUseEpsv and UseEpsv properties set equal to false.
+	// 
+	bool get_UseEpsv(void);
+	// If true, the FTP2 component will use the EPSV command instead of PASV for
+	// passive mode data transfers. The default value of this property is false. (It
+	// is somewhat uncommon for FTP servers to support EPSV.)
+	// 
+	// Note: If the AutoFeat property is true, then the FTP server's features are
+	// automatically queried after connecting. In this case, if the AutoSetUseEpsv
+	// property is also set to true, the UseEpsv property is automatically set to
+	// true if the FTP server supports EPSV.
+	// 
+	// Important: EPSV can cause problems with some deep-inspection firewalls. If a
+	// passive data connection cannot be established, make sure to test with both the
+	// AutoSetUseEpsv and UseEpsv properties set equal to false.
+	// 
+	void put_UseEpsv(bool newVal);
+
+	// Username for logging into the FTP server. Defaults to "anonymous".
+	void get_Username(CkString &str);
+	// Username for logging into the FTP server. Defaults to "anonymous".
+	const char *username(void);
+	// Username for logging into the FTP server. Defaults to "anonymous".
+	void put_Username(const char *newVal);
+
 
 
 	// ----------------------
@@ -1666,10 +1821,10 @@ class CK_VISIBLE_PUBLIC CkFtp2  : public CkMultiByteBase
 
 
 	// Same as PutFileFromBinaryData, except the file on the FTP server is appended.
-	bool AppendFileFromBinaryData(const char *remoteFilename, const CkByteData &content);
+	bool AppendFileFromBinaryData(const char *remoteFilename, CkByteData &content);
 
 	// Same as PutFileFromBinaryData, except the file on the FTP server is appended.
-	CkTask *AppendFileFromBinaryDataAsync(const char *remoteFilename, const CkByteData &content);
+	CkTask *AppendFileFromBinaryDataAsync(const char *remoteFilename, CkByteData &content);
 
 
 	// Same as PutFileFromTextData, except the file on the FTP server is appended.
@@ -2008,6 +2163,16 @@ class CK_VISIBLE_PUBLIC CkFtp2  : public CkMultiByteBase
 	// 
 	int DetermineProxyMethod(void);
 
+	// Automatically determines the ProxyMethod that should be used with an FTP proxy
+	// server. Tries each of the five possible ProxyMethod settings and returns the
+	// value (1-5) of the ProxyMethod that succeeded.
+	// 
+	// This method may take a minute or two to complete. Returns 0 if no proxy methods
+	// were successful. Returns -1 to indicate an error (i.e. it was unable to test all
+	// proxy methods.)
+	// 
+	CkTask *DetermineProxyMethodAsync(void);
+
 
 	// Discovers which combinations of FTP2 property settings result in successful data
 	// transfers.
@@ -2048,6 +2213,26 @@ class CK_VISIBLE_PUBLIC CkFtp2  : public CkMultiByteBase
 	// email and send it to support@chilkatsoft.com.
 	// 
 	const char *determineSettings(void);
+	// Discovers which combinations of FTP2 property settings result in successful data
+	// transfers.
+	// 
+	// DetermineSettings tries 13 different combinations of these properties:
+	// Ssl
+	// AuthTls
+	// AuthSsl
+	// Port
+	// Passive
+	// PassiveUseHostAddr
+	// Within the FTP protocol, the process of fetching a directory listing is also
+	// considered a "data transfer". The DetermineSettings method works by checking to
+	// see which combinations result in a successful directory listing download. The
+	// method takes no arguments and returns a string containing an XML report of the
+	// results. It is a blocking call that may take approximately a minute to run. If
+	// you are unsure about how to interpret the results, cut-and-paste it into an
+	// email and send it to support@chilkatsoft.com.
+	// 
+	CkTask *DetermineSettingsAsync(void);
+
 
 	// Recursively downloads the structure of a complete remote directory tree. Returns
 	// an XML document with the directory structure. A zero-length string is returned
@@ -3887,10 +4072,10 @@ class CK_VISIBLE_PUBLIC CkFtp2  : public CkMultiByteBase
 
 
 	// Creates a file on the remote server containing the data passed in a byte array.
-	bool PutFileFromBinaryData(const char *remoteFilename, const CkByteData &content);
+	bool PutFileFromBinaryData(const char *remoteFilename, CkByteData &content);
 
 	// Creates a file on the remote server containing the data passed in a byte array.
-	CkTask *PutFileFromBinaryDataAsync(const char *remoteFilename, const CkByteData &content);
+	CkTask *PutFileFromBinaryDataAsync(const char *remoteFilename, CkByteData &content);
 
 
 	// Creates a file on the remote server containing the data passed in a string.

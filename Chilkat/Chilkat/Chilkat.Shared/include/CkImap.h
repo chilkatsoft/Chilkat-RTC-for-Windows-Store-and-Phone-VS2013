@@ -10,7 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkMultiByteBase.h"
+#include "CkClassWithCallbacks.h"
 
 class CkByteData;
 class CkTask;
@@ -36,10 +36,9 @@ class CkBaseProgress;
  
 
 // CLASS: CkImap
-class CK_VISIBLE_PUBLIC CkImap  : public CkMultiByteBase
+class CK_VISIBLE_PUBLIC CkImap  : public CkClassWithCallbacks
 {
     private:
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkImap(const CkImap &);
@@ -645,13 +644,40 @@ class CK_VISIBLE_PUBLIC CkImap  : public CkMultiByteBase
 
 	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
 	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// (Note that the client cannot specifically choose the algorithm is picked because
-	// it is the server that chooses. The client simply provides the server with a list
-	// from which to choose.)
+	// are possible. The TLS ciphers supported in Chilkat v9.5.0.55 and later are:
+	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
+	// TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256
+	// TLS_DHE_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA
+	// TLS_RSA_WITH_AES_256_CBC_SHA256
+	// TLS_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_RSA_WITH_AES_256_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA
+	// TLS_DHE_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_DHE_RSA_WITH_AES_128_CBC_SHA
+	// TLS_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_RSA_WITH_AES_128_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_RC4_128_SHA
+	// TLS_RSA_WITH_RC4_128_SHA
+	// TLS_RSA_WITH_RC4_128_MD5
+	// TLS_DHE_RSA_WITH_DES_CBC_SHA
+	// TLS_RSA_WITH_DES_CBC_SHA
+	// To restrict SSL/TLS connections to one or more specific ciphers, set this
+	// property to a comma-separated list of ciphers such as
+	// "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384".
+	// The order should be in terms of preference, with the preferred algorithms listed
+	// first. (Note that the client cannot specifically choose the algorithm is picked
+	// because it is the server that chooses. The client simply provides the server
+	// with a list from which to choose.)
 	// 
 	// The property can also disallow connections with servers having certificates with
 	// RSA keys less than a certain size. By default, server certificates having RSA
@@ -659,17 +685,69 @@ class CK_VISIBLE_PUBLIC CkImap  : public CkMultiByteBase
 	// connections with servers having keys smaller than 1024 bits. Add the keyword
 	// "rsa2048" to disallow connections with servers having keys smaller than 2048
 	// bits.
+	// 
+	// Note: Prior to Chilkat v9.5.0.55, it was not possible to explicitly list allowed
+	// cipher suites. The deprecated means for indicating allowed ciphers was both
+	// incomplete and unprecise. For example, the following keywords could be listed to
+	// allow matching ciphers: "aes256-cbc", "aes128-cbc", "3des-cbc", and "rc4". These
+	// keywords will still be recognized, but programs should be updated to explicitly
+	// list the allowed ciphers.
+	// 
+	// secure-renegotiation: Starting in Chilkat v9.5.0.55, the keyword
+	// "secure-renegotiation" may be added to require that all renegotions be done
+	// securely (as per RFC 5746).
+	// 
+	// best-practices: Starting in Chilkat v9.5.0.55, this property may be set to the
+	// single keyword "best-practices". This will allow ciphers based on the current
+	// best practices. As new versions of Chilkat are released, the best practices may
+	// change. Changes will be noted here. The current best practices are:
+	// 
+	//     If the server uses an RSA key, it must be 1024 bits or greater.
+	//     All renegotations must be secure renegotiations.
+	//     All ciphers using RC4, DES, or 3DES are disallowed.
+	// 
+	// Example: The following string would restrict to 2 specific cipher suites,
+	// require RSA keys to be 1024 bits or greater, and require secure renegotiations:
+	// "TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, rsa1024,
+	// secure-renegotiation"
 	// 
 	void get_SslAllowedCiphers(CkString &str);
 	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
 	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// (Note that the client cannot specifically choose the algorithm is picked because
-	// it is the server that chooses. The client simply provides the server with a list
-	// from which to choose.)
+	// are possible. The TLS ciphers supported in Chilkat v9.5.0.55 and later are:
+	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
+	// TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256
+	// TLS_DHE_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA
+	// TLS_RSA_WITH_AES_256_CBC_SHA256
+	// TLS_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_RSA_WITH_AES_256_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA
+	// TLS_DHE_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_DHE_RSA_WITH_AES_128_CBC_SHA
+	// TLS_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_RSA_WITH_AES_128_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_RC4_128_SHA
+	// TLS_RSA_WITH_RC4_128_SHA
+	// TLS_RSA_WITH_RC4_128_MD5
+	// TLS_DHE_RSA_WITH_DES_CBC_SHA
+	// TLS_RSA_WITH_DES_CBC_SHA
+	// To restrict SSL/TLS connections to one or more specific ciphers, set this
+	// property to a comma-separated list of ciphers such as
+	// "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384".
+	// The order should be in terms of preference, with the preferred algorithms listed
+	// first. (Note that the client cannot specifically choose the algorithm is picked
+	// because it is the server that chooses. The client simply provides the server
+	// with a list from which to choose.)
 	// 
 	// The property can also disallow connections with servers having certificates with
 	// RSA keys less than a certain size. By default, server certificates having RSA
@@ -677,17 +755,69 @@ class CK_VISIBLE_PUBLIC CkImap  : public CkMultiByteBase
 	// connections with servers having keys smaller than 1024 bits. Add the keyword
 	// "rsa2048" to disallow connections with servers having keys smaller than 2048
 	// bits.
+	// 
+	// Note: Prior to Chilkat v9.5.0.55, it was not possible to explicitly list allowed
+	// cipher suites. The deprecated means for indicating allowed ciphers was both
+	// incomplete and unprecise. For example, the following keywords could be listed to
+	// allow matching ciphers: "aes256-cbc", "aes128-cbc", "3des-cbc", and "rc4". These
+	// keywords will still be recognized, but programs should be updated to explicitly
+	// list the allowed ciphers.
+	// 
+	// secure-renegotiation: Starting in Chilkat v9.5.0.55, the keyword
+	// "secure-renegotiation" may be added to require that all renegotions be done
+	// securely (as per RFC 5746).
+	// 
+	// best-practices: Starting in Chilkat v9.5.0.55, this property may be set to the
+	// single keyword "best-practices". This will allow ciphers based on the current
+	// best practices. As new versions of Chilkat are released, the best practices may
+	// change. Changes will be noted here. The current best practices are:
+	// 
+	//     If the server uses an RSA key, it must be 1024 bits or greater.
+	//     All renegotations must be secure renegotiations.
+	//     All ciphers using RC4, DES, or 3DES are disallowed.
+	// 
+	// Example: The following string would restrict to 2 specific cipher suites,
+	// require RSA keys to be 1024 bits or greater, and require secure renegotiations:
+	// "TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, rsa1024,
+	// secure-renegotiation"
 	// 
 	const char *sslAllowedCiphers(void);
 	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
 	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// (Note that the client cannot specifically choose the algorithm is picked because
-	// it is the server that chooses. The client simply provides the server with a list
-	// from which to choose.)
+	// are possible. The TLS ciphers supported in Chilkat v9.5.0.55 and later are:
+	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
+	// TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256
+	// TLS_DHE_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA
+	// TLS_RSA_WITH_AES_256_CBC_SHA256
+	// TLS_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_RSA_WITH_AES_256_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA
+	// TLS_DHE_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_DHE_RSA_WITH_AES_128_CBC_SHA
+	// TLS_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_RSA_WITH_AES_128_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_RC4_128_SHA
+	// TLS_RSA_WITH_RC4_128_SHA
+	// TLS_RSA_WITH_RC4_128_MD5
+	// TLS_DHE_RSA_WITH_DES_CBC_SHA
+	// TLS_RSA_WITH_DES_CBC_SHA
+	// To restrict SSL/TLS connections to one or more specific ciphers, set this
+	// property to a comma-separated list of ciphers such as
+	// "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384".
+	// The order should be in terms of preference, with the preferred algorithms listed
+	// first. (Note that the client cannot specifically choose the algorithm is picked
+	// because it is the server that chooses. The client simply provides the server
+	// with a list from which to choose.)
 	// 
 	// The property can also disallow connections with servers having certificates with
 	// RSA keys less than a certain size. By default, server certificates having RSA
@@ -695,6 +825,31 @@ class CK_VISIBLE_PUBLIC CkImap  : public CkMultiByteBase
 	// connections with servers having keys smaller than 1024 bits. Add the keyword
 	// "rsa2048" to disallow connections with servers having keys smaller than 2048
 	// bits.
+	// 
+	// Note: Prior to Chilkat v9.5.0.55, it was not possible to explicitly list allowed
+	// cipher suites. The deprecated means for indicating allowed ciphers was both
+	// incomplete and unprecise. For example, the following keywords could be listed to
+	// allow matching ciphers: "aes256-cbc", "aes128-cbc", "3des-cbc", and "rc4". These
+	// keywords will still be recognized, but programs should be updated to explicitly
+	// list the allowed ciphers.
+	// 
+	// secure-renegotiation: Starting in Chilkat v9.5.0.55, the keyword
+	// "secure-renegotiation" may be added to require that all renegotions be done
+	// securely (as per RFC 5746).
+	// 
+	// best-practices: Starting in Chilkat v9.5.0.55, this property may be set to the
+	// single keyword "best-practices". This will allow ciphers based on the current
+	// best practices. As new versions of Chilkat are released, the best practices may
+	// change. Changes will be noted here. The current best practices are:
+	// 
+	//     If the server uses an RSA key, it must be 1024 bits or greater.
+	//     All renegotations must be secure renegotiations.
+	//     All ciphers using RC4, DES, or 3DES are disallowed.
+	// 
+	// Example: The following string would restrict to 2 specific cipher suites,
+	// require RSA keys to be 1024 bits or greater, and require secure renegotiations:
+	// "TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, rsa1024,
+	// secure-renegotiation"
 	// 
 	void put_SslAllowedCiphers(const char *newVal);
 
@@ -786,31 +941,6 @@ class CK_VISIBLE_PUBLIC CkImap  : public CkMultiByteBase
 	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
 	const char *tlsCipherSuite(void);
 
-	// Contains the current or last negotiated TLS protocol version. If no TLS
-	// connection has yet to be established, or if a connection as attempted and
-	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
-	// 1.1", and "TLS 1.2".
-	void get_TlsVersion(CkString &str);
-	// Contains the current or last negotiated TLS protocol version. If no TLS
-	// connection has yet to be established, or if a connection as attempted and
-	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
-	// 1.1", and "TLS 1.2".
-	const char *tlsVersion(void);
-
-	// A positive integer value containing the UIDNEXT of the currently selected
-	// folder, or 0 if it's not available or no folder is selected.
-	int get_UidNext(void);
-
-	// An integer value containing the UIDVALIDITY of the currently selected mailbox,
-	// or 0 if no mailbox is selected.
-	// 
-	// A client can save the UidValidity value for a mailbox and then compare it with
-	// the UidValidity on a subsequent session. If the new value is larger, the IMAP
-	// server is not keeping UID's unchanged between sessions. Most IMAP servers
-	// maintain UID's between sessions.
-	// 
-	int get_UidValidity(void);
-
 	// Specifies a set of pins for Public Key Pinning for TLS connections. This
 	// property lists the expected SPKI fingerprints for the server certificates. If
 	// the server's certificate (sent during the TLS handshake) does not match any of
@@ -866,13 +996,38 @@ class CK_VISIBLE_PUBLIC CkImap  : public CkMultiByteBase
 	// 
 	void put_TlsPinSet(const char *newVal);
 
+	// Contains the current or last negotiated TLS protocol version. If no TLS
+	// connection has yet to be established, or if a connection as attempted and
+	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
+	// 1.1", and "TLS 1.2".
+	void get_TlsVersion(CkString &str);
+	// Contains the current or last negotiated TLS protocol version. If no TLS
+	// connection has yet to be established, or if a connection as attempted and
+	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
+	// 1.1", and "TLS 1.2".
+	const char *tlsVersion(void);
+
+	// A positive integer value containing the UIDNEXT of the currently selected
+	// folder, or 0 if it's not available or no folder is selected.
+	int get_UidNext(void);
+
+	// An integer value containing the UIDVALIDITY of the currently selected mailbox,
+	// or 0 if no mailbox is selected.
+	// 
+	// A client can save the UidValidity value for a mailbox and then compare it with
+	// the UidValidity on a subsequent session. If the new value is larger, the IMAP
+	// server is not keeping UID's unchanged between sessions. Most IMAP servers
+	// maintain UID's between sessions.
+	// 
+	int get_UidValidity(void);
+
 
 
 	// ----------------------
 	// Methods
 	// ----------------------
 	// Returns true if the underlying TCP socket is connected to the IMAP server.
-	bool AddPfxSourceData(const CkByteData &pfxData, const char *password);
+	bool AddPfxSourceData(CkByteData &pfxData, const char *password);
 
 
 	// Adds a PFX file to the object's internal list of sources to be searched for
@@ -887,10 +1042,10 @@ class CK_VISIBLE_PUBLIC CkImap  : public CkMultiByteBase
 
 
 	// Appends an email to an IMAP mailbox.
-	bool AppendMail(const char *mailbox, const CkEmail &email);
+	bool AppendMail(const char *mailbox, CkEmail &email);
 
 	// Appends an email to an IMAP mailbox.
-	CkTask *AppendMailAsync(const char *mailbox, const CkEmail &email);
+	CkTask *AppendMailAsync(const char *mailbox, CkEmail &email);
 
 
 	// Appends an email (represented as MIME text) to an IMAP mailbox.
@@ -1175,11 +1330,11 @@ class CK_VISIBLE_PUBLIC CkImap  : public CkMultiByteBase
 	// Retrieves a set of messages from the IMAP server and returns them in an email
 	// bundle object. If the method fails, it may return a NULL reference.
 	// The caller is responsible for deleting the object returned by this method.
-	CkEmailBundle *FetchBundle(const CkMessageSet &messageSet);
+	CkEmailBundle *FetchBundle(CkMessageSet &messageSet);
 
 	// Retrieves a set of messages from the IMAP server and returns them in an email
 	// bundle object. If the method fails, it may return a NULL reference.
-	CkTask *FetchBundleAsync(const CkMessageSet &messageSet);
+	CkTask *FetchBundleAsync(CkMessageSet &messageSet);
 
 
 	// Retrieves a set of messages from the IMAP server and returns them in a string
@@ -1188,14 +1343,14 @@ class CK_VISIBLE_PUBLIC CkImap  : public CkMultiByteBase
 	// complete MIME source of an email. On failure, a NULL object reference is
 	// returned.
 	// The caller is responsible for deleting the object returned by this method.
-	CkStringArray *FetchBundleAsMime(const CkMessageSet &messageSet);
+	CkStringArray *FetchBundleAsMime(CkMessageSet &messageSet);
 
 	// Retrieves a set of messages from the IMAP server and returns them in a string
 	// array object (NOTE: it does not return a string array, but an object that
 	// represents a string array.) Each string within the returned object is the
 	// complete MIME source of an email. On failure, a NULL object reference is
 	// returned.
-	CkTask *FetchBundleAsMimeAsync(const CkMessageSet &messageSet);
+	CkTask *FetchBundleAsMimeAsync(CkMessageSet &messageSet);
 
 
 	// Fetches a chunk of emails starting at a specific sequence number. A bundle of
@@ -1240,14 +1395,14 @@ class CK_VISIBLE_PUBLIC CkImap  : public CkMultiByteBase
 	// flags after email headers are retrieved: GetMailNumAttach, GetMailAttachSize,
 	// GetMailAttachFilename, GetMailFlag.
 	// The caller is responsible for deleting the object returned by this method.
-	CkEmailBundle *FetchHeaders(const CkMessageSet &messageSet);
+	CkEmailBundle *FetchHeaders(CkMessageSet &messageSet);
 
 	// Retrieves a set of message headers from the IMAP server and returns them in an
 	// email bundle object. If the method fails, it may return a NULL reference. The
 	// following methods are useful for retrieving information about attachments and
 	// flags after email headers are retrieved: GetMailNumAttach, GetMailAttachSize,
 	// GetMailAttachFilename, GetMailFlag.
-	CkTask *FetchHeadersAsync(const CkMessageSet &messageSet);
+	CkTask *FetchHeadersAsync(CkMessageSet &messageSet);
 
 
 	// Downloads email for a range of sequence numbers. The 1st email in a mailbox is
@@ -1278,11 +1433,25 @@ class CK_VISIBLE_PUBLIC CkImap  : public CkMultiByteBase
 
 	// Same as FetchSequence, but only the email headers are returned. The email
 	// objects within the bundle will be lacking bodies and attachments.
+	// 
+	// Note: For any method call using sequence numbers, an application must make sure
+	// the sequence numbers are within the valid range. When a mailbox is selected, the
+	// NumMessages property will have been set, and the valid range of sequence numbers
+	// is from 1 to NumMessages. An attempt to fetch sequence numbers outside this
+	// range will result in an error.
+	// 
 	// The caller is responsible for deleting the object returned by this method.
 	CkEmailBundle *FetchSequenceHeaders(int startSeqNum, int numMessages);
 
 	// Same as FetchSequence, but only the email headers are returned. The email
 	// objects within the bundle will be lacking bodies and attachments.
+	// 
+	// Note: For any method call using sequence numbers, an application must make sure
+	// the sequence numbers are within the valid range. When a mailbox is selected, the
+	// NumMessages property will have been set, and the valid range of sequence numbers
+	// is from 1 to NumMessages. An attempt to fetch sequence numbers outside this
+	// range will result in an error.
+	// 
 	CkTask *FetchSequenceHeadersAsync(int startSeqNum, int numMessages);
 
 
@@ -1354,16 +1523,16 @@ class CK_VISIBLE_PUBLIC CkImap  : public CkMultiByteBase
 
 
 	// Returns the Nth attachment filename. Indexing begins at 0.
-	bool GetMailAttachFilename(const CkEmail &email, int attachIndex, CkString &outStrFilename);
+	bool GetMailAttachFilename(CkEmail &email, int attachIndex, CkString &outStrFilename);
 
 	// Returns the Nth attachment filename. Indexing begins at 0.
-	const char *getMailAttachFilename(const CkEmail &email, int attachIndex);
+	const char *getMailAttachFilename(CkEmail &email, int attachIndex);
 	// Returns the Nth attachment filename. Indexing begins at 0.
-	const char *mailAttachFilename(const CkEmail &email, int attachIndex);
+	const char *mailAttachFilename(CkEmail &email, int attachIndex);
 
 
 	// Returns the Nth attachment size in bytes. Indexing begins at 0.
-	int GetMailAttachSize(const CkEmail &email, int attachIndex);
+	int GetMailAttachSize(CkEmail &email, int attachIndex);
 
 
 	// Returns the value of a flag (1 = yes, 0 = no) for an email. Both standard system
@@ -1371,22 +1540,15 @@ class CK_VISIBLE_PUBLIC CkImap  : public CkMultiByteBase
 	// with a backslash character, such as "\Seen", "\Answered", "\Flagged", "\Draft",
 	// "\Deleted", and "\Answered". Custom flags can be anything, such as "NonJunk",
 	// "$label1", "$MailFlagBit1", etc. .
-	int GetMailFlag(const CkEmail &email, const char *flagName);
-
-	// Returns the value of a flag (1 = yes, 0 = no) for an email. Both standard system
-	// flags as well as custom flags may be set. Standard system flags typically begin
-	// with a backslash character, such as "\Seen", "\Answered", "\Flagged", "\Draft",
-	// "\Deleted", and "\Answered". Custom flags can be anything, such as "NonJunk",
-	// "$label1", "$MailFlagBit1", etc. .
-	CkTask *GetMailFlagAsync(const CkEmail &email, const char *flagName);
+	int GetMailFlag(CkEmail &email, const char *flagName);
 
 
 	// Returns the number of email attachments.
-	int GetMailNumAttach(const CkEmail &email);
+	int GetMailNumAttach(CkEmail &email);
 
 
 	// Returns the size (in bytes) of the entire email including attachments.
-	int GetMailSize(const CkEmail &email);
+	int GetMailSize(CkEmail &email);
 
 
 	// Sends a "Status" command to get the status of a ARG1. Returns an XML string
@@ -2340,11 +2502,11 @@ class CK_VISIBLE_PUBLIC CkImap  : public CkMultiByteBase
 
 	// The same as SendRawCommandB, except that the command is provided as binary bytes
 	// rather than a string.
-	bool SendRawCommandC(const CkByteData &cmd, CkByteData &outBytes);
+	bool SendRawCommandC(CkByteData &cmd, CkByteData &outBytes);
 
 	// The same as SendRawCommandB, except that the command is provided as binary bytes
 	// rather than a string.
-	CkTask *SendRawCommandCAsync(const CkByteData &cmd);
+	CkTask *SendRawCommandCAsync(CkByteData &cmd);
 
 
 #if defined(CK_CSP_INCLUDED)
@@ -2366,7 +2528,7 @@ class CK_VISIBLE_PUBLIC CkImap  : public CkMultiByteBase
 
 	// Used to explicitly specify the certificate and associated private key to be used
 	// for decrypting S/MIME (PKCS7) email.
-	bool SetDecryptCert2(const CkCert &cert, CkPrivateKey &key);
+	bool SetDecryptCert2(CkCert &cert, CkPrivateKey &key);
 
 
 	// Sets a flag for a single message on the IMAP server. If  value = 1, the flag is
@@ -2397,14 +2559,14 @@ class CK_VISIBLE_PUBLIC CkImap  : public CkMultiByteBase
 	// flags such as "\Deleted", "\Seen", "\Answered", "\Flagged", "\Draft", and
 	// "\Answered" may be set. Custom flags such as "NonJunk", "$label1",
 	// "$MailFlagBit1", etc. may also be set.
-	bool SetFlags(const CkMessageSet &messageSet, const char *flagName, int value);
+	bool SetFlags(CkMessageSet &messageSet, const char *flagName, int value);
 
 	// Sets a flag for each message in the message set on the IMAP server. If  value = 1,
 	// the flag is turned on, if  value = 0, the flag is turned off. Standard system
 	// flags such as "\Deleted", "\Seen", "\Answered", "\Flagged", "\Draft", and
 	// "\Answered" may be set. Custom flags such as "NonJunk", "$label1",
 	// "$MailFlagBit1", etc. may also be set.
-	CkTask *SetFlagsAsync(const CkMessageSet &messageSet, const char *flagName, int value);
+	CkTask *SetFlagsAsync(CkMessageSet &messageSet, const char *flagName, int value);
 
 
 	// Sets a flag for a single message on the IMAP server. The UID of the email object
@@ -2424,7 +2586,7 @@ class CK_VISIBLE_PUBLIC CkImap  : public CkMultiByteBase
 	// Note: Calling this method is identical to calling the SetFlag method, except the
 	// UID is automatically obtained from the email object.
 	// 
-	bool SetMailFlag(const CkEmail &email, const char *flagName, int value);
+	bool SetMailFlag(CkEmail &email, const char *flagName, int value);
 
 	// Sets a flag for a single message on the IMAP server. The UID of the email object
 	// is used to find the message on the IMAP server that is to be affected. If  value =
@@ -2443,7 +2605,7 @@ class CK_VISIBLE_PUBLIC CkImap  : public CkMultiByteBase
 	// Note: Calling this method is identical to calling the SetFlag method, except the
 	// UID is automatically obtained from the email object.
 	// 
-	CkTask *SetMailFlagAsync(const CkEmail &email, const char *flagName, int value);
+	CkTask *SetMailFlagAsync(CkEmail &email, const char *flagName, int value);
 
 
 	// Specifies a client-side certificate to be used for the SSL / TLS connection. In

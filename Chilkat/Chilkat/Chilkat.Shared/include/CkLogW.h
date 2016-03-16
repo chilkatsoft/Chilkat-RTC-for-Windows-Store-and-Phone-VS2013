@@ -74,10 +74,10 @@ class CK_VISIBLE_PUBLIC CkLogW  : public CkWideCharBase
 	void LogData(const wchar_t *tag, const wchar_t *message);
 
 	// Logs binary data in base64 format.
-	void LogDataBase64(const wchar_t *tag, const CkByteData &data);
+	void LogDataBase64(const wchar_t *tag, CkByteData &data);
 
 	// Logs binary data in hex format.
-	void LogDataHex(const wchar_t *tag, const CkByteData &data);
+	void LogDataHex(const wchar_t *tag, CkByteData &data);
 
 	// Logs a string, but only up to the 1st ARG3 characters of the string.
 	void LogDataMax(const wchar_t *tag, const wchar_t *message, int maxNumChars);

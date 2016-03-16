@@ -1,9 +1,15 @@
-// This is a generated source file for Chilkat version 9.5.0.55
+// This is a generated source file for Chilkat version 9.5.0.56
 #ifndef _C_CkTar_H
 #define _C_CkTar_H
 #include "chilkatDefs.h"
 
 #include "Chilkat_C.h"
+
+
+CK_VISIBLE_PUBLIC void CkTar_setAbortCheck(HCkTar cHandle, BOOL (*fnAbortCheck)());
+CK_VISIBLE_PUBLIC void CkTar_setPercentDone(HCkTar cHandle, BOOL (*fnPercentDone)(int pctDone));
+CK_VISIBLE_PUBLIC void CkTar_setProgressInfo(HCkTar cHandle, void (*fnProgressInfo)(const char *name, const char *value));
+CK_VISIBLE_PUBLIC void CkTar_setTaskCompleted(HCkTar cHandle, void (*fnTaskCompleted)(HCkTask hTask));
 
 CK_VISIBLE_PUBLIC HCkTar CkTar_Create(void);
 CK_VISIBLE_PUBLIC void CkTar_Dispose(HCkTar handle);
@@ -86,6 +92,7 @@ CK_VISIBLE_PUBLIC void CkTar_getXmlListing(HCkTar cHandle, HCkString retval);
 CK_VISIBLE_PUBLIC void CkTar_putXmlListing(HCkTar cHandle, const char *newVal);
 CK_VISIBLE_PUBLIC const char *CkTar_xmlListing(HCkTar cHandle);
 CK_VISIBLE_PUBLIC BOOL CkTar_AddDirRoot(HCkTar cHandle, const char *dirPath);
+CK_VISIBLE_PUBLIC BOOL CkTar_AddDirRoot2(HCkTar cHandle, const char *rootPrefix, const char *rootPath);
 CK_VISIBLE_PUBLIC BOOL CkTar_AddFile(HCkTar cHandle, const char *path);
 CK_VISIBLE_PUBLIC BOOL CkTar_GetDirRoot(HCkTar cHandle, int index, HCkString outStr);
 CK_VISIBLE_PUBLIC const char *CkTar_getDirRoot(HCkTar cHandle, int index);

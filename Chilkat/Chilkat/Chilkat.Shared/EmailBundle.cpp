@@ -105,7 +105,7 @@ Boolean EmailBundle::AddEmail(Email ^email)
     {
 	if (m_impl == nullptr) { return false; }
 	if (email == nullptr) { return false; }
-	const CkEmailW* pObj0 = email->m_impl;
+	CkEmailW* pObj0 = email->m_impl;
 	 if (!pObj0) { return false; }
 	// --- prep output arg ---
 	// gType = bool
@@ -178,7 +178,7 @@ Boolean EmailBundle::RemoveEmail(Email ^email)
     {
 	if (m_impl == nullptr) { return false; }
 	if (email == nullptr) { return false; }
-	const CkEmailW* pObj0 = email->m_impl;
+	CkEmailW* pObj0 = email->m_impl;
 	 if (!pObj0) { return false; }
 	// --- prep output arg ---
 	// gType = bool

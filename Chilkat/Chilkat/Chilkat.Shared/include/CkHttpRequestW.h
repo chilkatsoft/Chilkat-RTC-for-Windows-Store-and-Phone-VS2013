@@ -201,12 +201,12 @@ class CK_VISIBLE_PUBLIC CkHttpRequestW  : public CkWideCharBase
 	//  remoteFileName is the name of the file to be created on the HTTP server.
 	//  byteData contains the contents (bytes) to be uploaded.
 	// 
-	bool AddBytesForUpload(const wchar_t *name, const wchar_t *filename, const CkByteData &byteData);
+	bool AddBytesForUpload(const wchar_t *name, const wchar_t *filename, CkByteData &byteData);
 
 	// Same as AddBytesForUpload, but allows the Content-Type header field to be
 	// directly specified. (Otherwise, the Content-Type header is automatically
 	// determined based on the  remoteFileName's file extension.)
-	bool AddBytesForUpload2(const wchar_t *name, const wchar_t *filename, const CkByteData &byteData, const wchar_t *contentType);
+	bool AddBytesForUpload2(const wchar_t *name, const wchar_t *filename, CkByteData &byteData, const wchar_t *contentType);
 
 	// Adds a file to an upload request. To create a file upload request, call
 	// UseUpload and then call AddFileForUpload, AddBytesForUpload, or
@@ -350,7 +350,7 @@ class CK_VISIBLE_PUBLIC CkHttpRequestW  : public CkWideCharBase
 	// the exact contents of the byteData.
 	// Note: A non-multipart HTTP request consists of (1) the HTTP start line, (2) MIME
 	// header fields, and (3) the MIME body. This method sets the MIME body.
-	bool LoadBodyFromBytes(const CkByteData &binaryData);
+	bool LoadBodyFromBytes(CkByteData &binaryData);
 
 	// The HTTP protocol is such that all HTTP requests are MIME. For non-multipart
 	// requests, this method may be called to set the MIME body of the HTTP request to

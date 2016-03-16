@@ -25,7 +25,6 @@ class CkByteData;
 class CK_VISIBLE_PUBLIC CkHttpRequest  : public CkMultiByteBase
 {
     private:
-	
 
 	// Don't allow assignment or copying these objects.
 	CkHttpRequest(const CkHttpRequest &);
@@ -198,13 +197,13 @@ class CK_VISIBLE_PUBLIC CkHttpRequest  : public CkMultiByteBase
 	//  remoteFileName is the name of the file to be created on the HTTP server.
 	//  byteData contains the contents (bytes) to be uploaded.
 	// 
-	bool AddBytesForUpload(const char *name, const char *filename, const CkByteData &byteData);
+	bool AddBytesForUpload(const char *name, const char *filename, CkByteData &byteData);
 
 
 	// Same as AddBytesForUpload, but allows the Content-Type header field to be
 	// directly specified. (Otherwise, the Content-Type header is automatically
 	// determined based on the  remoteFileName's file extension.)
-	bool AddBytesForUpload2(const char *name, const char *filename, const CkByteData &byteData, const char *contentType);
+	bool AddBytesForUpload2(const char *name, const char *filename, CkByteData &byteData, const char *contentType);
 
 
 	// Adds a file to an upload request. To create a file upload request, call
@@ -258,6 +257,11 @@ class CK_VISIBLE_PUBLIC CkHttpRequest  : public CkMultiByteBase
 	// directly specified. (Otherwise, the Content-Type header is automatically
 	// determined based on the ARG2's file extension.)
 	bool AddStringForUpload2(const char *name, const char *filename, const char *strData, const char *charset, const char *contentType);
+
+
+	// Adds a request header to the Nth sub-header of the HTTP request. If a header
+	// having the same field name is already present, this method replaces it.
+	bool AddSubHeader(int index, const char *name, const char *value);
 
 
 	// Returns the request text that would be sent if Http.SynchronousRequest was
@@ -366,7 +370,7 @@ class CK_VISIBLE_PUBLIC CkHttpRequest  : public CkMultiByteBase
 	// the exact contents of the byteData.
 	// Note: A non-multipart HTTP request consists of (1) the HTTP start line, (2) MIME
 	// header fields, and (3) the MIME body. This method sets the MIME body.
-	bool LoadBodyFromBytes(const CkByteData &binaryData);
+	bool LoadBodyFromBytes(CkByteData &binaryData);
 
 
 	// The HTTP protocol is such that all HTTP requests are MIME. For non-multipart
@@ -414,6 +418,12 @@ class CK_VISIBLE_PUBLIC CkHttpRequest  : public CkMultiByteBase
 	// is streamed directly from the file, and thus the file never needs to be loaded
 	// in its entirety in memory.
 	bool StreamBodyFromFile(const char *filename);
+
+
+	// This method is the same as StreamBodyFromFile, but allows for an offset and
+	// number of bytes to be specified. The ARG2 and ARG3 are integers passed as
+	// strings.
+	bool StreamChunkFromFile(const char *path, const char *offset, const char *numBytes);
 
 
 	// Makes the HttpRequest a GET request.
@@ -493,17 +503,6 @@ class CK_VISIBLE_PUBLIC CkHttpRequest  : public CkMultiByteBase
 	// request body should contain the XML document text.
 	// 
 	void UseXmlHttp(const char *xmlBody);
-
-
-	// This method is the same as StreamBodyFromFile, but allows for an offset and
-	// number of bytes to be specified. The ARG2 and ARG3 are integers passed as
-	// strings.
-	bool StreamChunkFromFile(const char *path, const char *offset, const char *numBytes);
-
-
-	// Adds a request header to the Nth sub-header of the HTTP request. If a header
-	// having the same field name is already present, this method replaces it.
-	bool AddSubHeader(int index, const char *name, const char *value);
 
 
 

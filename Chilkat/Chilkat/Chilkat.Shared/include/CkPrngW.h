@@ -110,7 +110,7 @@ class CK_VISIBLE_PUBLIC CkPrngW  : public CkWideCharBase
 	// the reproduction of the same pseudo-random number sequence for testing and
 	// debugging purposes.
 	// 
-	bool AddEntropyBytes(const CkByteData &entropy);
+	bool AddEntropyBytes(CkByteData &entropy);
 
 	// Exports all accumulated entropy and returns it in a base64 encoded string.
 	// (Internally the entropy pools are re-hashed so that a hacker cannot determine

@@ -523,6 +523,16 @@ return create_async([this, gzPath]() -> Boolean
 
 });
     }
+Boolean Tar::AddDirRoot2(Platform::String ^rootPrefix, Platform::String ^rootPath)
+    {
+	if (m_impl == nullptr) { return false; }
+	// --- prep output arg ---
+	CxTarProgress cxProgress(m_impl);
+	cxProgress.m_sender = this;
+	// gType = bool
+	// cppType = bool
+	return m_impl->AddDirRoot2(rootPrefix ? rootPrefix->Data() : L"",rootPath ? rootPath->Data() : L"");
+    }
 
 
 

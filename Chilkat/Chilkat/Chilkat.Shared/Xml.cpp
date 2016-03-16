@@ -215,7 +215,7 @@ Boolean Xml::AddChildTree(Xml ^tree)
     {
 	if (m_impl == nullptr) { return false; }
 	if (tree == nullptr) { return false; }
-	const CkXmlW* pObj0 = tree->m_impl;
+	CkXmlW* pObj0 = tree->m_impl;
 	 if (!pObj0) { return false; }
 	// --- prep output arg ---
 	// gType = bool
@@ -327,7 +327,7 @@ void Xml::Copy(Xml ^node)
     {
 	if (m_impl == nullptr) { return ; }
 	if (node == nullptr) { return ; }
-	const CkXmlW* pObj0 = node->m_impl;
+	CkXmlW* pObj0 = node->m_impl;
 	 if (!pObj0) { return ; }
 	// --- prep output arg ---
 	// gType = void
@@ -779,7 +779,7 @@ void Xml::InsertChildTreeAfter(int index, Xml ^tree)
     {
 	if (m_impl == nullptr) { return ; }
 	if (tree == nullptr) { return ; }
-	const CkXmlW* pObj1 = tree->m_impl;
+	CkXmlW* pObj1 = tree->m_impl;
 	 if (!pObj1) { return ; }
 	// --- prep output arg ---
 	// gType = void
@@ -790,7 +790,7 @@ void Xml::InsertChildTreeBefore(int index, Xml ^tree)
     {
 	if (m_impl == nullptr) { return ; }
 	if (tree == nullptr) { return ; }
-	const CkXmlW* pObj1 = tree->m_impl;
+	CkXmlW* pObj1 = tree->m_impl;
 	 if (!pObj1) { return ; }
 	// --- prep output arg ---
 	// gType = void
@@ -1036,7 +1036,7 @@ Xml ^Xml::SearchAllForContent(Xml ^afterPtr, Platform::String ^contentPattern)
     {
 	if (m_impl == nullptr) { return nullptr; }
 	if (afterPtr == nullptr) { return nullptr; }
-	const CkXmlW* pObj0 = afterPtr->m_impl;
+	CkXmlW* pObj0 = afterPtr->m_impl;
 	// --- prep output arg ---
 	// gType = Xml
 	// cppType = CkXml *
@@ -1050,7 +1050,7 @@ Boolean Xml::SearchAllForContent2(Xml ^afterPtr, Platform::String ^contentPatter
     {
 	if (m_impl == nullptr) { return false; }
 	if (afterPtr == nullptr) { return false; }
-	const CkXmlW* pObj0 = afterPtr->m_impl;
+	CkXmlW* pObj0 = afterPtr->m_impl;
 	// --- prep output arg ---
 	// gType = bool
 	// cppType = bool
@@ -1060,7 +1060,7 @@ Xml ^Xml::SearchForAttribute(Xml ^afterPtr, Platform::String ^tag, Platform::Str
     {
 	if (m_impl == nullptr) { return nullptr; }
 	if (afterPtr == nullptr) { return nullptr; }
-	const CkXmlW* pObj0 = afterPtr->m_impl;
+	CkXmlW* pObj0 = afterPtr->m_impl;
 	// --- prep output arg ---
 	// gType = Xml
 	// cppType = CkXml *
@@ -1074,7 +1074,7 @@ Boolean Xml::SearchForAttribute2(Xml ^afterPtr, Platform::String ^tag, Platform:
     {
 	if (m_impl == nullptr) { return false; }
 	if (afterPtr == nullptr) { return false; }
-	const CkXmlW* pObj0 = afterPtr->m_impl;
+	CkXmlW* pObj0 = afterPtr->m_impl;
 	// --- prep output arg ---
 	// gType = bool
 	// cppType = bool
@@ -1084,7 +1084,7 @@ Xml ^Xml::SearchForContent(Xml ^afterPtr, Platform::String ^tag, Platform::Strin
     {
 	if (m_impl == nullptr) { return nullptr; }
 	if (afterPtr == nullptr) { return nullptr; }
-	const CkXmlW* pObj0 = afterPtr->m_impl;
+	CkXmlW* pObj0 = afterPtr->m_impl;
 	// --- prep output arg ---
 	// gType = Xml
 	// cppType = CkXml *
@@ -1098,7 +1098,7 @@ Boolean Xml::SearchForContent2(Xml ^afterPtr, Platform::String ^tag, Platform::S
     {
 	if (m_impl == nullptr) { return false; }
 	if (afterPtr == nullptr) { return false; }
-	const CkXmlW* pObj0 = afterPtr->m_impl;
+	CkXmlW* pObj0 = afterPtr->m_impl;
 	// --- prep output arg ---
 	// gType = bool
 	// cppType = bool
@@ -1108,7 +1108,7 @@ Xml ^Xml::SearchForTag(Xml ^afterPtr, Platform::String ^tag)
     {
 	if (m_impl == nullptr) { return nullptr; }
 	if (afterPtr == nullptr) { return nullptr; }
-	const CkXmlW* pObj0 = afterPtr->m_impl;
+	CkXmlW* pObj0 = afterPtr->m_impl;
 	// --- prep output arg ---
 	// gType = Xml
 	// cppType = CkXml *
@@ -1122,7 +1122,7 @@ Boolean Xml::SearchForTag2(Xml ^afterPtr, Platform::String ^tag)
     {
 	if (m_impl == nullptr) { return false; }
 	if (afterPtr == nullptr) { return false; }
-	const CkXmlW* pObj0 = afterPtr->m_impl;
+	CkXmlW* pObj0 = afterPtr->m_impl;
 	// --- prep output arg ---
 	// gType = bool
 	// cppType = bool
@@ -1207,7 +1207,7 @@ Boolean Xml::SwapNode(Xml ^node)
     {
 	if (m_impl == nullptr) { return false; }
 	if (node == nullptr) { return false; }
-	const CkXmlW* pObj0 = node->m_impl;
+	CkXmlW* pObj0 = node->m_impl;
 	 if (!pObj0) { return false; }
 	// --- prep output arg ---
 	// gType = bool
@@ -1218,7 +1218,7 @@ Boolean Xml::SwapTree(Xml ^tree)
     {
 	if (m_impl == nullptr) { return false; }
 	if (tree == nullptr) { return false; }
-	const CkXmlW* pObj0 = tree->m_impl;
+	CkXmlW* pObj0 = tree->m_impl;
 	 if (!pObj0) { return false; }
 	// --- prep output arg ---
 	// gType = bool

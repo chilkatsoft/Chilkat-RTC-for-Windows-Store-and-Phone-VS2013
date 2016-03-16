@@ -9,6 +9,8 @@
 #include "include/CkDateTime.h"
 #include "include/CkCompressionW.h"
 		
+#include "include/CkStreamW.h"
+#include "Stream.h"
 
 
 using namespace Chilkat;
@@ -351,6 +353,25 @@ return create_async([this, srcPath, destPath]() -> Boolean
 
 });
     }
+IAsyncOperation<Boolean>^ Compression::CompressStreamAsync(Stream ^strm)
+    {
+return create_async([this, strm]() -> Boolean
+{
+// This runs in a thread pool thread...
+
+	if (m_impl == nullptr) { return false; }
+	if (strm == nullptr) { return false; }
+	CkStreamW* pObj0 = strm->m_impl;
+	 if (!pObj0) { return false; }
+	// --- prep output arg ---
+	CxCompressionProgress cxProgress(m_impl);
+	cxProgress.m_sender = this;
+	// gType = bool
+	// cppType = bool
+	return m_impl->CompressStream(*pObj0);
+
+});
+    }
 IAsyncOperation<Windows::Foundation::Collections::IVector<uint8>^>^ Compression::CompressStringAsync(Platform::String ^str)
     {
 return create_async([this, str]() -> Windows::Foundation::Collections::IVector<uint8>^
@@ -445,6 +466,25 @@ return create_async([this, srcPath, destPath]() -> Boolean
 	// gType = bool
 	// cppType = bool
 	return m_impl->DecompressFile(srcPath ? srcPath->Data() : L"",destPath ? destPath->Data() : L"");
+
+});
+    }
+IAsyncOperation<Boolean>^ Compression::DecompressStreamAsync(Stream ^strm)
+    {
+return create_async([this, strm]() -> Boolean
+{
+// This runs in a thread pool thread...
+
+	if (m_impl == nullptr) { return false; }
+	if (strm == nullptr) { return false; }
+	CkStreamW* pObj0 = strm->m_impl;
+	 if (!pObj0) { return false; }
+	// --- prep output arg ---
+	CxCompressionProgress cxProgress(m_impl);
+	cxProgress.m_sender = this;
+	// gType = bool
+	// cppType = bool
+	return m_impl->DecompressStream(*pObj0);
 
 });
     }

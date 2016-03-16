@@ -266,7 +266,7 @@ Boolean Mime::AddDetachedSignature(Cert ^cert)
     {
 	if (m_impl == nullptr) { return false; }
 	if (cert == nullptr) { return false; }
-	const CkCertW* pObj0 = cert->m_impl;
+	CkCertW* pObj0 = cert->m_impl;
 	 if (!pObj0) { return false; }
 	// --- prep output arg ---
 	// gType = bool
@@ -277,7 +277,7 @@ Boolean Mime::AddDetachedSignature2(Cert ^cert, Boolean transferHeaderFields)
     {
 	if (m_impl == nullptr) { return false; }
 	if (cert == nullptr) { return false; }
-	const CkCertW* pObj0 = cert->m_impl;
+	CkCertW* pObj0 = cert->m_impl;
 	 if (!pObj0) { return false; }
 	// --- prep output arg ---
 	// gType = bool
@@ -288,10 +288,10 @@ Boolean Mime::AddDetachedSignaturePk(Cert ^cert, PrivateKey ^privateKey)
     {
 	if (m_impl == nullptr) { return false; }
 	if (cert == nullptr) { return false; }
-	const CkCertW* pObj0 = cert->m_impl;
+	CkCertW* pObj0 = cert->m_impl;
 	 if (!pObj0) { return false; }
 	if (privateKey == nullptr) { return false; }
-	const CkPrivateKeyW* pObj1 = privateKey->m_impl;
+	CkPrivateKeyW* pObj1 = privateKey->m_impl;
 	 if (!pObj1) { return false; }
 	// --- prep output arg ---
 	// gType = bool
@@ -302,10 +302,10 @@ Boolean Mime::AddDetachedSignaturePk2(Cert ^cert, PrivateKey ^privateKey, Boolea
     {
 	if (m_impl == nullptr) { return false; }
 	if (cert == nullptr) { return false; }
-	const CkCertW* pObj0 = cert->m_impl;
+	CkCertW* pObj0 = cert->m_impl;
 	 if (!pObj0) { return false; }
 	if (privateKey == nullptr) { return false; }
-	const CkPrivateKeyW* pObj1 = privateKey->m_impl;
+	CkPrivateKeyW* pObj1 = privateKey->m_impl;
 	 if (!pObj1) { return false; }
 	// --- prep output arg ---
 	// gType = bool
@@ -354,7 +354,7 @@ Boolean Mime::AppendPart(Mime ^mime)
     {
 	if (m_impl == nullptr) { return false; }
 	if (mime == nullptr) { return false; }
-	const CkMimeW* pObj0 = mime->m_impl;
+	CkMimeW* pObj0 = mime->m_impl;
 	 if (!pObj0) { return false; }
 	// --- prep output arg ---
 	// gType = bool
@@ -431,7 +431,7 @@ Boolean Mime::ConvertToSigned(Cert ^cert)
     {
 	if (m_impl == nullptr) { return false; }
 	if (cert == nullptr) { return false; }
-	const CkCertW* pObj0 = cert->m_impl;
+	CkCertW* pObj0 = cert->m_impl;
 	 if (!pObj0) { return false; }
 	// --- prep output arg ---
 	// gType = bool
@@ -442,10 +442,10 @@ Boolean Mime::ConvertToSignedPk(Cert ^cert, PrivateKey ^privateKey)
     {
 	if (m_impl == nullptr) { return false; }
 	if (cert == nullptr) { return false; }
-	const CkCertW* pObj0 = cert->m_impl;
+	CkCertW* pObj0 = cert->m_impl;
 	 if (!pObj0) { return false; }
 	if (privateKey == nullptr) { return false; }
-	const CkPrivateKeyW* pObj1 = privateKey->m_impl;
+	CkPrivateKeyW* pObj1 = privateKey->m_impl;
 	 if (!pObj1) { return false; }
 	// --- prep output arg ---
 	// gType = bool
@@ -464,10 +464,10 @@ Boolean Mime::Decrypt2(Cert ^cert, PrivateKey ^privateKey)
     {
 	if (m_impl == nullptr) { return false; }
 	if (cert == nullptr) { return false; }
-	const CkCertW* pObj0 = cert->m_impl;
+	CkCertW* pObj0 = cert->m_impl;
 	 if (!pObj0) { return false; }
 	if (privateKey == nullptr) { return false; }
-	const CkPrivateKeyW* pObj1 = privateKey->m_impl;
+	CkPrivateKeyW* pObj1 = privateKey->m_impl;
 	 if (!pObj1) { return false; }
 	// --- prep output arg ---
 	// gType = bool
@@ -508,7 +508,7 @@ Boolean Mime::Encrypt(Cert ^cert)
     {
 	if (m_impl == nullptr) { return false; }
 	if (cert == nullptr) { return false; }
-	const CkCertW* pObj0 = cert->m_impl;
+	CkCertW* pObj0 = cert->m_impl;
 	 if (!pObj0) { return false; }
 	// --- prep output arg ---
 	// gType = bool
@@ -915,7 +915,7 @@ Boolean Mime::NewMessageRfc822(Mime ^mimeObject)
     {
 	if (m_impl == nullptr) { return false; }
 	if (mimeObject == nullptr) { return false; }
-	const CkMimeW* pObj0 = mimeObject->m_impl;
+	CkMimeW* pObj0 = mimeObject->m_impl;
 	 if (!pObj0) { return false; }
 	// --- prep output arg ---
 	// gType = bool
@@ -1057,7 +1057,7 @@ Boolean Mime::SetVerifyCert(Cert ^cert)
     {
 	if (m_impl == nullptr) { return false; }
 	if (cert == nullptr) { return false; }
-	const CkCertW* pObj0 = cert->m_impl;
+	CkCertW* pObj0 = cert->m_impl;
 	 if (!pObj0) { return false; }
 	// --- prep output arg ---
 	// gType = bool
@@ -1106,6 +1106,16 @@ Boolean Mime::Verify(void)
 	// gType = bool
 	// cppType = bool
 	return m_impl->Verify();
+    }
+Platform::String ^Mime::GetStructure(Platform::String ^fmt)
+    {
+	if (m_impl == nullptr) { return nullptr; }
+	// --- prep output arg ---
+	// gType = string
+	// cppType = bool
+	const wchar_t *retStr = m_impl->getStructure(fmt ? fmt->Data() : L"");
+	if (!retStr) return nullptr;
+	return ref new String(retStr);
     }
 
 

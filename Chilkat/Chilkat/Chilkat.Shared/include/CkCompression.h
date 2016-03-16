@@ -10,12 +10,11 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkMultiByteBase.h"
-
-class CkByteData;
+#include "CkClassWithCallbacks.h"
 
 class CkTask;
 class CkByteData;
+class CkStream;
 class CkBaseProgress;
 
 
@@ -26,10 +25,9 @@ class CkBaseProgress;
  
 
 // CLASS: CkCompression
-class CK_VISIBLE_PUBLIC CkCompression  : public CkMultiByteBase
+class CK_VISIBLE_PUBLIC CkCompression  : public CkClassWithCallbacks
 {
     private:
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkCompression(const CkCompression &);
@@ -139,14 +137,14 @@ class CK_VISIBLE_PUBLIC CkCompression  : public CkMultiByteBase
 	// ending with a final call to EndCompressBytes. Each call returns 0 or more bytes
 	// of compressed data which may be output to a compressed data stream (such as a
 	// file, socket, etc.).
-	bool BeginCompressBytes(const CkByteData &data, CkByteData &outData);
+	bool BeginCompressBytes(CkByteData &data, CkByteData &outData);
 
 	// Large amounts of binary byte data may be compressed in chunks by first calling
 	// BeginCompressBytes, followed by 0 or more calls to MoreCompressedBytes, and
 	// ending with a final call to EndCompressBytes. Each call returns 0 or more bytes
 	// of compressed data which may be output to a compressed data stream (such as a
 	// file, socket, etc.).
-	CkTask *BeginCompressBytesAsync(const CkByteData &data);
+	CkTask *BeginCompressBytesAsync(CkByteData &data);
 
 
 	// Large amounts of binary byte data may be compressed in chunks by first calling
@@ -155,7 +153,7 @@ class CK_VISIBLE_PUBLIC CkCompression  : public CkMultiByteBase
 	// characters of compressed data (encoded as a string according to the EncodingMode
 	// property setting) which may be output to a compressed data stream (such as a
 	// file, socket, etc.).
-	bool BeginCompressBytesENC(const CkByteData &data, CkString &outStr);
+	bool BeginCompressBytesENC(CkByteData &data, CkString &outStr);
 
 	// Large amounts of binary byte data may be compressed in chunks by first calling
 	// BeginCompressBytesENC, followed by 0 or more calls to MoreCompressedBytesENC,
@@ -163,14 +161,14 @@ class CK_VISIBLE_PUBLIC CkCompression  : public CkMultiByteBase
 	// characters of compressed data (encoded as a string according to the EncodingMode
 	// property setting) which may be output to a compressed data stream (such as a
 	// file, socket, etc.).
-	const char *beginCompressBytesENC(const CkByteData &data);
+	const char *beginCompressBytesENC(CkByteData &data);
 	// Large amounts of binary byte data may be compressed in chunks by first calling
 	// BeginCompressBytesENC, followed by 0 or more calls to MoreCompressedBytesENC,
 	// and ending with a final call to EndCompressBytesENC. Each call returns 0 or more
 	// characters of compressed data (encoded as a string according to the EncodingMode
 	// property setting) which may be output to a compressed data stream (such as a
 	// file, socket, etc.).
-	CkTask *BeginCompressBytesENCAsync(const CkByteData &data);
+	CkTask *BeginCompressBytesENCAsync(CkByteData &data);
 
 
 	// Large amounts of string data may be compressed in chunks by first calling
@@ -216,13 +214,13 @@ class CK_VISIBLE_PUBLIC CkCompression  : public CkMultiByteBase
 	// BeginDecompressBytes, followed by 0 or more calls to MoreDecompressedBytes, and
 	// ending with a final call to EndDecompressBytes. Each call returns 0 or more
 	// bytes of decompressed data.
-	bool BeginDecompressBytes(const CkByteData &data, CkByteData &outData);
+	bool BeginDecompressBytes(CkByteData &data, CkByteData &outData);
 
 	// A compressed data stream may be decompressed in chunks by first calling
 	// BeginDecompressBytes, followed by 0 or more calls to MoreDecompressedBytes, and
 	// ending with a final call to EndDecompressBytes. Each call returns 0 or more
 	// bytes of decompressed data.
-	CkTask *BeginDecompressBytesAsync(const CkByteData &data);
+	CkTask *BeginDecompressBytesAsync(CkByteData &data);
 
 
 	// The input to this method is an encoded string containing compressed data. The
@@ -254,18 +252,18 @@ class CK_VISIBLE_PUBLIC CkCompression  : public CkMultiByteBase
 	// BeginDecompressString, followed by 0 or more calls to MoreDecompressedString,
 	// and ending with a final call to EndDecompressString. Each call returns 0 or more
 	// characters of decompressed text.
-	bool BeginDecompressString(const CkByteData &data, CkString &outStr);
+	bool BeginDecompressString(CkByteData &data, CkString &outStr);
 
 	// A compressed data stream may be decompressed in chunks by first calling
 	// BeginDecompressString, followed by 0 or more calls to MoreDecompressedString,
 	// and ending with a final call to EndDecompressString. Each call returns 0 or more
 	// characters of decompressed text.
-	const char *beginDecompressString(const CkByteData &data);
+	const char *beginDecompressString(CkByteData &data);
 	// A compressed data stream may be decompressed in chunks by first calling
 	// BeginDecompressString, followed by 0 or more calls to MoreDecompressedString,
 	// and ending with a final call to EndDecompressString. Each call returns 0 or more
 	// characters of decompressed text.
-	CkTask *BeginDecompressStringAsync(const CkByteData &data);
+	CkTask *BeginDecompressStringAsync(CkByteData &data);
 
 
 	// The input to this method is an encoded string containing compressed data. The
@@ -308,22 +306,22 @@ class CK_VISIBLE_PUBLIC CkCompression  : public CkMultiByteBase
 
 
 	// Compresses byte data.
-	bool CompressBytes(const CkByteData &data, CkByteData &outData);
+	bool CompressBytes(CkByteData &data, CkByteData &outData);
 
 	// Compresses byte data.
-	CkTask *CompressBytesAsync(const CkByteData &data);
+	CkTask *CompressBytesAsync(CkByteData &data);
 
 
 	// Compresses bytes and returns the compressed data encoded to a string. The
 	// encoding (hex, base64, etc.) is determined by the EncodingMode property setting.
-	bool CompressBytesENC(const CkByteData &data, CkString &outStr);
+	bool CompressBytesENC(CkByteData &data, CkString &outStr);
 
 	// Compresses bytes and returns the compressed data encoded to a string. The
 	// encoding (hex, base64, etc.) is determined by the EncodingMode property setting.
-	const char *compressBytesENC(const CkByteData &data);
+	const char *compressBytesENC(CkByteData &data);
 	// Compresses bytes and returns the compressed data encoded to a string. The
 	// encoding (hex, base64, etc.) is determined by the EncodingMode property setting.
-	CkTask *CompressBytesENCAsync(const CkByteData &data);
+	CkTask *CompressBytesENCAsync(CkByteData &data);
 
 
 	// Performs file-to-file compression. Files of any size may be compressed because
@@ -358,10 +356,10 @@ class CK_VISIBLE_PUBLIC CkCompression  : public CkMultiByteBase
 
 
 	// The opposite of CompressBytes.
-	bool DecompressBytes(const CkByteData &data, CkByteData &outData);
+	bool DecompressBytes(CkByteData &data, CkByteData &outData);
 
 	// The opposite of CompressBytes.
-	CkTask *DecompressBytesAsync(const CkByteData &data);
+	CkTask *DecompressBytesAsync(CkByteData &data);
 
 
 	// The opposite of CompressBytesENC. encodedCompressedData contains the compressed data as an
@@ -387,12 +385,12 @@ class CK_VISIBLE_PUBLIC CkCompression  : public CkMultiByteBase
 
 
 	// Takes compressed bytes, decompresses, and returns the resulting string.
-	bool DecompressString(const CkByteData &data, CkString &outStr);
+	bool DecompressString(CkByteData &data, CkString &outStr);
 
 	// Takes compressed bytes, decompresses, and returns the resulting string.
-	const char *decompressString(const CkByteData &data);
+	const char *decompressString(CkByteData &data);
 	// Takes compressed bytes, decompresses, and returns the resulting string.
-	CkTask *DecompressStringAsync(const CkByteData &data);
+	CkTask *DecompressStringAsync(CkByteData &data);
 
 
 	// The opposite of CompressStringENC. encodedCompressedData contains the compressed data as an
@@ -580,19 +578,19 @@ class CK_VISIBLE_PUBLIC CkCompression  : public CkMultiByteBase
 
 
 	// (See BeginCompressBytes)
-	bool MoreCompressBytes(const CkByteData &data, CkByteData &outData);
+	bool MoreCompressBytes(CkByteData &data, CkByteData &outData);
 
 	// (See BeginCompressBytes)
-	CkTask *MoreCompressBytesAsync(const CkByteData &data);
+	CkTask *MoreCompressBytesAsync(CkByteData &data);
 
 
 	// (See BeginCompressBytesENC)
-	bool MoreCompressBytesENC(const CkByteData &data, CkString &outStr);
+	bool MoreCompressBytesENC(CkByteData &data, CkString &outStr);
 
 	// (See BeginCompressBytesENC)
-	const char *moreCompressBytesENC(const CkByteData &data);
+	const char *moreCompressBytesENC(CkByteData &data);
 	// (See BeginCompressBytesENC)
-	CkTask *MoreCompressBytesENCAsync(const CkByteData &data);
+	CkTask *MoreCompressBytesENCAsync(CkByteData &data);
 
 
 	// (See BeginCompressString)
@@ -612,10 +610,10 @@ class CK_VISIBLE_PUBLIC CkCompression  : public CkMultiByteBase
 
 
 	// (See BeginDecompressBytes)
-	bool MoreDecompressBytes(const CkByteData &data, CkByteData &outData);
+	bool MoreDecompressBytes(CkByteData &data, CkByteData &outData);
 
 	// (See BeginDecompressBytes)
-	CkTask *MoreDecompressBytesAsync(const CkByteData &data);
+	CkTask *MoreDecompressBytesAsync(CkByteData &data);
 
 
 	// The input to this method is an encoded string containing compressed data. The
@@ -638,12 +636,12 @@ class CK_VISIBLE_PUBLIC CkCompression  : public CkMultiByteBase
 
 
 	// (See BeginDecompressString)
-	bool MoreDecompressString(const CkByteData &data, CkString &outStr);
+	bool MoreDecompressString(CkByteData &data, CkString &outStr);
 
 	// (See BeginDecompressString)
-	const char *moreDecompressString(const CkByteData &data);
+	const char *moreDecompressString(CkByteData &data);
 	// (See BeginDecompressString)
-	CkTask *MoreDecompressStringAsync(const CkByteData &data);
+	CkTask *MoreDecompressStringAsync(CkByteData &data);
 
 
 	// The input to this method is an encoded string containing compressed data. The
@@ -681,6 +679,32 @@ class CK_VISIBLE_PUBLIC CkCompression  : public CkMultiByteBase
 	// unlock code is provided which should replace the temporary/arbitrary string
 	// passed to this method.
 	bool UnlockComponent(const char *unlockCode);
+
+
+	// Compresses a stream. Internally, the ARG1's source is read, compressed, and the
+	// compressed data written to the ARG1's sink. It does this in streaming fashion.
+	// Extremely large or even infinite streams can be compressed with stable ungrowing
+	// memory usage.
+	bool CompressStream(CkStream &strm);
+
+	// Compresses a stream. Internally, the ARG1's source is read, compressed, and the
+	// compressed data written to the ARG1's sink. It does this in streaming fashion.
+	// Extremely large or even infinite streams can be compressed with stable ungrowing
+	// memory usage.
+	CkTask *CompressStreamAsync(CkStream &strm);
+
+
+	// Decompresses a stream. Internally, the ARG1's source is read, decompressed, and
+	// the decompressed data written to the ARG1's sink. It does this in streaming
+	// fashion. Extremely large or even infinite streams can be decompressed with
+	// stable ungrowing memory usage.
+	bool DecompressStream(CkStream &strm);
+
+	// Decompresses a stream. Internally, the ARG1's source is read, decompressed, and
+	// the decompressed data written to the ARG1's sink. It does this in streaming
+	// fashion. Extremely large or even infinite streams can be decompressed with
+	// stable ungrowing memory usage.
+	CkTask *DecompressStreamAsync(CkStream &strm);
 
 
 

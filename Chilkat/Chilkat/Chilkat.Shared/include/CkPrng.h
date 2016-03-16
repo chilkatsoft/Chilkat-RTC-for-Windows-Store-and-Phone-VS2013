@@ -14,8 +14,6 @@
 
 class CkByteData;
 
-class CkByteData;
-
 
 
 #if !defined(__sun__) && !defined(__sun)
@@ -27,7 +25,6 @@ class CkByteData;
 class CK_VISIBLE_PUBLIC CkPrng  : public CkMultiByteBase
 {
     private:
-	
 
 	// Don't allow assignment or copying these objects.
 	CkPrng(const CkPrng &);
@@ -110,7 +107,7 @@ class CK_VISIBLE_PUBLIC CkPrng  : public CkMultiByteBase
 	// the reproduction of the same pseudo-random number sequence for testing and
 	// debugging purposes.
 	// 
-	bool AddEntropyBytes(const CkByteData &entropy);
+	bool AddEntropyBytes(CkByteData &entropy);
 
 
 	// Exports all accumulated entropy and returns it in a base64 encoded string.

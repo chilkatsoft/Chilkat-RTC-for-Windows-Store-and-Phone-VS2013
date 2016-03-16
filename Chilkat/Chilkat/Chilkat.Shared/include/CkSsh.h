@@ -10,9 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkMultiByteBase.h"
-
-class CkByteData;
+#include "CkClassWithCallbacks.h"
 
 class CkTask;
 class CkSshKey;
@@ -28,10 +26,9 @@ class CkBaseProgress;
  
 
 // CLASS: CkSsh
-class CK_VISIBLE_PUBLIC CkSsh  : public CkMultiByteBase
+class CK_VISIBLE_PUBLIC CkSsh  : public CkClassWithCallbacks
 {
     private:
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkSsh(const CkSsh &);
@@ -642,6 +639,27 @@ class CK_VISIBLE_PUBLIC CkSsh  : public CkMultiByteBase
 	// authentication via the StartKeyboardAuth and ContinueKeyboardAuth methods.
 	void put_UserAuthBanner(const char *newVal);
 
+	// Enables or disables the use of compression w/ the SSH connection. The default
+	// value is true, meaning that compression is used if the server supports it.
+	// 
+	// Some older SSH servers have been found that claim to support compression, but
+	// actually fail when compression is used. PuTTY does not enable compression by
+	// default. If trouble is encountered where the SSH server disconnects immediately
+	// after the connection is seemingly established (i.e. during authentication), then
+	// check to see if disabling compression resolves the problem.
+	// 
+	bool get_EnableCompression(void);
+	// Enables or disables the use of compression w/ the SSH connection. The default
+	// value is true, meaning that compression is used if the server supports it.
+	// 
+	// Some older SSH servers have been found that claim to support compression, but
+	// actually fail when compression is used. PuTTY does not enable compression by
+	// default. If trouble is encountered where the SSH server disconnects immediately
+	// after the connection is seemingly established (i.e. during authentication), then
+	// check to see if disabling compression resolves the problem.
+	// 
+	void put_EnableCompression(bool newVal);
+
 
 
 	// ----------------------
@@ -966,10 +984,10 @@ class CK_VISIBLE_PUBLIC CkSsh  : public CkMultiByteBase
 
 
 	// Sends byte data on the channel indicated by channelNum.
-	bool ChannelSendData(int channelNum, const CkByteData &data);
+	bool ChannelSendData(int channelNum, CkByteData &data);
 
 	// Sends byte data on the channel indicated by channelNum.
-	CkTask *ChannelSendDataAsync(int channelNum, const CkByteData &data);
+	CkTask *ChannelSendDataAsync(int channelNum, CkByteData &data);
 
 
 	// Sends an EOF for the channel indicated by channelNum. Once an EOF is sent, no

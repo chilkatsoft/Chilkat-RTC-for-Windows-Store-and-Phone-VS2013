@@ -598,7 +598,7 @@ class CK_VISIBLE_PUBLIC CkCertW  : public CkWideCharBase
 	bool LoadFromBase64(const wchar_t *encodedCert);
 
 	// Loads an X.509 certificate from ASN.1 DER encoded bytes.
-	bool LoadFromBinary(const CkByteData &data);
+	bool LoadFromBinary(CkByteData &data);
 
 #if !defined(CHILKAT_MONO)
 	// The same as LoadFromBinary, but instead of using a CkByteData object, the
@@ -624,7 +624,7 @@ class CK_VISIBLE_PUBLIC CkCertW  : public CkWideCharBase
 
 	// Loads a PFX from an in-memory image of a PFX file. Note: If the PFX contains
 	// multiple certificates, the 1st certificate in the PFX is loaded.
-	bool LoadPfxData(const CkByteData &pfxData, const wchar_t *password);
+	bool LoadPfxData(CkByteData &pfxData, const wchar_t *password);
 
 #if !defined(CHILKAT_MONO)
 	// Loads a PFX from an in-memory image of a PFX file. Note: If the PFX contains

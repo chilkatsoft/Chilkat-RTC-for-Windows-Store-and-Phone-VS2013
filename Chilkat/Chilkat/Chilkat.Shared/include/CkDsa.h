@@ -14,8 +14,6 @@
 
 class CkByteData;
 
-class CkByteData;
-
 
 
 #if !defined(__sun__) && !defined(__sun)
@@ -27,7 +25,6 @@ class CkByteData;
 class CK_VISIBLE_PUBLIC CkDsa  : public CkMultiByteBase
 {
     private:
-	
 
 	// Don't allow assignment or copying these objects.
 	CkDsa(const CkDsa &);
@@ -123,7 +120,7 @@ class CK_VISIBLE_PUBLIC CkDsa  : public CkMultiByteBase
 	// Methods
 	// ----------------------
 	// Loads a DSA private key from in-memory DSA DER encoded bytes.
-	bool FromDer(const CkByteData &derData);
+	bool FromDer(CkByteData &derData);
 
 
 	// Loads a DSA private key from a DER-encoded file.
@@ -141,7 +138,7 @@ class CK_VISIBLE_PUBLIC CkDsa  : public CkMultiByteBase
 
 
 	// Loads a DSA public key from an in-memory DER-encoded byte array.
-	bool FromPublicDer(const CkByteData &derData);
+	bool FromPublicDer(CkByteData &derData);
 
 
 	// Loads a DSA public key from a DER-encoded file.
@@ -164,7 +161,7 @@ class CK_VISIBLE_PUBLIC CkDsa  : public CkMultiByteBase
 
 	// Generates a new DSA key from in-memory DER parameters created by OpenSSL. The
 	// newly generated key may be exported by calling one of the To* methods.
-	bool GenKeyFromParamsDer(const CkByteData &derBytes);
+	bool GenKeyFromParamsDer(CkByteData &derBytes);
 
 
 	// Generates a new DSA key from a DER-format parameters file created by OpenSSL. An

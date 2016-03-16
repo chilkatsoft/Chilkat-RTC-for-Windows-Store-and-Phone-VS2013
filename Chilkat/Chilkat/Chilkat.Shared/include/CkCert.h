@@ -31,7 +31,6 @@ class CkXmlCertVault;
 class CK_VISIBLE_PUBLIC CkCert  : public CkMultiByteBase
 {
     private:
-	
 
 	// Don't allow assignment or copying these objects.
 	CkCert(const CkCert &);
@@ -537,6 +536,36 @@ class CK_VISIBLE_PUBLIC CkCert  : public CkMultiByteBase
 	const char *privateKeyPem(void);
 
 
+	// Returns the SPKI Fingerprint suitable for use in pinning. (See RFC 7469.) An
+	// SPKI Fingerprint is defined as the output of a known cryptographic hash
+	// algorithm whose input is the DER-encoded ASN.1 representation of the Subject
+	// Public Key Info (SPKI) of an X.509 certificate. The ARG1 specifies the hash
+	// algorithm and may be "sha256", "sha384", "sha512", "sha1", "md2", "md5",
+	// "haval", "ripemd128", "ripemd160","ripemd256", or "ripemd320". The ARG2
+	// specifies the encoding, and may be "base64", "hex", or any of the encoding modes
+	// specified in the article at the link below.
+	bool GetSpkiFingerprint(const char *hashAlg, const char *encoding, CkString &outStr);
+
+	// Returns the SPKI Fingerprint suitable for use in pinning. (See RFC 7469.) An
+	// SPKI Fingerprint is defined as the output of a known cryptographic hash
+	// algorithm whose input is the DER-encoded ASN.1 representation of the Subject
+	// Public Key Info (SPKI) of an X.509 certificate. The ARG1 specifies the hash
+	// algorithm and may be "sha256", "sha384", "sha512", "sha1", "md2", "md5",
+	// "haval", "ripemd128", "ripemd160","ripemd256", or "ripemd320". The ARG2
+	// specifies the encoding, and may be "base64", "hex", or any of the encoding modes
+	// specified in the article at the link below.
+	const char *getSpkiFingerprint(const char *hashAlg, const char *encoding);
+	// Returns the SPKI Fingerprint suitable for use in pinning. (See RFC 7469.) An
+	// SPKI Fingerprint is defined as the output of a known cryptographic hash
+	// algorithm whose input is the DER-encoded ASN.1 representation of the Subject
+	// Public Key Info (SPKI) of an X.509 certificate. The ARG1 specifies the hash
+	// algorithm and may be "sha256", "sha384", "sha512", "sha1", "md2", "md5",
+	// "haval", "ripemd128", "ripemd160","ripemd256", or "ripemd320". The ARG2
+	// specifies the encoding, and may be "base64", "hex", or any of the encoding modes
+	// specified in the article at the link below.
+	const char *spkiFingerprint(const char *hashAlg, const char *encoding);
+
+
 	// Returns the date/time this certificate becomes (or became) valid.
 	// The caller is responsible for deleting the object returned by this method.
 	CkDateTime *GetValidFromDt(void);
@@ -593,7 +622,7 @@ class CK_VISIBLE_PUBLIC CkCert  : public CkMultiByteBase
 
 
 	// Loads an X.509 certificate from ASN.1 DER encoded bytes.
-	bool LoadFromBinary(const CkByteData &data);
+	bool LoadFromBinary(CkByteData &data);
 
 
 #if !defined(CHILKAT_MONO)
@@ -623,7 +652,7 @@ class CK_VISIBLE_PUBLIC CkCert  : public CkMultiByteBase
 
 	// Loads a PFX from an in-memory image of a PFX file. Note: If the PFX contains
 	// multiple certificates, the 1st certificate in the PFX is loaded.
-	bool LoadPfxData(const CkByteData &pfxData, const char *password);
+	bool LoadPfxData(CkByteData &pfxData, const char *password);
 
 
 #if !defined(CHILKAT_MONO)
@@ -675,36 +704,6 @@ class CK_VISIBLE_PUBLIC CkCert  : public CkMultiByteBase
 	// certificates in the chain of authentication to the trusted root. Returns true
 	// if all signatures are verified to the trusted root. Otherwise returns false.
 	bool VerifySignature(void);
-
-
-	// Returns the SPKI Fingerprint suitable for use in pinning. (See RFC 7469.) An
-	// SPKI Fingerprint is defined as the output of a known cryptographic hash
-	// algorithm whose input is the DER-encoded ASN.1 representation of the Subject
-	// Public Key Info (SPKI) of an X.509 certificate. The ARG1 specifies the hash
-	// algorithm and may be "sha256", "sha384", "sha512", "sha1", "md2", "md5",
-	// "haval", "ripemd128", "ripemd160","ripemd256", or "ripemd320". The ARG2
-	// specifies the encoding, and may be "base64", "hex", or any of the encoding modes
-	// specified in the article at the link below.
-	bool GetSpkiFingerprint(const char *hashAlg, const char *encoding, CkString &outStr);
-
-	// Returns the SPKI Fingerprint suitable for use in pinning. (See RFC 7469.) An
-	// SPKI Fingerprint is defined as the output of a known cryptographic hash
-	// algorithm whose input is the DER-encoded ASN.1 representation of the Subject
-	// Public Key Info (SPKI) of an X.509 certificate. The ARG1 specifies the hash
-	// algorithm and may be "sha256", "sha384", "sha512", "sha1", "md2", "md5",
-	// "haval", "ripemd128", "ripemd160","ripemd256", or "ripemd320". The ARG2
-	// specifies the encoding, and may be "base64", "hex", or any of the encoding modes
-	// specified in the article at the link below.
-	const char *getSpkiFingerprint(const char *hashAlg, const char *encoding);
-	// Returns the SPKI Fingerprint suitable for use in pinning. (See RFC 7469.) An
-	// SPKI Fingerprint is defined as the output of a known cryptographic hash
-	// algorithm whose input is the DER-encoded ASN.1 representation of the Subject
-	// Public Key Info (SPKI) of an X.509 certificate. The ARG1 specifies the hash
-	// algorithm and may be "sha256", "sha384", "sha512", "sha1", "md2", "md5",
-	// "haval", "ripemd128", "ripemd160","ripemd256", or "ripemd320". The ARG2
-	// specifies the encoding, and may be "base64", "hex", or any of the encoding modes
-	// specified in the article at the link below.
-	const char *spkiFingerprint(const char *hashAlg, const char *encoding);
 
 
 

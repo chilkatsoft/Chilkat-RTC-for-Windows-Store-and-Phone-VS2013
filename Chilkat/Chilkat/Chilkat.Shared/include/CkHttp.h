@@ -10,7 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkMultiByteBase.h"
+#include "CkClassWithCallbacks.h"
 
 class CkByteData;
 class CkHttpResponse;
@@ -31,10 +31,9 @@ class CkHttpProgress;
  
 
 // CLASS: CkHttp
-class CK_VISIBLE_PUBLIC CkHttp  : public CkMultiByteBase
+class CK_VISIBLE_PUBLIC CkHttp  : public CkClassWithCallbacks
 {
     private:
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkHttp(const CkHttp &);
@@ -142,12 +141,35 @@ class CK_VISIBLE_PUBLIC CkHttp  : public CkMultiByteBase
 	// compatible services from other different providers.
 	void put_AwsEndpoint(const char *newVal);
 
+	// The AWS (S3) region, such as "us-east-1", "us-west-2", "eu-west-1",
+	// "eu-central-1", etc. This propery defaults to "us-east-1". It is only used when
+	// the AwsSignatureVersion property is set to 4. When the AwsSignatureVersion
+	// property is set to 2, then this property is unused.
+	void get_AwsRegion(CkString &str);
+	// The AWS (S3) region, such as "us-east-1", "us-west-2", "eu-west-1",
+	// "eu-central-1", etc. This propery defaults to "us-east-1". It is only used when
+	// the AwsSignatureVersion property is set to 4. When the AwsSignatureVersion
+	// property is set to 2, then this property is unused.
+	const char *awsRegion(void);
+	// The AWS (S3) region, such as "us-east-1", "us-west-2", "eu-west-1",
+	// "eu-central-1", etc. This propery defaults to "us-east-1". It is only used when
+	// the AwsSignatureVersion property is set to 4. When the AwsSignatureVersion
+	// property is set to 2, then this property is unused.
+	void put_AwsRegion(const char *newVal);
+
 	// The AWS Secret Key to be used with the Amazon S3 methods listed below.
 	void get_AwsSecretKey(CkString &str);
 	// The AWS Secret Key to be used with the Amazon S3 methods listed below.
 	const char *awsSecretKey(void);
 	// The AWS Secret Key to be used with the Amazon S3 methods listed below.
 	void put_AwsSecretKey(const char *newVal);
+
+	// Selects the AWS Signature Version algorithm. The default value is 2. May be set
+	// to 4 to select AWS Signature Version 4.
+	int get_AwsSignatureVersion(void);
+	// Selects the AWS Signature Version algorithm. The default value is 2. May be set
+	// to 4 to select AWS Signature Version 4.
+	void put_AwsSignatureVersion(int newVal);
 
 	// The AWS sub-resources to be used with the Amazon S3 methods listed below.
 	// 
@@ -372,6 +394,41 @@ class CK_VISIBLE_PUBLIC CkHttp  : public CkMultiByteBase
 	// names, such as "165.164.55.124".
 	// 
 	void put_ClientIpAddress(const char *newVal);
+
+	// This property will be set to the status of the last HTTP connection made (or
+	// failed to be made) by any HTTP method.
+	// 
+	// Possible values are:
+	// 0 = success
+	// 
+	// Normal (non-TLS) sockets:
+	// 1 = empty hostname
+	// 2 = DNS lookup failed
+	// 3 = DNS timeout
+	// 4 = Aborted by application.
+	// 5 = Internal failure.
+	// 6 = Connect Timed Out
+	// 7 = Connect Rejected (or failed for some other reason)
+	// 
+	// SSL/TLS:
+	// 100 = TLS internal error.
+	// 101 = Failed to send client hello.
+	// 102 = Unexpected handshake message.
+	// 103 = Failed to read server hello.
+	// 104 = No server certificate.
+	// 105 = Unexpected TLS protocol version.
+	// 106 = Server certificate verify failed (the server certificate is expired or the cert's signature verification failed).
+	// 107 = Unacceptable TLS protocol version.
+	// 109 = Failed to read handshake messages.
+	// 110 = Failed to send client certificate handshake message.
+	// 111 = Failed to send client key exchange handshake message.
+	// 112 = Client certificate's private key not accessible.
+	// 113 = Failed to send client cert verify handshake message.
+	// 114 = Failed to send change cipher spec handshake message.
+	// 115 = Failed to send finished handshake message.
+	// 116 = Server's Finished message is invalid.
+	// 
+	int get_ConnectFailReason(void);
 
 	// The amount of time in seconds to wait before timing out when connecting to an
 	// HTTP server.
@@ -786,6 +843,15 @@ class CK_VISIBLE_PUBLIC CkHttp  : public CkMultiByteBase
 	// 
 	void put_KeepEventLog(bool newVal);
 
+	// If true, then the response body, if text, is saved to the LastResponseBody
+	// property for all methods that do not return an HttpResponse object. The default
+	// value of this property is false.
+	bool get_KeepResponseBody(void);
+	// If true, then the response body, if text, is saved to the LastResponseBody
+	// property for all methods that do not return an HttpResponse object. The default
+	// value of this property is false.
+	void put_KeepResponseBody(bool newVal);
+
 	// An integer between 1 and 100 that indicates the percentage of time from the HTTP
 	// page's last-modified date that will be used for the freshness period. The
 	// default value is 25. For example, if a page is fetched with a last-modified date
@@ -819,6 +885,15 @@ class CK_VISIBLE_PUBLIC CkHttp  : public CkMultiByteBase
 	// The value of the Last-Modified header in the last HTTP response received by the
 	// HTTP component.
 	const char *lastModDate(void);
+
+	// The response body of the last HTTP response received by the HTTP component (for
+	// methods that do not return an HttpResponse object). The last response body is
+	// only saved to this property IF the KeepResponseBody property is set to true.
+	void get_LastResponseBody(CkString &str);
+	// The response body of the last HTTP response received by the HTTP component (for
+	// methods that do not return an HttpResponse object). The last response body is
+	// only saved to this property IF the KeepResponseBody property is set to true.
+	const char *lastResponseBody(void);
 
 	// The entire response header for the last HTTP response received by the HTTP
 	// component (for methods that do not return an HttpResponse object).
@@ -1040,19 +1115,28 @@ class CK_VISIBLE_PUBLIC CkHttp  : public CkMultiByteBase
 	void put_OAuthRealm(const char *newVal);
 
 	// The OAuth signature method, such as "HMAC-SHA1" to be used in the Authorization
-	// header. The default is "HMAC-SHA1". It is also possible to choose "RSA-SHA1", in
-	// which case the RSA private key would need to be provided via the SetOAuthRsaKey
-	// method.
+	// header. The default is "HMAC-SHA1". It is also possible to choose "RSA-SHA1" or
+	// "RSA-SHA2", in which case the RSA private key would need to be provided via the
+	// SetOAuthRsaKey method.
+	// 
+	// Note: RSA-SHA2 is supported starting in Chilkat v9.5.0.56
+	// 
 	void get_OAuthSigMethod(CkString &str);
 	// The OAuth signature method, such as "HMAC-SHA1" to be used in the Authorization
-	// header. The default is "HMAC-SHA1". It is also possible to choose "RSA-SHA1", in
-	// which case the RSA private key would need to be provided via the SetOAuthRsaKey
-	// method.
+	// header. The default is "HMAC-SHA1". It is also possible to choose "RSA-SHA1" or
+	// "RSA-SHA2", in which case the RSA private key would need to be provided via the
+	// SetOAuthRsaKey method.
+	// 
+	// Note: RSA-SHA2 is supported starting in Chilkat v9.5.0.56
+	// 
 	const char *oAuthSigMethod(void);
 	// The OAuth signature method, such as "HMAC-SHA1" to be used in the Authorization
-	// header. The default is "HMAC-SHA1". It is also possible to choose "RSA-SHA1", in
-	// which case the RSA private key would need to be provided via the SetOAuthRsaKey
-	// method.
+	// header. The default is "HMAC-SHA1". It is also possible to choose "RSA-SHA1" or
+	// "RSA-SHA2", in which case the RSA private key would need to be provided via the
+	// SetOAuthRsaKey method.
+	// 
+	// Note: RSA-SHA2 is supported starting in Chilkat v9.5.0.56
+	// 
 	void put_OAuthSigMethod(const char *newVal);
 
 	// The OAuth token to be used in the Authorization header.
@@ -1459,13 +1543,40 @@ class CK_VISIBLE_PUBLIC CkHttp  : public CkMultiByteBase
 
 	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
 	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// (Note that the client cannot specifically choose the algorithm is picked because
-	// it is the server that chooses. The client simply provides the server with a list
-	// from which to choose.)
+	// are possible. The TLS ciphers supported in Chilkat v9.5.0.55 and later are:
+	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
+	// TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256
+	// TLS_DHE_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA
+	// TLS_RSA_WITH_AES_256_CBC_SHA256
+	// TLS_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_RSA_WITH_AES_256_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA
+	// TLS_DHE_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_DHE_RSA_WITH_AES_128_CBC_SHA
+	// TLS_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_RSA_WITH_AES_128_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_RC4_128_SHA
+	// TLS_RSA_WITH_RC4_128_SHA
+	// TLS_RSA_WITH_RC4_128_MD5
+	// TLS_DHE_RSA_WITH_DES_CBC_SHA
+	// TLS_RSA_WITH_DES_CBC_SHA
+	// To restrict SSL/TLS connections to one or more specific ciphers, set this
+	// property to a comma-separated list of ciphers such as
+	// "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384".
+	// The order should be in terms of preference, with the preferred algorithms listed
+	// first. (Note that the client cannot specifically choose the algorithm is picked
+	// because it is the server that chooses. The client simply provides the server
+	// with a list from which to choose.)
 	// 
 	// The property can also disallow connections with servers having certificates with
 	// RSA keys less than a certain size. By default, server certificates having RSA
@@ -1473,17 +1584,69 @@ class CK_VISIBLE_PUBLIC CkHttp  : public CkMultiByteBase
 	// connections with servers having keys smaller than 1024 bits. Add the keyword
 	// "rsa2048" to disallow connections with servers having keys smaller than 2048
 	// bits.
+	// 
+	// Note: Prior to Chilkat v9.5.0.55, it was not possible to explicitly list allowed
+	// cipher suites. The deprecated means for indicating allowed ciphers was both
+	// incomplete and unprecise. For example, the following keywords could be listed to
+	// allow matching ciphers: "aes256-cbc", "aes128-cbc", "3des-cbc", and "rc4". These
+	// keywords will still be recognized, but programs should be updated to explicitly
+	// list the allowed ciphers.
+	// 
+	// secure-renegotiation: Starting in Chilkat v9.5.0.55, the keyword
+	// "secure-renegotiation" may be added to require that all renegotions be done
+	// securely (as per RFC 5746).
+	// 
+	// best-practices: Starting in Chilkat v9.5.0.55, this property may be set to the
+	// single keyword "best-practices". This will allow ciphers based on the current
+	// best practices. As new versions of Chilkat are released, the best practices may
+	// change. Changes will be noted here. The current best practices are:
+	// 
+	//     If the server uses an RSA key, it must be 1024 bits or greater.
+	//     All renegotations must be secure renegotiations.
+	//     All ciphers using RC4, DES, or 3DES are disallowed.
+	// 
+	// Example: The following string would restrict to 2 specific cipher suites,
+	// require RSA keys to be 1024 bits or greater, and require secure renegotiations:
+	// "TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, rsa1024,
+	// secure-renegotiation"
 	// 
 	void get_SslAllowedCiphers(CkString &str);
 	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
 	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// (Note that the client cannot specifically choose the algorithm is picked because
-	// it is the server that chooses. The client simply provides the server with a list
-	// from which to choose.)
+	// are possible. The TLS ciphers supported in Chilkat v9.5.0.55 and later are:
+	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
+	// TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256
+	// TLS_DHE_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA
+	// TLS_RSA_WITH_AES_256_CBC_SHA256
+	// TLS_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_RSA_WITH_AES_256_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA
+	// TLS_DHE_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_DHE_RSA_WITH_AES_128_CBC_SHA
+	// TLS_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_RSA_WITH_AES_128_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_RC4_128_SHA
+	// TLS_RSA_WITH_RC4_128_SHA
+	// TLS_RSA_WITH_RC4_128_MD5
+	// TLS_DHE_RSA_WITH_DES_CBC_SHA
+	// TLS_RSA_WITH_DES_CBC_SHA
+	// To restrict SSL/TLS connections to one or more specific ciphers, set this
+	// property to a comma-separated list of ciphers such as
+	// "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384".
+	// The order should be in terms of preference, with the preferred algorithms listed
+	// first. (Note that the client cannot specifically choose the algorithm is picked
+	// because it is the server that chooses. The client simply provides the server
+	// with a list from which to choose.)
 	// 
 	// The property can also disallow connections with servers having certificates with
 	// RSA keys less than a certain size. By default, server certificates having RSA
@@ -1491,17 +1654,69 @@ class CK_VISIBLE_PUBLIC CkHttp  : public CkMultiByteBase
 	// connections with servers having keys smaller than 1024 bits. Add the keyword
 	// "rsa2048" to disallow connections with servers having keys smaller than 2048
 	// bits.
+	// 
+	// Note: Prior to Chilkat v9.5.0.55, it was not possible to explicitly list allowed
+	// cipher suites. The deprecated means for indicating allowed ciphers was both
+	// incomplete and unprecise. For example, the following keywords could be listed to
+	// allow matching ciphers: "aes256-cbc", "aes128-cbc", "3des-cbc", and "rc4". These
+	// keywords will still be recognized, but programs should be updated to explicitly
+	// list the allowed ciphers.
+	// 
+	// secure-renegotiation: Starting in Chilkat v9.5.0.55, the keyword
+	// "secure-renegotiation" may be added to require that all renegotions be done
+	// securely (as per RFC 5746).
+	// 
+	// best-practices: Starting in Chilkat v9.5.0.55, this property may be set to the
+	// single keyword "best-practices". This will allow ciphers based on the current
+	// best practices. As new versions of Chilkat are released, the best practices may
+	// change. Changes will be noted here. The current best practices are:
+	// 
+	//     If the server uses an RSA key, it must be 1024 bits or greater.
+	//     All renegotations must be secure renegotiations.
+	//     All ciphers using RC4, DES, or 3DES are disallowed.
+	// 
+	// Example: The following string would restrict to 2 specific cipher suites,
+	// require RSA keys to be 1024 bits or greater, and require secure renegotiations:
+	// "TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, rsa1024,
+	// secure-renegotiation"
 	// 
 	const char *sslAllowedCiphers(void);
 	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
 	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// (Note that the client cannot specifically choose the algorithm is picked because
-	// it is the server that chooses. The client simply provides the server with a list
-	// from which to choose.)
+	// are possible. The TLS ciphers supported in Chilkat v9.5.0.55 and later are:
+	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
+	// TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256
+	// TLS_DHE_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA
+	// TLS_RSA_WITH_AES_256_CBC_SHA256
+	// TLS_RSA_WITH_AES_256_GCM_SHA384
+	// TLS_RSA_WITH_AES_256_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA
+	// TLS_DHE_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_DHE_RSA_WITH_AES_128_CBC_SHA
+	// TLS_RSA_WITH_AES_128_CBC_SHA256
+	// TLS_RSA_WITH_AES_128_GCM_SHA256
+	// TLS_RSA_WITH_AES_128_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_RSA_WITH_3DES_EDE_CBC_SHA
+	// TLS_ECDHE_RSA_WITH_RC4_128_SHA
+	// TLS_RSA_WITH_RC4_128_SHA
+	// TLS_RSA_WITH_RC4_128_MD5
+	// TLS_DHE_RSA_WITH_DES_CBC_SHA
+	// TLS_RSA_WITH_DES_CBC_SHA
+	// To restrict SSL/TLS connections to one or more specific ciphers, set this
+	// property to a comma-separated list of ciphers such as
+	// "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384".
+	// The order should be in terms of preference, with the preferred algorithms listed
+	// first. (Note that the client cannot specifically choose the algorithm is picked
+	// because it is the server that chooses. The client simply provides the server
+	// with a list from which to choose.)
 	// 
 	// The property can also disallow connections with servers having certificates with
 	// RSA keys less than a certain size. By default, server certificates having RSA
@@ -1509,6 +1724,31 @@ class CK_VISIBLE_PUBLIC CkHttp  : public CkMultiByteBase
 	// connections with servers having keys smaller than 1024 bits. Add the keyword
 	// "rsa2048" to disallow connections with servers having keys smaller than 2048
 	// bits.
+	// 
+	// Note: Prior to Chilkat v9.5.0.55, it was not possible to explicitly list allowed
+	// cipher suites. The deprecated means for indicating allowed ciphers was both
+	// incomplete and unprecise. For example, the following keywords could be listed to
+	// allow matching ciphers: "aes256-cbc", "aes128-cbc", "3des-cbc", and "rc4". These
+	// keywords will still be recognized, but programs should be updated to explicitly
+	// list the allowed ciphers.
+	// 
+	// secure-renegotiation: Starting in Chilkat v9.5.0.55, the keyword
+	// "secure-renegotiation" may be added to require that all renegotions be done
+	// securely (as per RFC 5746).
+	// 
+	// best-practices: Starting in Chilkat v9.5.0.55, this property may be set to the
+	// single keyword "best-practices". This will allow ciphers based on the current
+	// best practices. As new versions of Chilkat are released, the best practices may
+	// change. Changes will be noted here. The current best practices are:
+	// 
+	//     If the server uses an RSA key, it must be 1024 bits or greater.
+	//     All renegotations must be secure renegotiations.
+	//     All ciphers using RC4, DES, or 3DES are disallowed.
+	// 
+	// Example: The following string would restrict to 2 specific cipher suites,
+	// require RSA keys to be 1024 bits or greater, and require secure renegotiations:
+	// "TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, rsa1024,
+	// secure-renegotiation"
 	// 
 	void put_SslAllowedCiphers(const char *newVal);
 
@@ -1599,6 +1839,61 @@ class CK_VISIBLE_PUBLIC CkHttp  : public CkMultiByteBase
 	// will be empty. A sample cipher suite string looks like this:
 	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
 	const char *tlsCipherSuite(void);
+
+	// Specifies a set of pins for Public Key Pinning for TLS connections. This
+	// property lists the expected SPKI fingerprints for the server certificates. If
+	// the server's certificate (sent during the TLS handshake) does not match any of
+	// the SPKI fingerprints, then the TLS handshake is aborted and the connection
+	// fails. The format of this string property is as follows:
+	// hash_algorithm, encoding, SPKI_fingerprint_1, SPKI_fingerprint_2, ...
+	// For example, the following string specifies a single sha256 base64-encoded SPKI
+	// fingerprint:
+	// "sha256, base64, lKg1SIqyhPSK19tlPbjl8s02yChsVTDklQpkMCHvsTE="
+	// This example specifies two SPKI fingerprints:
+	// "sha256, base64, 4t37LpnGmrMEAG8HEz9yIrnvJV2euVRwCLb9EH5WZyI=, 68b0G5iqMvWVWvUCjMuhLEyekM5729PadtnU5tdXZKs="
+	// Any of the following hash algorithms are allowed:.sha1, sha256, sha384, sha512,
+	// md2, md5, haval, ripemd128, ripemd160,ripemd256, or ripemd320.
+	// 
+	// The following encodings are allowed: base64, hex, and any of the encodings
+	// indicated in the link below.
+	// 
+	void get_TlsPinSet(CkString &str);
+	// Specifies a set of pins for Public Key Pinning for TLS connections. This
+	// property lists the expected SPKI fingerprints for the server certificates. If
+	// the server's certificate (sent during the TLS handshake) does not match any of
+	// the SPKI fingerprints, then the TLS handshake is aborted and the connection
+	// fails. The format of this string property is as follows:
+	// hash_algorithm, encoding, SPKI_fingerprint_1, SPKI_fingerprint_2, ...
+	// For example, the following string specifies a single sha256 base64-encoded SPKI
+	// fingerprint:
+	// "sha256, base64, lKg1SIqyhPSK19tlPbjl8s02yChsVTDklQpkMCHvsTE="
+	// This example specifies two SPKI fingerprints:
+	// "sha256, base64, 4t37LpnGmrMEAG8HEz9yIrnvJV2euVRwCLb9EH5WZyI=, 68b0G5iqMvWVWvUCjMuhLEyekM5729PadtnU5tdXZKs="
+	// Any of the following hash algorithms are allowed:.sha1, sha256, sha384, sha512,
+	// md2, md5, haval, ripemd128, ripemd160,ripemd256, or ripemd320.
+	// 
+	// The following encodings are allowed: base64, hex, and any of the encodings
+	// indicated in the link below.
+	// 
+	const char *tlsPinSet(void);
+	// Specifies a set of pins for Public Key Pinning for TLS connections. This
+	// property lists the expected SPKI fingerprints for the server certificates. If
+	// the server's certificate (sent during the TLS handshake) does not match any of
+	// the SPKI fingerprints, then the TLS handshake is aborted and the connection
+	// fails. The format of this string property is as follows:
+	// hash_algorithm, encoding, SPKI_fingerprint_1, SPKI_fingerprint_2, ...
+	// For example, the following string specifies a single sha256 base64-encoded SPKI
+	// fingerprint:
+	// "sha256, base64, lKg1SIqyhPSK19tlPbjl8s02yChsVTDklQpkMCHvsTE="
+	// This example specifies two SPKI fingerprints:
+	// "sha256, base64, 4t37LpnGmrMEAG8HEz9yIrnvJV2euVRwCLb9EH5WZyI=, 68b0G5iqMvWVWvUCjMuhLEyekM5729PadtnU5tdXZKs="
+	// Any of the following hash algorithms are allowed:.sha1, sha256, sha384, sha512,
+	// md2, md5, haval, ripemd128, ripemd160,ripemd256, or ripemd320.
+	// 
+	// The following encodings are allowed: base64, hex, and any of the encodings
+	// indicated in the link below.
+	// 
+	void put_TlsPinSet(const char *newVal);
 
 	// Contains the current or last negotiated TLS protocol version. If no TLS
 	// connection has yet to be established, or if a connection as attempted and
@@ -1702,79 +1997,6 @@ class CK_VISIBLE_PUBLIC CkHttp  : public CkMultiByteBase
 
 	// Indicates whether the last HTTP GET was redirected.
 	bool get_WasRedirected(void);
-
-	// The response body of the last HTTP response received by the HTTP component (for
-	// methods that do not return an HttpResponse object). The last response body is
-	// only saved to this property IF the KeepResponseBody property is set to true.
-	void get_LastResponseBody(CkString &str);
-	// The response body of the last HTTP response received by the HTTP component (for
-	// methods that do not return an HttpResponse object). The last response body is
-	// only saved to this property IF the KeepResponseBody property is set to true.
-	const char *lastResponseBody(void);
-
-	// If true, then the response body, if text, is saved to the LastResponseBody
-	// property for all methods that do not return an HttpResponse object. The default
-	// value of this property is false.
-	bool get_KeepResponseBody(void);
-	// If true, then the response body, if text, is saved to the LastResponseBody
-	// property for all methods that do not return an HttpResponse object. The default
-	// value of this property is false.
-	void put_KeepResponseBody(bool newVal);
-
-	// Specifies a set of pins for Public Key Pinning for TLS connections. This
-	// property lists the expected SPKI fingerprints for the server certificates. If
-	// the server's certificate (sent during the TLS handshake) does not match any of
-	// the SPKI fingerprints, then the TLS handshake is aborted and the connection
-	// fails. The format of this string property is as follows:
-	// hash_algorithm, encoding, SPKI_fingerprint_1, SPKI_fingerprint_2, ...
-	// For example, the following string specifies a single sha256 base64-encoded SPKI
-	// fingerprint:
-	// "sha256, base64, lKg1SIqyhPSK19tlPbjl8s02yChsVTDklQpkMCHvsTE="
-	// This example specifies two SPKI fingerprints:
-	// "sha256, base64, 4t37LpnGmrMEAG8HEz9yIrnvJV2euVRwCLb9EH5WZyI=, 68b0G5iqMvWVWvUCjMuhLEyekM5729PadtnU5tdXZKs="
-	// Any of the following hash algorithms are allowed:.sha1, sha256, sha384, sha512,
-	// md2, md5, haval, ripemd128, ripemd160,ripemd256, or ripemd320.
-	// 
-	// The following encodings are allowed: base64, hex, and any of the encodings
-	// indicated in the link below.
-	// 
-	void get_TlsPinSet(CkString &str);
-	// Specifies a set of pins for Public Key Pinning for TLS connections. This
-	// property lists the expected SPKI fingerprints for the server certificates. If
-	// the server's certificate (sent during the TLS handshake) does not match any of
-	// the SPKI fingerprints, then the TLS handshake is aborted and the connection
-	// fails. The format of this string property is as follows:
-	// hash_algorithm, encoding, SPKI_fingerprint_1, SPKI_fingerprint_2, ...
-	// For example, the following string specifies a single sha256 base64-encoded SPKI
-	// fingerprint:
-	// "sha256, base64, lKg1SIqyhPSK19tlPbjl8s02yChsVTDklQpkMCHvsTE="
-	// This example specifies two SPKI fingerprints:
-	// "sha256, base64, 4t37LpnGmrMEAG8HEz9yIrnvJV2euVRwCLb9EH5WZyI=, 68b0G5iqMvWVWvUCjMuhLEyekM5729PadtnU5tdXZKs="
-	// Any of the following hash algorithms are allowed:.sha1, sha256, sha384, sha512,
-	// md2, md5, haval, ripemd128, ripemd160,ripemd256, or ripemd320.
-	// 
-	// The following encodings are allowed: base64, hex, and any of the encodings
-	// indicated in the link below.
-	// 
-	const char *tlsPinSet(void);
-	// Specifies a set of pins for Public Key Pinning for TLS connections. This
-	// property lists the expected SPKI fingerprints for the server certificates. If
-	// the server's certificate (sent during the TLS handshake) does not match any of
-	// the SPKI fingerprints, then the TLS handshake is aborted and the connection
-	// fails. The format of this string property is as follows:
-	// hash_algorithm, encoding, SPKI_fingerprint_1, SPKI_fingerprint_2, ...
-	// For example, the following string specifies a single sha256 base64-encoded SPKI
-	// fingerprint:
-	// "sha256, base64, lKg1SIqyhPSK19tlPbjl8s02yChsVTDklQpkMCHvsTE="
-	// This example specifies two SPKI fingerprints:
-	// "sha256, base64, 4t37LpnGmrMEAG8HEz9yIrnvJV2euVRwCLb9EH5WZyI=, 68b0G5iqMvWVWvUCjMuhLEyekM5729PadtnU5tdXZKs="
-	// Any of the following hash algorithms are allowed:.sha1, sha256, sha384, sha512,
-	// md2, md5, haval, ripemd128, ripemd160,ripemd256, or ripemd320.
-	// 
-	// The following encodings are allowed: base64, hex, and any of the encodings
-	// indicated in the link below.
-	// 
-	void put_TlsPinSet(const char *newVal);
 
 
 
@@ -2161,7 +2383,7 @@ class CK_VISIBLE_PUBLIC CkHttp  : public CkMultiByteBase
 	// and a "Content-Encoding: gzip" header is automatically added to indicate that
 	// the request data needs to be ungzipped when received (at the server).
 	// The caller is responsible for deleting the object returned by this method.
-	CkHttpResponse *PBinary(const char *verb, const char *url, const CkByteData &byteData, const char *contentType, bool md5, bool gzip);
+	CkHttpResponse *PBinary(const char *verb, const char *url, CkByteData &byteData, const char *contentType, bool md5, bool gzip);
 
 	// Sends an HTTP request to the  url. The verb can be "POST" or "PUT". The body of
 	// the HTTP request contains the bytes passed in  byteData. The  contentType is a content type
@@ -2172,7 +2394,7 @@ class CK_VISIBLE_PUBLIC CkHttp  : public CkMultiByteBase
 	// the gzip algorithm. The HTTP request body will contain the GZIP compressed data,
 	// and a "Content-Encoding: gzip" header is automatically added to indicate that
 	// the request data needs to be ungzipped when received (at the server).
-	CkTask *PBinaryAsync(const char *verb, const char *url, const CkByteData &byteData, const char *contentType, bool md5, bool gzip);
+	CkTask *PBinaryAsync(const char *verb, const char *url, CkByteData &byteData, const char *contentType, bool md5, bool gzip);
 
 
 	// Sends an HTTP request to the  url. The verb can be "POST" or "PUT". The body of
@@ -2214,7 +2436,7 @@ class CK_VISIBLE_PUBLIC CkHttp  : public CkMultiByteBase
 	// of the HTTP response are required, call PBinary instead (which returns the HTTP
 	// response object).
 	// 
-	bool PostBinary(const char *url, const CkByteData &byteData, const char *contentType, bool md5, bool gzip, CkString &outStr);
+	bool PostBinary(const char *url, CkByteData &byteData, const char *contentType, bool md5, bool gzip, CkString &outStr);
 
 	// Sends an HTTP POST request to the url. The body of the HTTP request contains
 	// the bytes passed in  byteData. The  contentType is a content type such as "image/gif",
@@ -2231,7 +2453,7 @@ class CK_VISIBLE_PUBLIC CkHttp  : public CkMultiByteBase
 	// of the HTTP response are required, call PBinary instead (which returns the HTTP
 	// response object).
 	// 
-	const char *postBinary(const char *url, const CkByteData &byteData, const char *contentType, bool md5, bool gzip);
+	const char *postBinary(const char *url, CkByteData &byteData, const char *contentType, bool md5, bool gzip);
 	// Sends an HTTP POST request to the url. The body of the HTTP request contains
 	// the bytes passed in  byteData. The  contentType is a content type such as "image/gif",
 	// "application/pdf", etc. If  md5 is true, then a Content-MD5 header is added
@@ -2247,7 +2469,7 @@ class CK_VISIBLE_PUBLIC CkHttp  : public CkMultiByteBase
 	// of the HTTP response are required, call PBinary instead (which returns the HTTP
 	// response object).
 	// 
-	CkTask *PostBinaryAsync(const char *url, const CkByteData &byteData, const char *contentType, bool md5, bool gzip);
+	CkTask *PostBinaryAsync(const char *url, CkByteData &byteData, const char *contentType, bool md5, bool gzip);
 
 
 	// A simplified way of sending a JSON POST and receiving the JSON response. The
@@ -2329,7 +2551,7 @@ class CK_VISIBLE_PUBLIC CkHttp  : public CkMultiByteBase
 	// of the HTTP response are required, call PBinary instead (which returns the HTTP
 	// response object).
 	// 
-	bool PutBinary(const char *url, const CkByteData &byteData, const char *contentType, bool md5, bool gzip, CkString &outStr);
+	bool PutBinary(const char *url, CkByteData &byteData, const char *contentType, bool md5, bool gzip, CkString &outStr);
 
 	// Sends an HTTP PUT request to the url. The body of the HTTP request is  byteData. The
 	//  contentType is a content type such as "image/gif", "application/pdf", etc. If  md5 is
@@ -2346,7 +2568,7 @@ class CK_VISIBLE_PUBLIC CkHttp  : public CkMultiByteBase
 	// of the HTTP response are required, call PBinary instead (which returns the HTTP
 	// response object).
 	// 
-	const char *putBinary(const char *url, const CkByteData &byteData, const char *contentType, bool md5, bool gzip);
+	const char *putBinary(const char *url, CkByteData &byteData, const char *contentType, bool md5, bool gzip);
 	// Sends an HTTP PUT request to the url. The body of the HTTP request is  byteData. The
 	//  contentType is a content type such as "image/gif", "application/pdf", etc. If  md5 is
 	// true, then a Content-MD5 header is added with the base64 MD5 hash of the  byteData.
@@ -2362,7 +2584,7 @@ class CK_VISIBLE_PUBLIC CkHttp  : public CkMultiByteBase
 	// of the HTTP response are required, call PBinary instead (which returns the HTTP
 	// response object).
 	// 
-	CkTask *PutBinaryAsync(const char *url, const CkByteData &byteData, const char *contentType, bool md5, bool gzip);
+	CkTask *PutBinaryAsync(const char *url, CkByteData &byteData, const char *contentType, bool md5, bool gzip);
 
 
 	// Sends an HTTP PUT request to the url. The body of the HTTP request is  textData. The
@@ -2703,7 +2925,7 @@ class CK_VISIBLE_PUBLIC CkHttp  : public CkMultiByteBase
 	// adding each header with a call to SetRequestHeader. This applies to all S3
 	// methods, even if not explicitly stated.
 	// 
-	bool S3_UploadBytes(const CkByteData &objectContent, const char *contentType, const char *bucketName, const char *objectName);
+	bool S3_UploadBytes(CkByteData &objectContent, const char *contentType, const char *bucketName, const char *objectName);
 
 	// The same as S3_UploadFile, except the contents of the file come from contentBytes
 	// instead of a local file.
@@ -2712,7 +2934,7 @@ class CK_VISIBLE_PUBLIC CkHttp  : public CkMultiByteBase
 	// adding each header with a call to SetRequestHeader. This applies to all S3
 	// methods, even if not explicitly stated.
 	// 
-	CkTask *S3_UploadBytesAsync(const CkByteData &objectContent, const char *contentType, const char *bucketName, const char *objectName);
+	CkTask *S3_UploadBytesAsync(CkByteData &objectContent, const char *contentType, const char *bucketName, const char *objectName);
 
 
 	// Uploads a file to the Amazon S3 service.
@@ -2811,14 +3033,14 @@ class CK_VISIBLE_PUBLIC CkHttp  : public CkMultiByteBase
 	// requests, as well as GET, HEAD, file uploads, and XMLHTTP. To send via HTTPS
 	// (i.e. TLS), set the ARG3 property = true. Otherwise set it to false.
 	// The caller is responsible for deleting the object returned by this method.
-	CkHttpResponse *SynchronousRequest(const char *domain, int port, bool ssl, const CkHttpRequest &req);
+	CkHttpResponse *SynchronousRequest(const char *domain, int port, bool ssl, CkHttpRequest &req);
 
 	// Sends an explicit HttpRequest to an HTTP server and returns an HttpResponse
 	// object. The HttpResponse object provides full access to the response including
 	// all headers and the response body. This method may be used to send POST
 	// requests, as well as GET, HEAD, file uploads, and XMLHTTP. To send via HTTPS
 	// (i.e. TLS), set the ARG3 property = true. Otherwise set it to false.
-	CkTask *SynchronousRequestAsync(const char *domain, int port, bool ssl, const CkHttpRequest &req);
+	CkTask *SynchronousRequestAsync(const char *domain, int port, bool ssl, CkHttpRequest &req);
 
 
 	// Unlocks the Http class/component. It is necessary to call Http.UnlockComponent

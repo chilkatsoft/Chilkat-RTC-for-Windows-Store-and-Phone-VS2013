@@ -14,8 +14,6 @@
 
 class CkByteData;
 
-class CkByteData;
-
 
 
 #if !defined(__sun__) && !defined(__sun)
@@ -27,7 +25,6 @@ class CkByteData;
 class CK_VISIBLE_PUBLIC CkLog  : public CkMultiByteBase
 {
     private:
-	
 
 	// Don't allow assignment or copying these objects.
 	CkLog(const CkLog &);
@@ -77,11 +74,11 @@ class CK_VISIBLE_PUBLIC CkLog  : public CkMultiByteBase
 
 
 	// Logs binary data in base64 format.
-	void LogDataBase64(const char *tag, const CkByteData &data);
+	void LogDataBase64(const char *tag, CkByteData &data);
 
 
 	// Logs binary data in hex format.
-	void LogDataHex(const char *tag, const CkByteData &data);
+	void LogDataHex(const char *tag, CkByteData &data);
 
 
 	// Logs a string, but only up to the 1st ARG3 characters of the string.

@@ -10,7 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkWideCharBase.h"
+#include "CkClassWithCallbacksW.h"
 
 class CkByteData;
 class CkTaskW;
@@ -34,11 +34,10 @@ class CkMailManProgressW;
  
 
 // CLASS: CkMailManW
-class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
+class CK_VISIBLE_PUBLIC CkMailManW  : public CkClassWithCallbacksW
 {
     private:
 	bool m_cbOwned;
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkMailManW(const CkMailManW &);
@@ -230,6 +229,41 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// names, such as "165.164.55.124".
 	// 
 	void put_ClientIpAddress(const wchar_t *newVal);
+
+	// This property will be set to the status of the last HTTP connection made (or
+	// failed to be made) by any HTTP method.
+	// 
+	// Possible values are:
+	// 0 = success
+	// 
+	// Normal (non-TLS) sockets:
+	// 1 = empty hostname
+	// 2 = DNS lookup failed
+	// 3 = DNS timeout
+	// 4 = Aborted by application.
+	// 5 = Internal failure.
+	// 6 = Connect Timed Out
+	// 7 = Connect Rejected (or failed for some other reason)
+	// 
+	// SSL/TLS:
+	// 100 = TLS internal error.
+	// 101 = Failed to send client hello.
+	// 102 = Unexpected handshake message.
+	// 103 = Failed to read server hello.
+	// 104 = No server certificate.
+	// 105 = Unexpected TLS protocol version.
+	// 106 = Server certificate verify failed (the server certificate is expired or the cert's signature verification failed).
+	// 107 = Unacceptable TLS protocol version.
+	// 109 = Failed to read handshake messages.
+	// 110 = Failed to send client certificate handshake message.
+	// 111 = Failed to send client key exchange handshake message.
+	// 112 = Client certificate's private key not accessible.
+	// 113 = Failed to send client cert verify handshake message.
+	// 114 = Failed to send change cipher spec handshake message.
+	// 115 = Failed to send finished handshake message.
+	// 116 = Server's Finished message is invalid.
+	// 
+	int get_ConnectFailReason(void);
 
 	// The time (in seconds) to wait before while trying to connect to a mail server
 	// (POP3 or SMTP). The default value is 30.
@@ -1466,24 +1500,6 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
 	const wchar_t *tlsCipherSuite(void);
 
-	// Contains the current or last negotiated TLS protocol version. If no TLS
-	// connection has yet to be established, or if a connection as attempted and
-	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
-	// 1.1", and "TLS 1.2".
-	void get_TlsVersion(CkString &str);
-	// Contains the current or last negotiated TLS protocol version. If no TLS
-	// connection has yet to be established, or if a connection as attempted and
-	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
-	// 1.1", and "TLS 1.2".
-	const wchar_t *tlsVersion(void);
-
-	// If true, will automatically use APOP authentication if the POP3 server
-	// supports it. The default value of this property is false.
-	bool get_UseApop(void);
-	// If true, will automatically use APOP authentication if the POP3 server
-	// supports it. The default value of this property is false.
-	void put_UseApop(bool newVal);
-
 	// Specifies a set of pins for Public Key Pinning for TLS connections. This
 	// property lists the expected SPKI fingerprints for the server certificates. If
 	// the server's certificate (sent during the TLS handshake) does not match any of
@@ -1539,6 +1555,24 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// 
 	void put_TlsPinSet(const wchar_t *newVal);
 
+	// Contains the current or last negotiated TLS protocol version. If no TLS
+	// connection has yet to be established, or if a connection as attempted and
+	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
+	// 1.1", and "TLS 1.2".
+	void get_TlsVersion(CkString &str);
+	// Contains the current or last negotiated TLS protocol version. If no TLS
+	// connection has yet to be established, or if a connection as attempted and
+	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
+	// 1.1", and "TLS 1.2".
+	const wchar_t *tlsVersion(void);
+
+	// If true, will automatically use APOP authentication if the POP3 server
+	// supports it. The default value of this property is false.
+	bool get_UseApop(void);
+	// If true, will automatically use APOP authentication if the POP3 server
+	// supports it. The default value of this property is false.
+	void put_UseApop(bool newVal);
+
 
 
 	// ----------------------
@@ -1553,7 +1587,7 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// 
 	// The ARG1 contains the bytes of a PFX file (also known as PKCS12 or .p12).
 	// 
-	bool AddPfxSourceData(const CkByteData &pfxData, const wchar_t *password);
+	bool AddPfxSourceData(CkByteData &pfxData, const wchar_t *password);
 
 	// Adds a PFX file to the object's internal list of sources to be searched for
 	// certificates and private keys when decrypting or when sending signed email.
@@ -1637,12 +1671,12 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// Also, any method call requiring communication with the POP3 server will
 	// automatically re-establish a session based on the current property settings.
 	// 
-	bool DeleteBundle(const CkEmailBundleW &bundle);
+	bool DeleteBundle(CkEmailBundleW &bundle);
 
 	// Creates an asynchronous task to call the DeleteBundle method with the arguments
 	// provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *DeleteBundleAsync(const CkEmailBundleW &bundle);
+	CkTaskW *DeleteBundleAsync(CkEmailBundleW &bundle);
 
 	// Marks an email for deletion by message number. WARNING: Be very careful if
 	// calling this method. Message numbers are specific to a POP3 session. If a
@@ -1700,12 +1734,12 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// Also, any method call requiring communication with the POP3 server will
 	// automatically re-establish a session based on the current property settings.
 	// 
-	bool DeleteEmail(const CkEmailW &email);
+	bool DeleteEmail(CkEmailW &email);
 
 	// Creates an asynchronous task to call the DeleteEmail method with the arguments
 	// provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *DeleteEmailAsync(const CkEmailW &email);
+	CkTaskW *DeleteEmailAsync(CkEmailW &email);
 
 	// Marks multiple emails on the POP3 server for deletion. (Any email on the server
 	// having a UIDL equal to a UIDL found in uidlArray is marked for deletion.) To complete
@@ -1722,12 +1756,12 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// Also, any method call requiring communication with the POP3 server will
 	// automatically re-establish a session based on the current property settings.
 	// 
-	bool DeleteMultiple(const CkStringArrayW &uidlArray);
+	bool DeleteMultiple(CkStringArrayW &uidlArray);
 
 	// Creates an asynchronous task to call the DeleteMultiple method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *DeleteMultipleAsync(const CkStringArrayW &uidlArray);
+	CkTaskW *DeleteMultipleAsync(CkStringArrayW &uidlArray);
 
 	// Fetches an email by message number. WARNING: Be very careful if calling this
 	// method. Message numbers are specific to a POP3 session. If a maildrop has (for
@@ -1795,12 +1829,12 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// Given an array of UIDL strings, fetchs all the emails from the POP3 server whose
 	// UIDL is present in the array, and returns the emails in a bundle.
 	// The caller is responsible for deleting the object returned by this method.
-	CkEmailBundleW *FetchMultiple(const CkStringArrayW &uidlArray);
+	CkEmailBundleW *FetchMultiple(CkStringArrayW &uidlArray);
 
 	// Creates an asynchronous task to call the FetchMultiple method with the arguments
 	// provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *FetchMultipleAsync(const CkStringArrayW &uidlArray);
+	CkTaskW *FetchMultipleAsync(CkStringArrayW &uidlArray);
 
 	// Given an array of UIDL strings, fetchs all the email headers from the POP3
 	// server whose UIDL is present in the array.
@@ -1810,24 +1844,24 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	//  numBodyLines lines of either the plain-text or HTML body will be present).
 	// 
 	// The caller is responsible for deleting the object returned by this method.
-	CkEmailBundleW *FetchMultipleHeaders(const CkStringArrayW &uidlArray, int numBodyLines);
+	CkEmailBundleW *FetchMultipleHeaders(CkStringArrayW &uidlArray, int numBodyLines);
 
 	// Creates an asynchronous task to call the FetchMultipleHeaders method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *FetchMultipleHeadersAsync(const CkStringArrayW &uidlArray, int numBodyLines);
+	CkTaskW *FetchMultipleHeadersAsync(CkStringArrayW &uidlArray, int numBodyLines);
 
 	// Given an array of UIDL strings, fetchs all the emails from the POP3 server whose
 	// UIDL is present in the array, and returns the MIME source of each email in an
 	// "stringarray" -- an object containing a collection of strings. Returns a null
 	// reference on failure.
 	// The caller is responsible for deleting the object returned by this method.
-	CkStringArrayW *FetchMultipleMime(const CkStringArrayW &uidlArray);
+	CkStringArrayW *FetchMultipleMime(CkStringArrayW &uidlArray);
 
 	// Creates an asynchronous task to call the FetchMultipleMime method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *FetchMultipleMimeAsync(const CkStringArrayW &uidlArray);
+	CkTaskW *FetchMultipleMimeAsync(CkStringArrayW &uidlArray);
 
 	// Fetches a single header by message number. Returns an email object on success,
 	// or a null reference on failure.
@@ -1890,12 +1924,12 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// server. A new email object (separate from the partial email) is returned. A null
 	// reference is returned on failure.
 	// The caller is responsible for deleting the object returned by this method.
-	CkEmailW *GetFullEmail(const CkEmailW &email);
+	CkEmailW *GetFullEmail(CkEmailW &email);
 
 	// Creates an asynchronous task to call the GetFullEmail method with the arguments
 	// provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *GetFullEmailAsync(const CkEmailW &email);
+	CkTaskW *GetFullEmailAsync(CkEmailW &email);
 
 	// The same as the GetAllHeaders method, except only the emails from  fromIndex to  toIndex
 	// on the POP3 server are returned. The first email on the server is at index 0.
@@ -2099,6 +2133,24 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// The caller is responsible for deleting the object returned by this method.
 	CkTaskW *OpenSmtpConnectionAsync(void);
 
+	// Authenticates with the POP3 server using the property settings such as
+	// PopUsername, PopPassword, etc. This method should only be called after a
+	// successful call to Pop3Connect.
+	// 
+	// Note 1: The Pop3BeginSession method both connects and authenticates. It is the
+	// equivalent of calling Pop3Connect followed by Pop3Authenticate.
+	// 
+	// Note 2: All methods that communicate with the POP3 server, such as FetchEmail,
+	// will automatically connect and authenticate if not already connected and
+	// authenticated.
+	// 
+	bool Pop3Authenticate(void);
+
+	// Creates an asynchronous task to call the Pop3Authenticate method with the
+	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
+	// The caller is responsible for deleting the object returned by this method.
+	CkTaskW *Pop3AuthenticateAsync(void);
+
 	// Call to explicitly begin a POP3 session. It is not necessary to call this method
 	// because any method requiring an established POP3 session will automatically
 	// connect and login if a session is not already open.
@@ -2117,6 +2169,33 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
 	CkTaskW *Pop3BeginSessionAsync(void);
+
+	// Explicitly establishes a connection to the POP3 server, which includes
+	// establishing a secure TLS channel if required, and receives the initial
+	// greeting. This method stops short of authenticating. The Pop3Authenticate method
+	// should be called after a successful call to this method.
+	// 
+	// Note 1: The Pop3BeginSession method both connects and authenticates. It is the
+	// equivalent of calling Pop3Connect followed by Pop3Authenticate.
+	// 
+	// Note 2: All methods that communicate with the POP3 server, such as FetchEmail,
+	// will automatically connect and authenticate if not already connected and
+	// authenticated.
+	// 
+	// Important: All TCP-based Internet communications, regardless of the protocol
+	// (such as HTTP, FTP, SSH, IMAP, POP3, SMTP, etc.), and regardless of SSL/TLS,
+	// begin with establishing a TCP connection to a remote host:port. External
+	// security-related infrastructure such as software firewalls (Windows Firewall),
+	// hardware firewalls, anti-virus, at either source or destination (or both) can
+	// block the connection. If the connection fails, make sure to check all potential
+	// external causes of blockage.
+	// 
+	bool Pop3Connect(void);
+
+	// Creates an asynchronous task to call the Pop3Connect method with the arguments
+	// provided. (Async methods are available starting in Chilkat v9.5.0.52.)
+	// The caller is responsible for deleting the object returned by this method.
+	CkTaskW *Pop3ConnectAsync(void);
 
 	// Call to explicitly end a POP3 session. If the ImmediateDelete property is set to
 	// false, and emails marked for deletion will be deleted at this time.
@@ -2195,7 +2274,7 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// 
 	// The rendered MIME string is returned on success.
 	// 
-	bool RenderToMime(const CkEmailW &email, CkString &outStr);
+	bool RenderToMime(CkEmailW &email, CkString &outStr);
 	// When an email is sent by calling SendEmail, it is first "rendered" according to
 	// the values of the email properties and contents. It may be digitally signed,
 	// encrypted, values substituted for replacement patterns, and header fields "Q"or
@@ -2207,7 +2286,7 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// 
 	// The rendered MIME string is returned on success.
 	// 
-	const wchar_t *renderToMime(const CkEmailW &email);
+	const wchar_t *renderToMime(CkEmailW &email);
 
 	// This method is the same as RenderToMime, but the MIME is returned in a byte
 	// array. If an email uses an 8bit or binary MIME encoding, then calling
@@ -2228,12 +2307,12 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// in the bundle failed and which succeeded, it is best to write a loop that sends
 	// each email separately (via the SendEmail method).
 	// 
-	bool SendBundle(const CkEmailBundleW &bundle);
+	bool SendBundle(CkEmailBundleW &bundle);
 
 	// Creates an asynchronous task to call the SendBundle method with the arguments
 	// provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *SendBundleAsync(const CkEmailBundleW &bundle);
+	CkTaskW *SendBundleAsync(CkEmailBundleW &bundle);
 
 	// Sends a single email. The connection to the SMTP server will remain open so that
 	// a subsequent call to SendEmail (or other email-sending methods) can re-use the
@@ -2251,12 +2330,12 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// possible. Otherwise you will need to change your GMail account settings to allow
 	// for sending by less secure apps. See the links below.
 	// 
-	bool SendEmail(const CkEmailW &email);
+	bool SendEmail(CkEmailW &email);
 
 	// Creates an asynchronous task to call the SendEmail method with the arguments
 	// provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *SendEmailAsync(const CkEmailW &email);
+	CkTaskW *SendEmailAsync(CkEmailW &email);
 
 	// Provides complete control over the email that is sent. The MIME text passed in
 	//  mimeSource (the MIME source of an email) is passed exactly as-is to the SMTP server.
@@ -2289,17 +2368,17 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// are usually the same email addresses found in the MIME headers, but need not be
 	// (unless the SMTP server enforces policies that require them to be the same).
 	// 
-	bool SendMimeBytes(const wchar_t *from, const wchar_t *recipients, const CkByteData &mimeData);
+	bool SendMimeBytes(const wchar_t *from, const wchar_t *recipients, CkByteData &mimeData);
 
 	// Creates an asynchronous task to call the SendMimeBytes method with the arguments
 	// provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *SendMimeBytesAsync(const wchar_t *from, const wchar_t *recipients, const CkByteData &mimeData);
+	CkTaskW *SendMimeBytesAsync(const wchar_t *from, const wchar_t *recipients, CkByteData &mimeData);
 
 #if defined(CK_SMTPQ_INCLUDED)
 	// This method is the samem as SendMimeQ, except the MIME is passed in a byte array
 	// argument instead of a string argument.
-	bool SendMimeBytesQ(const wchar_t *from, const wchar_t *recipients, const CkByteData &mimeData);
+	bool SendMimeBytesQ(const wchar_t *from, const wchar_t *recipients, CkByteData &mimeData);
 #endif
 
 #if defined(CK_SMTPQ_INCLUDED)
@@ -2338,7 +2417,7 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// Note: After calling this method, the filename of the .eml that was created will
 	// be available in the LastSendQFilename property.
 	// 
-	bool SendQ(const CkEmailW &email);
+	bool SendQ(CkEmailW &email);
 #endif
 
 #if defined(CK_SMTPQ_INCLUDED)
@@ -2349,7 +2428,7 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// to be written. If ARG2 specifies only the directory, then SendQ2 will
 	// automatically generate the output filename.
 	// 
-	bool SendQ2(const CkEmailW &email, const wchar_t *queueDir);
+	bool SendQ2(CkEmailW &email, const wchar_t *queueDir);
 #endif
 
 	// Send the same email to a list of email addresses.
@@ -2384,7 +2463,7 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// store, nothing needs to be done -- the mailman will automatically locate and use
 	// the required cert + private key.
 	// 
-	bool SetDecryptCert2(const CkCertW &cert, CkPrivateKeyW &key);
+	bool SetDecryptCert2(CkCertW &cert, CkPrivateKeyW &key);
 
 	// Sets the client-side certificate to be used with SSL connections. This is
 	// typically not required, as most SSL connections are such that only the server is
@@ -2417,7 +2496,7 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 
 	// Explicitly establishes a connection to the SMTP server, which includes
 	// establishing a secure TLS channel if required, and receives the initial
-	// greeting. This method stop short of authenticating. The SmtpAuthenticate method
+	// greeting. This method stops short of authenticating. The SmtpAuthenticate method
 	// should be called after a successful call to this method.
 	// 
 	// Note 1: The OpenSmtpConnection method both connects and authenticates. It is the
@@ -2573,12 +2652,12 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// Same as FetchMultipleMime except that the downloaded emails are also deleted
 	// from the server. Returns a null reference on failure.
 	// The caller is responsible for deleting the object returned by this method.
-	CkStringArrayW *TransferMultipleMime(const CkStringArrayW &uidlArray);
+	CkStringArrayW *TransferMultipleMime(CkStringArrayW &uidlArray);
 
 	// Creates an asynchronous task to call the TransferMultipleMime method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *TransferMultipleMimeAsync(const CkStringArrayW &uidlArray);
+	CkTaskW *TransferMultipleMimeAsync(CkStringArrayW &uidlArray);
 
 	// Unlocks the component. This must be called once at the beginning of your program
 	// (or ASP / ASP.NET page). It is very fast and has negligible overhead. An

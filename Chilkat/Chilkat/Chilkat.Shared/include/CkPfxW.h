@@ -119,7 +119,7 @@ class CK_VISIBLE_PUBLIC CkPfxW  : public CkWideCharBase
 	bool LoadPem(const wchar_t *pemStr, const wchar_t *password);
 
 	// Loads a PFX from in-memory bytes.
-	bool LoadPfxBytes(const CkByteData &pfxData, const wchar_t *password);
+	bool LoadPfxBytes(CkByteData &pfxData, const wchar_t *password);
 
 	// Loads a PFX from encoded byte data. The ARG2 can by any encoding, such as
 	// "Base64", "modBase64", "Base32", "UU", "QP" (for quoted-printable), "URL" (for

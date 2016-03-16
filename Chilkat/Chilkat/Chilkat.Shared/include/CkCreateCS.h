@@ -12,8 +12,6 @@
 #include "CkString.h"
 #include "CkMultiByteBase.h"
 
-class CkByteData;
-
 class CkCertStore;
 
 
@@ -27,7 +25,6 @@ class CkCertStore;
 class CK_VISIBLE_PUBLIC CkCreateCS  : public CkMultiByteBase
 {
     private:
-	
 
 	// Don't allow assignment or copying these objects.
 	CkCreateCS(const CkCreateCS &);

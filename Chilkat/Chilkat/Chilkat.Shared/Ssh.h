@@ -292,6 +292,11 @@ public ref class Ssh sealed
 		Platform::String ^get();
 		void set(Platform::String ^);
 	}
+	property Boolean EnableCompression
+	{
+		Boolean get();
+		void set(Boolean);
+	}
 
 
 	// ----------------------

@@ -10,10 +10,12 @@
 #include "include/CkCrypt2W.h"
 		
 #include "include/CkCertW.h"
+#include "include/CkStreamW.h"
 #include "include/CkCertChainW.h"
 #include "include/CkPrivateKeyW.h"
 #include "include/CkXmlCertVaultW.h"
 #include "Cert.h"
+#include "Stream.h"
 #include "CertChain.h"
 #include "PrivateKey.h"
 #include "XmlCertVault.h"
@@ -660,6 +662,25 @@ Platform::String ^Crypt2::DecryptEncoded(Platform::String ^str)
 	if (!retStr) return nullptr;
 	return ref new String(retStr);
     }
+IAsyncOperation<Boolean>^ Crypt2::DecryptStreamAsync(Stream ^strm)
+    {
+return create_async([this, strm]() -> Boolean
+{
+// This runs in a thread pool thread...
+
+	if (m_impl == nullptr) { return false; }
+	if (strm == nullptr) { return false; }
+	CkStreamW* pObj0 = strm->m_impl;
+	 if (!pObj0) { return false; }
+	// --- prep output arg ---
+	CxCrypt2Progress cxProgress(m_impl);
+	cxProgress.m_sender = this;
+	// gType = bool
+	// cppType = bool
+	return m_impl->DecryptStream(*pObj0);
+
+});
+    }
 Platform::String ^Crypt2::DecryptString(Windows::Foundation::Collections::IVector<uint8>^data)
     {
 	if (m_impl == nullptr) { return nullptr; }
@@ -757,6 +778,25 @@ Platform::String ^Crypt2::EncryptEncoded(Platform::String ^str)
 	const wchar_t *retStr = m_impl->encryptEncoded(str ? str->Data() : L"");
 	if (!retStr) return nullptr;
 	return ref new String(retStr);
+    }
+IAsyncOperation<Boolean>^ Crypt2::EncryptStreamAsync(Stream ^strm)
+    {
+return create_async([this, strm]() -> Boolean
+{
+// This runs in a thread pool thread...
+
+	if (m_impl == nullptr) { return false; }
+	if (strm == nullptr) { return false; }
+	CkStreamW* pObj0 = strm->m_impl;
+	 if (!pObj0) { return false; }
+	// --- prep output arg ---
+	CxCrypt2Progress cxProgress(m_impl);
+	cxProgress.m_sender = this;
+	// gType = bool
+	// cppType = bool
+	return m_impl->EncryptStream(*pObj0);
+
+});
     }
 Windows::Foundation::Collections::IVector<uint8>^Crypt2::EncryptString(Platform::String ^str)
     {
@@ -1563,7 +1603,7 @@ Boolean Crypt2::SetDecryptCert2(Cert ^cert, PrivateKey ^key)
     {
 	if (m_impl == nullptr) { return false; }
 	if (cert == nullptr) { return false; }
-	const CkCertW* pObj0 = cert->m_impl;
+	CkCertW* pObj0 = cert->m_impl;
 	 if (!pObj0) { return false; }
 	if (key == nullptr) { return false; }
 	CkPrivateKeyW* pObj1 = key->m_impl;
@@ -1629,7 +1669,7 @@ Boolean Crypt2::SetEncryptCert(Cert ^cert)
     {
 	if (m_impl == nullptr) { return false; }
 	if (cert == nullptr) { return false; }
-	const CkCertW* pObj0 = cert->m_impl;
+	CkCertW* pObj0 = cert->m_impl;
 	 if (!pObj0) { return false; }
 	// --- prep output arg ---
 	CxCrypt2Progress cxProgress(m_impl);
@@ -1718,7 +1758,7 @@ Boolean Crypt2::SetSigningCert(Cert ^cert)
     {
 	if (m_impl == nullptr) { return false; }
 	if (cert == nullptr) { return false; }
-	const CkCertW* pObj0 = cert->m_impl;
+	CkCertW* pObj0 = cert->m_impl;
 	 if (!pObj0) { return false; }
 	// --- prep output arg ---
 	CxCrypt2Progress cxProgress(m_impl);
@@ -1731,7 +1771,7 @@ Boolean Crypt2::SetSigningCert2(Cert ^cert, PrivateKey ^key)
     {
 	if (m_impl == nullptr) { return false; }
 	if (cert == nullptr) { return false; }
-	const CkCertW* pObj0 = cert->m_impl;
+	CkCertW* pObj0 = cert->m_impl;
 	 if (!pObj0) { return false; }
 	if (key == nullptr) { return false; }
 	CkPrivateKeyW* pObj1 = key->m_impl;
@@ -1747,7 +1787,7 @@ Boolean Crypt2::SetVerifyCert(Cert ^cert)
     {
 	if (m_impl == nullptr) { return false; }
 	if (cert == nullptr) { return false; }
-	const CkCertW* pObj0 = cert->m_impl;
+	CkCertW* pObj0 = cert->m_impl;
 	 if (!pObj0) { return false; }
 	// --- prep output arg ---
 	CxCrypt2Progress cxProgress(m_impl);

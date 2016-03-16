@@ -13,8 +13,6 @@
 #include "CkMultiByteBase.h"
 
 class CkByteData;
-
-class CkByteData;
 class CkCert;
 class CkStringArray;
 class CkDateTime;
@@ -35,7 +33,6 @@ class CkXmlCertVault;
 class CK_VISIBLE_PUBLIC CkEmail  : public CkMultiByteBase
 {
     private:
-	
 
 	// Don't allow assignment or copying these objects.
 	CkEmail(const CkEmail &);
@@ -413,7 +410,9 @@ class CK_VISIBLE_PUBLIC CkEmail  : public CkMultiByteBase
 	// an error condition.)
 	int get_NumDaysOld(void);
 
-	// The number of header fields.
+	// The number of header fields. When accessing a header field by index, the 1st
+	// header field is at index 0, and the last is at NumHeaderFields-1. (Chilkat
+	// indexing is always 0-based.)
 	int get_NumHeaderFields(void);
 
 	// The number of related items present in this email. Related items are typically
@@ -553,11 +552,11 @@ class CK_VISIBLE_PUBLIC CkEmail  : public CkMultiByteBase
 	// false.
 	bool get_ReceivedSigned(void);
 
-	// The email address to be used when a recipient replies.
+	// Sets the "Reply-To" header field to the specified email address.
 	void get_ReplyTo(CkString &str);
-	// The email address to be used when a recipient replies.
+	// Sets the "Reply-To" header field to the specified email address.
 	const char *replyTo(void);
-	// The email address to be used when a recipient replies.
+	// Sets the "Reply-To" header field to the specified email address.
 	void put_ReplyTo(const char *newVal);
 
 	// Set to true if you want the email to request a return-receipt when received by
@@ -730,12 +729,12 @@ class CK_VISIBLE_PUBLIC CkEmail  : public CkMultiByteBase
 
 
 	// Adds an attachment directly from data in memory to the email.
-	bool AddDataAttachment(const char *filePath, const CkByteData &content);
+	bool AddDataAttachment(const char *filePath, CkByteData &content);
 
 
 	// Adds an attachment to an email from in-memory data. Same as AddDataAttachment
 	// but allows the content-type to be specified.
-	bool AddDataAttachment2(const char *path, const CkByteData &content, const char *contentType);
+	bool AddDataAttachment2(const char *path, CkByteData &content, const char *contentType);
 
 
 	// Allows for certificates to be explicitly specified for sending encrypted email
@@ -815,7 +814,7 @@ class CK_VISIBLE_PUBLIC CkEmail  : public CkMultiByteBase
 	// 
 	// The pfxBytes contains the bytes of a PFX file (also known as PKCS12 or .p12).
 	// 
-	bool AddPfxSourceData(const CkByteData &pfxData, const char *password);
+	bool AddPfxSourceData(CkByteData &pfxData, const char *password);
 
 
 	// Adds a PFX file to the object's internal list of sources to be searched for
@@ -839,13 +838,13 @@ class CK_VISIBLE_PUBLIC CkEmail  : public CkMultiByteBase
 	// Emails formatted in HTML can include images with this call and internally
 	// reference the image through a "cid"hyperlink. (Chilkat Email.NET fully supports
 	// the MHTML standard.)
-	bool AddRelatedData(const char *path, const CkByteData &inData, CkString &outStr);
+	bool AddRelatedData(const char *path, CkByteData &inData, CkString &outStr);
 
 	// Adds the memory data as a related item to the email and returns the Content-ID.
 	// Emails formatted in HTML can include images with this call and internally
 	// reference the image through a "cid"hyperlink. (Chilkat Email.NET fully supports
 	// the MHTML standard.)
-	const char *addRelatedData(const char *path, const CkByteData &inData);
+	const char *addRelatedData(const char *path, CkByteData &inData);
 
 	// Adds a related item to the email from in-memory byte data. Related items are
 	// things such as images and style sheets that are embedded within an HTML email.
@@ -854,7 +853,7 @@ class CK_VISIBLE_PUBLIC CkEmail  : public CkMultiByteBase
 	// does not use or return a Content-ID. The filename argument should be set to the
 	// filename used in the HTML img tag's src attribute (if it's an image), or the URL
 	// referenced in an HTML link tag for a stylesheet.
-	void AddRelatedData2(const CkByteData &inData, const char *fileNameInHtml);
+	void AddRelatedData2(CkByteData &inData, const char *fileNameInHtml);
 
 
 #if !defined(CHILKAT_MONO)
@@ -988,12 +987,12 @@ class CK_VISIBLE_PUBLIC CkEmail  : public CkMultiByteBase
 
 
 	// Encrypts the email body, all alternative bodies, all message sub-parts and
-	// attachments using 128-bit AES (Rijndael, CBC mode) encryption. To decrypt, you
-	// must use the AesDecrypt method with the same password. The AesEncrypt/Decrypt
-	// methods use symmetric password-based greatly simplify sending and receiving
-	// encrypted emails because certificates and public/private key issues do not have
-	// to be dealt with. However, the sending and receiving applications must both be
-	// using Chilkat Email .NET or ActiveX components.
+	// attachments using 128-bit AES CBC encryption. Decrypting is achieved by calling
+	// AesDecrypt with the same password. The AesEncrypt/Decrypt methods use symmetric
+	// password-based AES encryption and greatly simplify sending and receiving
+	// encrypted emails because certificates and private keys are not used. However,
+	// the sending and receiving applications must both use Chilkat, and the password
+	// must be pre-known on both ends.
 	bool AesEncrypt(const char *password);
 
 
@@ -1012,16 +1011,16 @@ class CK_VISIBLE_PUBLIC CkEmail  : public CkMultiByteBase
 	// Attaches a MIME message to the email object. The attached MIME will be
 	// encapsulated in an message/rfc822 sub-part. To attach one email object to
 	// another, pass the output of GetMimeBinary to the input of this method.
-	bool AttachMessage(const CkByteData &mimeBytes);
+	bool AttachMessage(CkByteData &mimeBytes);
 
 
 	// Takes a byte array of multibyte (non-Unicode) data and returns a Unicode
 	// B-Encoded string.
-	bool BEncodeBytes(const CkByteData &inData, const char *charset, CkString &outEncodedStr);
+	bool BEncodeBytes(CkByteData &inData, const char *charset, CkString &outEncodedStr);
 
 	// Takes a byte array of multibyte (non-Unicode) data and returns a Unicode
 	// B-Encoded string.
-	const char *bEncodeBytes(const CkByteData &inData, const char *charset);
+	const char *bEncodeBytes(CkByteData &inData, const char *charset);
 
 	// Takes a Unicode string, converts it to the charset specified in the 2nd
 	// parameter, B-Encodes the converted multibyte data, and returns the encoded
@@ -1498,27 +1497,48 @@ class CK_VISIBLE_PUBLIC CkEmail  : public CkMultiByteBase
 	// Return the name of the Nth header field. The NumHeaderFields() method can be
 	// used to get the number of header fields. The GetHeaderField() method can be used
 	// to get the value of the field given the field name.
+	// 
+	// The 1st header field is at index 0. (All Chilkat indexing is 0-based.)
+	// 
 	bool GetHeaderFieldName(int index, CkString &outStrFieldName);
 
 	// Return the name of the Nth header field. The NumHeaderFields() method can be
 	// used to get the number of header fields. The GetHeaderField() method can be used
 	// to get the value of the field given the field name.
+	// 
+	// The 1st header field is at index 0. (All Chilkat indexing is 0-based.)
+	// 
 	const char *getHeaderFieldName(int index);
 	// Return the name of the Nth header field. The NumHeaderFields() method can be
 	// used to get the number of header fields. The GetHeaderField() method can be used
 	// to get the value of the field given the field name.
+	// 
+	// The 1st header field is at index 0. (All Chilkat indexing is 0-based.)
+	// 
 	const char *headerFieldName(int index);
 
 
 	// Returns the value of the Nth header field. (Indexing begins at 0) The number of
 	// header fields can be obtained from the NumHeaderFields property.
+	// 
+	// The 1st header field is at index 0, the last header field is at index
+	// NumHeaderFields-1. (All Chilkat indexing is 0-based.)
+	// 
 	bool GetHeaderFieldValue(int index, CkString &outStrFieldValue);
 
 	// Returns the value of the Nth header field. (Indexing begins at 0) The number of
 	// header fields can be obtained from the NumHeaderFields property.
+	// 
+	// The 1st header field is at index 0, the last header field is at index
+	// NumHeaderFields-1. (All Chilkat indexing is 0-based.)
+	// 
 	const char *getHeaderFieldValue(int index);
 	// Returns the value of the Nth header field. (Indexing begins at 0) The number of
 	// header fields can be obtained from the NumHeaderFields property.
+	// 
+	// The 1st header field is at index 0, the last header field is at index
+	// NumHeaderFields-1. (All Chilkat indexing is 0-based.)
+	// 
 	const char *headerFieldValue(int index);
 
 
@@ -1560,6 +1580,9 @@ class CK_VISIBLE_PUBLIC CkEmail  : public CkMultiByteBase
 	// Returns a header field's data in a byte array. If the field was Q or B encoded,
 	// this is automatically decoded, and the raw bytes of the field are returned. Call
 	// GetHeaderField to retrieve the header field as a Unicode string.
+	// 
+	// The 1st header field is at index 0. (All Chilkat indexing is 0-based.)
+	// 
 	bool GetMbHeaderField(const char *fieldName, const char *charset, CkByteData &outBytes);
 
 
@@ -1920,11 +1943,11 @@ class CK_VISIBLE_PUBLIC CkEmail  : public CkMultiByteBase
 
 	// Takes a byte array of multibyte (non-Unicode) data and returns a Unicode
 	// Q-Encoded string.
-	bool QEncodeBytes(const CkByteData &inData, const char *charset, CkString &outEncodedStr);
+	bool QEncodeBytes(CkByteData &inData, const char *charset, CkString &outEncodedStr);
 
 	// Takes a byte array of multibyte (non-Unicode) data and returns a Unicode
 	// Q-Encoded string.
-	const char *qEncodeBytes(const CkByteData &inData, const char *charset);
+	const char *qEncodeBytes(CkByteData &inData, const char *charset);
 
 	// Takes a Unicode string, converts it to the charset specified in the 2nd
 	// parameter, Q-Encodes the converted multibyte data, and returns the encoded
@@ -2014,7 +2037,7 @@ class CK_VISIBLE_PUBLIC CkEmail  : public CkMultiByteBase
 	// can be an empty string, "inline", or "attachment". If a filename is specified,
 	// the disposition must be non-empty because the filename is an attribute of the
 	// content-disposition header field.
-	bool SetBinaryBody(const CkByteData &byteData, const char *contentType, const char *disposition, const char *filename);
+	bool SetBinaryBody(CkByteData &byteData, const char *contentType, const char *disposition, const char *filename);
 
 
 #if defined(CK_CSP_INCLUDED)
@@ -2025,7 +2048,7 @@ class CK_VISIBLE_PUBLIC CkEmail  : public CkMultiByteBase
 	// appropriate. One instance where SetCSP is necessary is when using the Crypto-Pro
 	// CSP for the GOST R 34.10-2001 and GOST R 34.10-94 providers.
 	// 
-	bool SetCSP(const CkCsp &csp);
+	bool SetCSP(CkCsp &csp);
 
 #endif
 
@@ -2046,7 +2069,7 @@ class CK_VISIBLE_PUBLIC CkEmail  : public CkMultiByteBase
 	// However, if not on a Windows system, or if the private key was not
 	// pre-installed, then it can be provided by this method, or via the
 	// AddPfxSourceFile / AddPfxSourceData methods.
-	bool SetDecryptCert2(const CkCert &cert, CkPrivateKey &key);
+	bool SetDecryptCert2(CkCert &cert, CkPrivateKey &key);
 
 
 	// Sets the "Date" header field of the email to have the value of the date/time
@@ -2071,7 +2094,7 @@ class CK_VISIBLE_PUBLIC CkEmail  : public CkMultiByteBase
 	// Set the encryption certificate to be used in encryption. Use the CreateCS,
 	// CertStore, and Cert classes to create a Cert object by either locating a
 	// certificate in a certificate store or loading one from a file.
-	bool SetEncryptCert(const CkCert &cert);
+	bool SetEncryptCert(CkCert &cert);
 
 
 	// Loads the email object with the mimeBytes. If the email object already contained an
@@ -2079,7 +2102,7 @@ class CK_VISIBLE_PUBLIC CkEmail  : public CkMultiByteBase
 	// "iso-8859-1", etc.) of the bytes is automatically inferred from the content. If
 	// for some reason it is not possible to determine the character encoding, the
 	// SetFromMimeBytes2 method may be called to explicitly specify the charset.
-	bool SetFromMimeBytes(const CkByteData &mimeBytes);
+	bool SetFromMimeBytes(CkByteData &mimeBytes);
 
 
 	// Loads the email object with the mimeBytes. If the email object already contained an
@@ -2088,7 +2111,7 @@ class CK_VISIBLE_PUBLIC CkEmail  : public CkMultiByteBase
 	// The  charset specifies the character encoding of the MIME bytes (such as "utf-8",
 	// "iso-8859-1", etc.).
 	// 
-	bool SetFromMimeBytes2(const CkByteData &mimeBytes, const char *charset);
+	bool SetFromMimeBytes2(CkByteData &mimeBytes, const char *charset);
 
 
 	// Loads an email with the contents of a .eml (i.e. MIME) contained in a string.
@@ -2107,13 +2130,13 @@ class CK_VISIBLE_PUBLIC CkEmail  : public CkMultiByteBase
 	// Sets the HTML email body from a byte array containing character data in the
 	// specified character set. This method also updates the email "content-type"header
 	// to properly reflect the content type of the body.
-	bool SetMbHtmlBody(const char *charset, const CkByteData &inData);
+	bool SetMbHtmlBody(const char *charset, CkByteData &inData);
 
 
 	// Sets the plain-text email body from a byte array containing character data in
 	// the specified character set. This method also updates the email
 	// "content-type"header to properly reflect the content type of the body.
-	bool SetMbPlainTextBody(const char *charset, const CkByteData &inData);
+	bool SetMbPlainTextBody(const char *charset, CkByteData &inData);
 
 
 	// Sets the filename for a related item within the email.
@@ -2137,7 +2160,7 @@ class CK_VISIBLE_PUBLIC CkEmail  : public CkMultiByteBase
 	// Set the certificate to be used in creating a digital signature. Use the
 	// CreateCS, CertStore, and Cert classes to create a Cert object by either locating
 	// a certificate in a certificate store or loading one from a file.
-	bool SetSigningCert(const CkCert &cert);
+	bool SetSigningCert(CkCert &cert);
 
 
 	// Explicitly sets the certificate and private key to be used for sending digitally
@@ -2149,7 +2172,7 @@ class CK_VISIBLE_PUBLIC CkEmail  : public CkMultiByteBase
 	// the signing certificate at all. The Chilkat component will automatically locate
 	// and use the certificate containing the FROM email address (from the
 	// registry-based certificate store where it was installed).
-	bool SetSigningCert2(const CkCert &cert, CkPrivateKey &key);
+	bool SetSigningCert2(CkCert &cert, CkPrivateKey &key);
 
 
 	// Sets the body of the email and also sets the Content-Type header field of the
@@ -2161,7 +2184,7 @@ class CK_VISIBLE_PUBLIC CkEmail  : public CkMultiByteBase
 
 	// True if the caller email has a UIDL that equals the email passed in the
 	// argument.
-	bool UidlEquals(const CkEmail &e);
+	bool UidlEquals(CkEmail &e);
 
 
 	// Unobfuscates emails by undoing what spammers do to obfuscate email. It removes

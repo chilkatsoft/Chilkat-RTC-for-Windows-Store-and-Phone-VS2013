@@ -166,6 +166,11 @@ public ref class SFtp sealed
 		Boolean get();
 		void set(Boolean);
 	}
+	property Boolean EnableCompression
+	{
+		Boolean get();
+		void set(Boolean);
+	}
 	property Platform::String ^FilenameCharset
 	{
 		Platform::String ^get();
@@ -427,7 +432,7 @@ public ref class SFtp sealed
 
 	IAsyncOperation<Platform::String ^>^ OpenDirAsync(Platform::String ^path);
 
-	IAsyncOperation<Platform::String ^>^ OpenFileAsync(Platform::String ^filename, Platform::String ^access, Platform::String ^createDisp);
+	IAsyncOperation<Platform::String ^>^ OpenFileAsync(Platform::String ^remoteFilePath, Platform::String ^access, Platform::String ^createDisp);
 
 	IAsyncOperation<SFtpDir ^>^ ReadDirAsync(Platform::String ^handle);
 
@@ -481,7 +486,7 @@ public ref class SFtp sealed
 
 	Boolean UnlockComponent(Platform::String ^unlockCode);
 
-	IAsyncOperation<Boolean>^ UploadFileAsync(Platform::String ^handle, Platform::String ^fromFilename);
+	IAsyncOperation<Boolean>^ UploadFileAsync(Platform::String ^handle, Platform::String ^localFilePath);
 
 	IAsyncOperation<Boolean>^ UploadFileByNameAsync(Platform::String ^remoteFilePath, Platform::String ^localFilePath);
 

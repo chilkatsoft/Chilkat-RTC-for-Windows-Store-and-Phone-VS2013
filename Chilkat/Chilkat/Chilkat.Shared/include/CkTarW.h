@@ -10,7 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkWideCharBase.h"
+#include "CkClassWithCallbacksW.h"
 
 class CkTaskW;
 class CkByteData;
@@ -24,11 +24,10 @@ class CkTarProgressW;
  
 
 // CLASS: CkTarW
-class CK_VISIBLE_PUBLIC CkTarW  : public CkWideCharBase
+class CK_VISIBLE_PUBLIC CkTarW  : public CkClassWithCallbacksW
 {
     private:
 	bool m_cbOwned;
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkTarW(const CkTarW &);
@@ -477,18 +476,18 @@ class CK_VISIBLE_PUBLIC CkTarW  : public CkWideCharBase
 
 	// Memory-to-memory untar. The first file matching the UntarMatchPattern property
 	// is extracted and returned.
-	bool UntarFirstMatchingToMemory(const CkByteData &tarFileBytes, const wchar_t *matchPattern, CkByteData &outBytes);
+	bool UntarFirstMatchingToMemory(CkByteData &tarFileBytes, const wchar_t *matchPattern, CkByteData &outBytes);
 
 	// Extracts the files and directories from an in-memory TAR archive, reconstructing
 	// the directory tree(s) in the local filesystem. The files are extracted to the
 	// directory specified by the UntarFromDir property. Returns the number of files
 	// and directories extracted, or -1 for failure.
-	int UntarFromMemory(const CkByteData &tarFileBytes);
+	int UntarFromMemory(CkByteData &tarFileBytes);
 
 	// Creates an asynchronous task to call the UntarFromMemory method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *UntarFromMemoryAsync(const CkByteData &tarFileBytes);
+	CkTaskW *UntarFromMemoryAsync(CkByteData &tarFileBytes);
 
 	// Extracts the files and directories from a tar.gz (or tar.gzip) archive,
 	// reconstructing the directory tree(s) in the local filesystem. The files are
@@ -547,6 +546,17 @@ class CK_VISIBLE_PUBLIC CkTarW  : public CkWideCharBase
 	// provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
 	CkTaskW *WriteTarGzAsync(const wchar_t *gzPath);
+
+	// Adds a directory tree to be included in the next call to one of the WriteTar*
+	// methods. To include multiple directory trees in a .tar, call AddDirRoot2 (and/or
+	// AddDirRoot) multiple times followed by a single call to WriteTar.
+	// 
+	// The ARG1 adds a prefix to the path in the TAR for all files added under this
+	// root. The ARG1 should not end with a forward-slash char. For example: This is
+	// good: "abc/123", but this is not good: "abc/123/". If the DirPrefix property is
+	// also set, its prefix will added first.
+	// 
+	bool AddDirRoot2(const wchar_t *rootPrefix, const wchar_t *rootPath);
 
 
 

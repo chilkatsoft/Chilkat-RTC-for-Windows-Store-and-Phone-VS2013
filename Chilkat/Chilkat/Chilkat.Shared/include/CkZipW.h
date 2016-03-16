@@ -10,7 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkWideCharBase.h"
+#include "CkClassWithCallbacksW.h"
 
 class CkZipEntryW;
 class CkByteData;
@@ -26,11 +26,10 @@ class CkZipProgressW;
  
 
 // CLASS: CkZipW
-class CK_VISIBLE_PUBLIC CkZipW  : public CkWideCharBase
+class CK_VISIBLE_PUBLIC CkZipW  : public CkClassWithCallbacksW
 {
     private:
 	bool m_cbOwned;
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkZipW(const CkZipW &);
@@ -938,7 +937,7 @@ class CK_VISIBLE_PUBLIC CkZipW  : public CkWideCharBase
 	// (Meaning data compressed using the "deflate" compression algorithm.)
 	// 
 	// The caller is responsible for deleting the object returned by this method.
-	CkZipEntryW *AppendCompressed(const wchar_t *fileName, const CkByteData &inData);
+	CkZipEntryW *AppendCompressed(const wchar_t *fileName, CkByteData &inData);
 
 	// Appends in-memory data as a new entry to a Zip object. The ZipEntry object
 	// containing the data is returned.
@@ -947,7 +946,7 @@ class CK_VISIBLE_PUBLIC CkZipW  : public CkWideCharBase
 	// either the WriteZip or WriteZipAndClose method would need to be called.
 	// 
 	// The caller is responsible for deleting the object returned by this method.
-	CkZipEntryW *AppendData(const wchar_t *fileName, const CkByteData &inData);
+	CkZipEntryW *AppendData(const wchar_t *fileName, CkByteData &inData);
 
 	// Appends one or more files to the Zip object. The filePattern can use the "*"
 	// wildcard character for 0 or more of any characterSet recurse equal to True to
@@ -1217,11 +1216,11 @@ class CK_VISIBLE_PUBLIC CkZipW  : public CkWideCharBase
 #endif
 
 	// Same as OpenFromMemory.
-	bool OpenFromByteData(const CkByteData &byteData);
+	bool OpenFromByteData(CkByteData &byteData);
 
 	// Open a Zip that is completely in-memory. This allows for Zip files to be opened
 	// from non-filesystem sources, such as a database.
-	bool OpenFromMemory(const CkByteData &inData);
+	bool OpenFromMemory(CkByteData &inData);
 
 #if defined(CK_SFX_INCLUDED)
 	// (Relevant only when running on a Microsoft Windows operating system.) Opens a
@@ -1289,7 +1288,7 @@ class CK_VISIBLE_PUBLIC CkZipW  : public CkWideCharBase
 	// Specify a collection of exclusion patterns to be used when adding files to a
 	// Zip. Each pattern in the collection can use the "*" wildcard character, where
 	// "*" indicates 0 or more occurances of any character.
-	void SetExclusions(const CkStringArrayW &excludePatterns);
+	void SetExclusions(CkStringArrayW &excludePatterns);
 
 #if defined(CK_SFX_INCLUDED)
 	// Sets a self-extractor property that is embedded in the resultant EXE created by

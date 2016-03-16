@@ -359,6 +359,14 @@ void Chilkat::Ssh::UserAuthBanner::set(String ^newVal)
     {
         if (m_impl) m_impl->put_UserAuthBanner(newVal ? newVal->Data() : L"");
     }
+Boolean Chilkat::Ssh::EnableCompression::get()
+    {
+    return m_impl ? m_impl->get_EnableCompression() : false;
+    }
+void Chilkat::Ssh::EnableCompression::set(Boolean newVal)
+    {
+        if (m_impl) m_impl->put_EnableCompression(newVal);
+    }
 
 
 Boolean Ssh::SaveLastError(Platform::String ^path)

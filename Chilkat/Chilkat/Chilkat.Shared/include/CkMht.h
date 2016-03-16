@@ -10,9 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkMultiByteBase.h"
-
-class CkByteData;
+#include "CkClassWithCallbacks.h"
 
 class CkTask;
 class CkBaseProgress;
@@ -25,10 +23,9 @@ class CkBaseProgress;
  
 
 // CLASS: CkMht
-class CK_VISIBLE_PUBLIC CkMht  : public CkMultiByteBase
+class CK_VISIBLE_PUBLIC CkMht  : public CkClassWithCallbacks
 {
     private:
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkMht(const CkMht &);

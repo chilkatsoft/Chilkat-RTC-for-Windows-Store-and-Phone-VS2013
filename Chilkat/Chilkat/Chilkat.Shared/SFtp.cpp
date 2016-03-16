@@ -158,6 +158,14 @@ void Chilkat::SFtp::EnableCache::set(Boolean newVal)
     {
         if (m_impl) m_impl->put_EnableCache(newVal);
     }
+Boolean Chilkat::SFtp::EnableCompression::get()
+    {
+    return m_impl ? m_impl->get_EnableCompression() : false;
+    }
+void Chilkat::SFtp::EnableCompression::set(Boolean newVal)
+    {
+        if (m_impl) m_impl->put_EnableCompression(newVal);
+    }
 String ^Chilkat::SFtp::FilenameCharset::get()
     {
     return ref new String(m_impl ? m_impl->filenameCharset() : L"");
@@ -971,9 +979,9 @@ return create_async([this, path]() -> Platform::String ^
 
 });
     }
-IAsyncOperation<Platform::String ^>^ SFtp::OpenFileAsync(Platform::String ^filename, Platform::String ^access, Platform::String ^createDisp)
+IAsyncOperation<Platform::String ^>^ SFtp::OpenFileAsync(Platform::String ^remoteFilePath, Platform::String ^access, Platform::String ^createDisp)
     {
-return create_async([this, filename, access, createDisp]() -> Platform::String ^
+return create_async([this, remoteFilePath, access, createDisp]() -> Platform::String ^
 {
 // This runs in a thread pool thread...
 
@@ -983,7 +991,7 @@ return create_async([this, filename, access, createDisp]() -> Platform::String ^
 	cxProgress.m_sender = this;
 	// gType = string
 	// cppType = bool
-	const wchar_t *retStr = m_impl->openFile(filename ? filename->Data() : L"",access ? access->Data() : L"",createDisp ? createDisp->Data() : L"");
+	const wchar_t *retStr = m_impl->openFile(remoteFilePath ? remoteFilePath->Data() : L"",access ? access->Data() : L"",createDisp ? createDisp->Data() : L"");
 	if (!retStr) return nullptr;
 	return ref new String(retStr);
 
@@ -1438,9 +1446,9 @@ Boolean SFtp::UnlockComponent(Platform::String ^unlockCode)
 	// cppType = bool
 	return m_impl->UnlockComponent(unlockCode ? unlockCode->Data() : L"");
     }
-IAsyncOperation<Boolean>^ SFtp::UploadFileAsync(Platform::String ^handle, Platform::String ^fromFilename)
+IAsyncOperation<Boolean>^ SFtp::UploadFileAsync(Platform::String ^handle, Platform::String ^localFilePath)
     {
-return create_async([this, handle, fromFilename]() -> Boolean
+return create_async([this, handle, localFilePath]() -> Boolean
 {
 // This runs in a thread pool thread...
 
@@ -1450,7 +1458,7 @@ return create_async([this, handle, fromFilename]() -> Boolean
 	cxProgress.m_sender = this;
 	// gType = bool
 	// cppType = bool
-	return m_impl->UploadFile(handle ? handle->Data() : L"",fromFilename ? fromFilename->Data() : L"");
+	return m_impl->UploadFile(handle ? handle->Data() : L"",localFilePath ? localFilePath->Data() : L"");
 
 });
     }

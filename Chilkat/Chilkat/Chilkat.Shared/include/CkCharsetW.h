@@ -72,19 +72,13 @@ class CK_VISIBLE_PUBLIC CkCharsetW  : public CkWideCharBase
 	// converted to the target charset, the action taken is controlled by this
 	// property. The possible settings are: (0) drop the error characters, (1)
 	// substitute the data set by the SetErrorBytes or SetErrorString method, (2)
-	// convert to a hex-escaped string (&#XXXX), (3) RESERVED, (4) RESERVED, (5)
-	// RESERVED, (6) convert the error character to the AltToCharset instead, if that
-	// fails then drop the character, (7) Pass non-convertible characters to the output
-	// unchanged.
+	// convert to a hex-escaped string (
 	int get_ErrorAction(void);
 	// Controls how errors are handled. When a character in the input data cannot be
 	// converted to the target charset, the action taken is controlled by this
 	// property. The possible settings are: (0) drop the error characters, (1)
 	// substitute the data set by the SetErrorBytes or SetErrorString method, (2)
-	// convert to a hex-escaped string (&#XXXX), (3) RESERVED, (4) RESERVED, (5)
-	// RESERVED, (6) convert the error character to the AltToCharset instead, if that
-	// fails then drop the character, (7) Pass non-convertible characters to the output
-	// unchanged.
+	// convert to a hex-escaped string (
 	void put_ErrorAction(int newVal);
 
 	// Tells the charset converter the charset of the input data for a conversion.
@@ -701,7 +695,7 @@ class CK_VISIBLE_PUBLIC CkCharsetW  : public CkWideCharBase
 	// Converts character data from one charset to another. Before calling ConvertData,
 	// the FromCharset and ToCharset properties must be set to the source and
 	// destination charset names, such as "iso-8859-1" or "Shift_JIS".
-	bool ConvertData(const CkByteData &inData, CkByteData &outData);
+	bool ConvertData(CkByteData &inData, CkByteData &outData);
 
 	// Converts a file from one character encoding to another. The FromCharset and
 	// ToCharset properties specify the source and destination character encodings. If
@@ -720,12 +714,12 @@ class CK_VISIBLE_PUBLIC CkCharsetW  : public CkWideCharBase
 	bool ConvertFromUnicode(const wchar_t *inData, CkByteData &outBytes);
 
 	// Converts utf-16 text to the charset specified by the ToCharset property.
-	bool ConvertFromUtf16(const CkByteData &uniData, CkByteData &outMbData);
+	bool ConvertFromUtf16(CkByteData &uniData, CkByteData &outMbData);
 
 	// Converts HTML text from one character encoding to another. The FromCharset and
 	// ToCharset properties must be set prior to calling this method. This method
 	// automatically edits the META tag within the HTML that indicates the charset.
-	bool ConvertHtml(const CkByteData &inData, CkByteData &outHtml);
+	bool ConvertHtml(CkByteData &inData, CkByteData &outHtml);
 
 	// Converts an HTML file from one character encoding to another. The ToCharset
 	// properties must be set prior to calling this method. If the FromCharset is not
@@ -736,13 +730,13 @@ class CK_VISIBLE_PUBLIC CkCharsetW  : public CkWideCharBase
 
 	// Converts multibyte character data to a Unicode string. The FromCharset property
 	// should be set before calling this method.
-	bool ConvertToUnicode(const CkByteData &inData, CkString &outStr);
+	bool ConvertToUnicode(CkByteData &inData, CkString &outStr);
 	// Converts multibyte character data to a Unicode string. The FromCharset property
 	// should be set before calling this method.
-	const wchar_t *convertToUnicode(const CkByteData &inData);
+	const wchar_t *convertToUnicode(CkByteData &inData);
 
 	// To be documented soon.
-	bool ConvertToUtf16(const CkByteData &mbData, CkByteData &outUniData);
+	bool ConvertToUtf16(CkByteData &mbData, CkByteData &outUniData);
 
 	// Converts non-US-ASCII characters to Unicode decimal entities (_AMP_#xxxxx;)
 	bool EntityEncodeDec(const wchar_t *str, CkString &outStr);
@@ -756,13 +750,13 @@ class CK_VISIBLE_PUBLIC CkCharsetW  : public CkWideCharBase
 
 	// Examines HTML text and extracts the charset name specified by the META tag, if
 	// present.
-	bool GetHtmlCharset(const CkByteData &inData, CkString &outCharset);
+	bool GetHtmlCharset(CkByteData &inData, CkString &outCharset);
 	// Examines HTML text and extracts the charset name specified by the META tag, if
 	// present.
-	const wchar_t *getHtmlCharset(const CkByteData &inData);
+	const wchar_t *getHtmlCharset(CkByteData &inData);
 	// Examines HTML text and extracts the charset name specified by the META tag, if
 	// present.
-	const wchar_t *htmlCharset(const CkByteData &inData);
+	const wchar_t *htmlCharset(CkByteData &inData);
 
 	// Examines an HTML file and extracts the charset name specified by the META tag,
 	// if present.
@@ -782,7 +776,7 @@ class CK_VISIBLE_PUBLIC CkCharsetW  : public CkWideCharBase
 	// Decodes HTML entities. See http://www.w3.org/TR/REC-html40/sgml/entities.html
 	// for information on HTML entities. Examples of HTML entities are _AMP_lt; ,
 	// _AMP_#229; , _AMP_#xE5; , _AMP_#x6C34; , _AMP_Iacute; , etc.
-	bool HtmlEntityDecode(const CkByteData &inHtml, CkByteData &outData);
+	bool HtmlEntityDecode(CkByteData &inHtml, CkByteData &outData);
 
 	// Decodes HTML entities in a file and creates a new HTML file with the entities
 	// decoded. See http://www.w3.org/TR/REC-html40/sgml/entities.html for information
@@ -813,7 +807,7 @@ class CK_VISIBLE_PUBLIC CkCharsetW  : public CkWideCharBase
 	// If the ErrorAction property is set to 1, the bytes passed to this method are
 	// used as the result for any characters that cannot be converted during a
 	// conversion.
-	void SetErrorBytes(const CkByteData &data);
+	void SetErrorBytes(CkByteData &data);
 
 	// If the ErrorAction property is set to 1, the string passed to this method is
 	// used as the result for any characters that cannot be converted during a
@@ -837,14 +831,14 @@ class CK_VISIBLE_PUBLIC CkCharsetW  : public CkWideCharBase
 
 	// Returns true if the byte data conforms to the charset passed in the first
 	// argument.
-	bool VerifyData(const wchar_t *charset, const CkByteData &inData);
+	bool VerifyData(const wchar_t *charset, CkByteData &inData);
 
 	// Returns true if the file contains character data that conforms to the charset
 	// passed in the 1st argument.
 	bool VerifyFile(const wchar_t *charset, const wchar_t *filename);
 
 	// Convenience method for saving an entire byte array to a file.
-	bool WriteFile(const wchar_t *filename, const CkByteData &fileData);
+	bool WriteFile(const wchar_t *filename, CkByteData &fileData);
 
 	// Converts a Unicode string to a multibyte charset and writes the multibyte text
 	// data to a file. The destination charset is specified in the 2nd method argument.

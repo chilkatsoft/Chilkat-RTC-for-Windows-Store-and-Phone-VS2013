@@ -12,8 +12,6 @@
 #include "CkString.h"
 #include "CkMultiByteBase.h"
 
-class CkByteData;
-
 class CkCert;
 class CkByteData;
 class CkCertChain;
@@ -30,7 +28,6 @@ class CkPfx;
 class CK_VISIBLE_PUBLIC CkXmlCertVault  : public CkMultiByteBase
 {
     private:
-	
 
 	// Don't allow assignment or copying these objects.
 	CkXmlCertVault(const CkXmlCertVault &);
@@ -83,7 +80,7 @@ class CK_VISIBLE_PUBLIC CkXmlCertVault  : public CkMultiByteBase
 
 
 	// Adds a certificate to the XML vault from any binary format, such as DER.
-	bool AddCertBinary(const CkByteData &certBytes);
+	bool AddCertBinary(CkByteData &certBytes);
 
 
 	// Adds a chain of certificates to the XML vault.
@@ -116,7 +113,7 @@ class CK_VISIBLE_PUBLIC CkXmlCertVault  : public CkMultiByteBase
 
 	// Adds a PFX to the XML vault where PFX is passed directly from in-memory binary
 	// bytes.
-	bool AddPfxBinary(const CkByteData &pfxBytes, const char *password);
+	bool AddPfxBinary(CkByteData &pfxBytes, const char *password);
 
 
 	// Adds a PFX to the XML vault where PFX is passed directly from encoded bytes

@@ -10,10 +10,11 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkWideCharBase.h"
+#include "CkClassWithCallbacksW.h"
 
 class CkByteData;
 class CkTaskW;
+class CkStreamW;
 class CkBaseProgressW;
 
 
@@ -24,11 +25,10 @@ class CkBaseProgressW;
  
 
 // CLASS: CkCompressionW
-class CK_VISIBLE_PUBLIC CkCompressionW  : public CkWideCharBase
+class CK_VISIBLE_PUBLIC CkCompressionW  : public CkClassWithCallbacksW
 {
     private:
 	bool m_cbOwned;
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkCompressionW(const CkCompressionW &);
@@ -144,12 +144,12 @@ class CK_VISIBLE_PUBLIC CkCompressionW  : public CkWideCharBase
 	// ending with a final call to EndCompressBytes. Each call returns 0 or more bytes
 	// of compressed data which may be output to a compressed data stream (such as a
 	// file, socket, etc.).
-	bool BeginCompressBytes(const CkByteData &data, CkByteData &outData);
+	bool BeginCompressBytes(CkByteData &data, CkByteData &outData);
 
 	// Creates an asynchronous task to call the BeginCompressBytes method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *BeginCompressBytesAsync(const CkByteData &data);
+	CkTaskW *BeginCompressBytesAsync(CkByteData &data);
 
 	// Large amounts of binary byte data may be compressed in chunks by first calling
 	// BeginCompressBytesENC, followed by 0 or more calls to MoreCompressedBytesENC,
@@ -157,19 +157,19 @@ class CK_VISIBLE_PUBLIC CkCompressionW  : public CkWideCharBase
 	// characters of compressed data (encoded as a string according to the EncodingMode
 	// property setting) which may be output to a compressed data stream (such as a
 	// file, socket, etc.).
-	bool BeginCompressBytesENC(const CkByteData &data, CkString &outStr);
+	bool BeginCompressBytesENC(CkByteData &data, CkString &outStr);
 	// Large amounts of binary byte data may be compressed in chunks by first calling
 	// BeginCompressBytesENC, followed by 0 or more calls to MoreCompressedBytesENC,
 	// and ending with a final call to EndCompressBytesENC. Each call returns 0 or more
 	// characters of compressed data (encoded as a string according to the EncodingMode
 	// property setting) which may be output to a compressed data stream (such as a
 	// file, socket, etc.).
-	const wchar_t *beginCompressBytesENC(const CkByteData &data);
+	const wchar_t *beginCompressBytesENC(CkByteData &data);
 
 	// Creates an asynchronous task to call the BeginCompressBytesENC method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *BeginCompressBytesENCAsync(const CkByteData &data);
+	CkTaskW *BeginCompressBytesENCAsync(CkByteData &data);
 
 	// Large amounts of string data may be compressed in chunks by first calling
 	// BeginCompressString, followed by 0 or more calls to MoreCompressedString, and
@@ -207,12 +207,12 @@ class CK_VISIBLE_PUBLIC CkCompressionW  : public CkWideCharBase
 	// BeginDecompressBytes, followed by 0 or more calls to MoreDecompressedBytes, and
 	// ending with a final call to EndDecompressBytes. Each call returns 0 or more
 	// bytes of decompressed data.
-	bool BeginDecompressBytes(const CkByteData &data, CkByteData &outData);
+	bool BeginDecompressBytes(CkByteData &data, CkByteData &outData);
 
 	// Creates an asynchronous task to call the BeginDecompressBytes method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *BeginDecompressBytesAsync(const CkByteData &data);
+	CkTaskW *BeginDecompressBytesAsync(CkByteData &data);
 
 	// The input to this method is an encoded string containing compressed data. The
 	// EncodingMode property should be set prior to calling this method. The input
@@ -235,17 +235,17 @@ class CK_VISIBLE_PUBLIC CkCompressionW  : public CkWideCharBase
 	// BeginDecompressString, followed by 0 or more calls to MoreDecompressedString,
 	// and ending with a final call to EndDecompressString. Each call returns 0 or more
 	// characters of decompressed text.
-	bool BeginDecompressString(const CkByteData &data, CkString &outStr);
+	bool BeginDecompressString(CkByteData &data, CkString &outStr);
 	// A compressed data stream may be decompressed in chunks by first calling
 	// BeginDecompressString, followed by 0 or more calls to MoreDecompressedString,
 	// and ending with a final call to EndDecompressString. Each call returns 0 or more
 	// characters of decompressed text.
-	const wchar_t *beginDecompressString(const CkByteData &data);
+	const wchar_t *beginDecompressString(CkByteData &data);
 
 	// Creates an asynchronous task to call the BeginDecompressString method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *BeginDecompressStringAsync(const CkByteData &data);
+	CkTaskW *BeginDecompressStringAsync(CkByteData &data);
 
 	// The input to this method is an encoded string containing compressed data. The
 	// EncodingMode property should be set prior to calling this method. The input
@@ -279,24 +279,24 @@ class CK_VISIBLE_PUBLIC CkCompressionW  : public CkWideCharBase
 	CkTaskW *BeginDecompressStringENCAsync(const wchar_t *str);
 
 	// Compresses byte data.
-	bool CompressBytes(const CkByteData &data, CkByteData &outData);
+	bool CompressBytes(CkByteData &data, CkByteData &outData);
 
 	// Creates an asynchronous task to call the CompressBytes method with the arguments
 	// provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *CompressBytesAsync(const CkByteData &data);
+	CkTaskW *CompressBytesAsync(CkByteData &data);
 
 	// Compresses bytes and returns the compressed data encoded to a string. The
 	// encoding (hex, base64, etc.) is determined by the EncodingMode property setting.
-	bool CompressBytesENC(const CkByteData &data, CkString &outStr);
+	bool CompressBytesENC(CkByteData &data, CkString &outStr);
 	// Compresses bytes and returns the compressed data encoded to a string. The
 	// encoding (hex, base64, etc.) is determined by the EncodingMode property setting.
-	const wchar_t *compressBytesENC(const CkByteData &data);
+	const wchar_t *compressBytesENC(CkByteData &data);
 
 	// Creates an asynchronous task to call the CompressBytesENC method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *CompressBytesENCAsync(const CkByteData &data);
+	CkTaskW *CompressBytesENCAsync(CkByteData &data);
 
 	// Performs file-to-file compression. Files of any size may be compressed because
 	// the file is compressed internally in streaming mode.
@@ -330,12 +330,12 @@ class CK_VISIBLE_PUBLIC CkCompressionW  : public CkWideCharBase
 	CkTaskW *CompressStringENCAsync(const wchar_t *str);
 
 	// The opposite of CompressBytes.
-	bool DecompressBytes(const CkByteData &data, CkByteData &outData);
+	bool DecompressBytes(CkByteData &data, CkByteData &outData);
 
 	// Creates an asynchronous task to call the DecompressBytes method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *DecompressBytesAsync(const CkByteData &data);
+	CkTaskW *DecompressBytesAsync(CkByteData &data);
 
 	// The opposite of CompressBytesENC. encodedCompressedData contains the compressed data as an
 	// encoded string (hex, base64, etc) as specified by the EncodingMode property
@@ -358,14 +358,14 @@ class CK_VISIBLE_PUBLIC CkCompressionW  : public CkWideCharBase
 	CkTaskW *DecompressFileAsync(const wchar_t *srcPath, const wchar_t *destPath);
 
 	// Takes compressed bytes, decompresses, and returns the resulting string.
-	bool DecompressString(const CkByteData &data, CkString &outStr);
+	bool DecompressString(CkByteData &data, CkString &outStr);
 	// Takes compressed bytes, decompresses, and returns the resulting string.
-	const wchar_t *decompressString(const CkByteData &data);
+	const wchar_t *decompressString(CkByteData &data);
 
 	// Creates an asynchronous task to call the DecompressString method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *DecompressStringAsync(const CkByteData &data);
+	CkTaskW *DecompressStringAsync(CkByteData &data);
 
 	// The opposite of CompressStringENC. encodedCompressedData contains the compressed data as an
 	// encoded string (hex, base64, etc) as specified by the EncodingMode property
@@ -517,22 +517,22 @@ class CK_VISIBLE_PUBLIC CkCompressionW  : public CkWideCharBase
 	CkTaskW *EndDecompressStringENCAsync(void);
 
 	// (See BeginCompressBytes)
-	bool MoreCompressBytes(const CkByteData &data, CkByteData &outData);
+	bool MoreCompressBytes(CkByteData &data, CkByteData &outData);
 
 	// Creates an asynchronous task to call the MoreCompressBytes method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *MoreCompressBytesAsync(const CkByteData &data);
+	CkTaskW *MoreCompressBytesAsync(CkByteData &data);
 
 	// (See BeginCompressBytesENC)
-	bool MoreCompressBytesENC(const CkByteData &data, CkString &outStr);
+	bool MoreCompressBytesENC(CkByteData &data, CkString &outStr);
 	// (See BeginCompressBytesENC)
-	const wchar_t *moreCompressBytesENC(const CkByteData &data);
+	const wchar_t *moreCompressBytesENC(CkByteData &data);
 
 	// Creates an asynchronous task to call the MoreCompressBytesENC method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *MoreCompressBytesENCAsync(const CkByteData &data);
+	CkTaskW *MoreCompressBytesENCAsync(CkByteData &data);
 
 	// (See BeginCompressString)
 	bool MoreCompressString(const wchar_t *str, CkByteData &outData);
@@ -553,12 +553,12 @@ class CK_VISIBLE_PUBLIC CkCompressionW  : public CkWideCharBase
 	CkTaskW *MoreCompressStringENCAsync(const wchar_t *str);
 
 	// (See BeginDecompressBytes)
-	bool MoreDecompressBytes(const CkByteData &data, CkByteData &outData);
+	bool MoreDecompressBytes(CkByteData &data, CkByteData &outData);
 
 	// Creates an asynchronous task to call the MoreDecompressBytes method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *MoreDecompressBytesAsync(const CkByteData &data);
+	CkTaskW *MoreDecompressBytesAsync(CkByteData &data);
 
 	// The input to this method is an encoded string containing compressed data. The
 	// EncodingMode property should be set prior to calling this method. The input
@@ -575,14 +575,14 @@ class CK_VISIBLE_PUBLIC CkCompressionW  : public CkWideCharBase
 	CkTaskW *MoreDecompressBytesENCAsync(const wchar_t *str);
 
 	// (See BeginDecompressString)
-	bool MoreDecompressString(const CkByteData &data, CkString &outStr);
+	bool MoreDecompressString(CkByteData &data, CkString &outStr);
 	// (See BeginDecompressString)
-	const wchar_t *moreDecompressString(const CkByteData &data);
+	const wchar_t *moreDecompressString(CkByteData &data);
 
 	// Creates an asynchronous task to call the MoreDecompressString method with the
 	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
 	// The caller is responsible for deleting the object returned by this method.
-	CkTaskW *MoreDecompressStringAsync(const CkByteData &data);
+	CkTaskW *MoreDecompressStringAsync(CkByteData &data);
 
 	// The input to this method is an encoded string containing compressed data. The
 	// EncodingMode property should be set prior to calling this method. The input
@@ -614,6 +614,28 @@ class CK_VISIBLE_PUBLIC CkCompressionW  : public CkWideCharBase
 	// unlock code is provided which should replace the temporary/arbitrary string
 	// passed to this method.
 	bool UnlockComponent(const wchar_t *unlockCode);
+
+	// Compresses a stream. Internally, the ARG1's source is read, compressed, and the
+	// compressed data written to the ARG1's sink. It does this in streaming fashion.
+	// Extremely large or even infinite streams can be compressed with stable ungrowing
+	// memory usage.
+	bool CompressStream(CkStreamW &strm);
+
+	// Creates an asynchronous task to call the CompressStream method with the
+	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
+	// The caller is responsible for deleting the object returned by this method.
+	CkTaskW *CompressStreamAsync(CkStreamW &strm);
+
+	// Decompresses a stream. Internally, the ARG1's source is read, decompressed, and
+	// the decompressed data written to the ARG1's sink. It does this in streaming
+	// fashion. Extremely large or even infinite streams can be decompressed with
+	// stable ungrowing memory usage.
+	bool DecompressStream(CkStreamW &strm);
+
+	// Creates an asynchronous task to call the DecompressStream method with the
+	// arguments provided. (Async methods are available starting in Chilkat v9.5.0.52.)
+	// The caller is responsible for deleting the object returned by this method.
+	CkTaskW *DecompressStreamAsync(CkStreamW &strm);
 
 
 

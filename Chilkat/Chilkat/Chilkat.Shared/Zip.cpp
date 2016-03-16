@@ -840,7 +840,7 @@ void Zip::SetExclusions(StringArray ^excludePatterns)
     {
 	if (m_impl == nullptr) { return ; }
 	if (excludePatterns == nullptr) { return ; }
-	const CkStringArrayW* pObj0 = excludePatterns->m_impl;
+	CkStringArrayW* pObj0 = excludePatterns->m_impl;
 	 if (!pObj0) { return ; }
 	// --- prep output arg ---
 	CxZipProgress cxProgress(m_impl);

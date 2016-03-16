@@ -12,8 +12,6 @@
 #include "CkString.h"
 #include "CkMultiByteBase.h"
 
-class CkByteData;
-
 class CkXml;
 class CkStringArray;
 class CkByteData;
@@ -29,7 +27,6 @@ class CkByteData;
 class CK_VISIBLE_PUBLIC CkXmp  : public CkMultiByteBase
 {
     private:
-	
 
 	// Don't allow assignment or copying these objects.
 	CkXmp(const CkXmp &);
@@ -188,7 +185,7 @@ class CK_VISIBLE_PUBLIC CkXmp  : public CkMultiByteBase
 
 
 	// Loads a JPG or TIFF from an byte buffer containing the image file data.
-	bool LoadFromBuffer(const CkByteData &fileData, const char *ext);
+	bool LoadFromBuffer(CkByteData &fileData, const char *ext);
 
 
 	// Creates and returns a new/empty XMP metadata document as a Chilkat XML object.

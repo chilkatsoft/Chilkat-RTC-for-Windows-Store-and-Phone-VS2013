@@ -10,9 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkMultiByteBase.h"
-
-class CkByteData;
+#include "CkClassWithCallbacks.h"
 
 class CkByteData;
 class CkTask;
@@ -26,10 +24,9 @@ class CkBaseProgress;
  
 
 // CLASS: CkZipCrc
-class CK_VISIBLE_PUBLIC CkZipCrc  : public CkMultiByteBase
+class CK_VISIBLE_PUBLIC CkZipCrc  : public CkClassWithCallbacks
 {
     private:
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkZipCrc(const CkZipCrc &);
@@ -70,7 +67,7 @@ class CK_VISIBLE_PUBLIC CkZipCrc  : public CkMultiByteBase
 	// Calculates a 32-bit CRC for in-memory byte data. This is the 32-bit CRC that
 	// would be found in a Zip file header if a file containing the ARG1 was added to a
 	// zip archive.
-	int CalculateCrc(const CkByteData &data);
+	int CalculateCrc(CkByteData &data);
 
 
 	// Finalizes and returns the Zip CRC value calculated by calling BeginStream
@@ -88,7 +85,7 @@ class CK_VISIBLE_PUBLIC CkZipCrc  : public CkMultiByteBase
 
 
 	// Converts a 32-bit integer to a hexidecimal string.
-	void MoreData(const CkByteData &data);
+	void MoreData(CkByteData &data);
 
 
 	// Converts a 32-bit integer to a hexidecimal string.

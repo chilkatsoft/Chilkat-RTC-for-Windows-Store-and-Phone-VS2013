@@ -10,9 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkMultiByteBase.h"
-
-class CkByteData;
+#include "CkClassWithCallbacks.h"
 
 class CkByteData;
 class CkTask;
@@ -27,10 +25,9 @@ class CkBaseProgress;
  
 
 // CLASS: CkGzip
-class CK_VISIBLE_PUBLIC CkGzip  : public CkMultiByteBase
+class CK_VISIBLE_PUBLIC CkGzip  : public CkClassWithCallbacks
 {
     private:
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkGzip(const CkGzip &);
@@ -171,17 +168,17 @@ class CK_VISIBLE_PUBLIC CkGzip  : public CkMultiByteBase
 
 
 	// Gzip compresses and creates a .gz file from in-memory data.
-	bool CompressMemToFile(const CkByteData &inData, const char *destPath);
+	bool CompressMemToFile(CkByteData &inData, const char *destPath);
 
 	// Gzip compresses and creates a .gz file from in-memory data.
-	CkTask *CompressMemToFileAsync(const CkByteData &inData, const char *destPath);
+	CkTask *CompressMemToFileAsync(CkByteData &inData, const char *destPath);
 
 
 	// Compresses in-memory data to an in-memory image of a .gz file.
-	bool CompressMemory(const CkByteData &inData, CkByteData &outData);
+	bool CompressMemory(CkByteData &inData, CkByteData &outData);
 
 	// Compresses in-memory data to an in-memory image of a .gz file.
-	CkTask *CompressMemoryAsync(const CkByteData &inData);
+	CkTask *CompressMemoryAsync(CkByteData &inData);
 
 
 	// Gzip compresses a string and writes the output to a byte array. The string is
@@ -249,11 +246,11 @@ class CK_VISIBLE_PUBLIC CkGzip  : public CkMultiByteBase
 
 	// Encodes binary data to a printable string. The encoding mode is determined by
 	//  encoding. It may be "base64", "hex", "quoted-printable", or "url".
-	bool Encode(const CkByteData &byteData, const char *encoding, CkString &outStr);
+	bool Encode(CkByteData &byteData, const char *encoding, CkString &outStr);
 
 	// Encodes binary data to a printable string. The encoding mode is determined by
 	//  encoding. It may be "base64", "hex", "quoted-printable", or "url".
-	const char *encode(const CkByteData &byteData, const char *encoding);
+	const char *encode(CkByteData &byteData, const char *encoding);
 
 	// Determines if the inGzFilename is a Gzip formatted file. Returns true if it is a Gzip
 	// formatted file, otherwise returns false.
@@ -262,7 +259,7 @@ class CK_VISIBLE_PUBLIC CkGzip  : public CkMultiByteBase
 
 	// Determines if the in-memory bytes (inGzData) contain a Gzip formatted file. Returns
 	// true if it is Gzip format, otherwise returns false.
-	bool ExamineMemory(const CkByteData &inGzData);
+	bool ExamineMemory(CkByteData &inGzData);
 
 
 	// Gets the last-modification date/time to be embedded within the .gz.
@@ -354,17 +351,17 @@ class CK_VISIBLE_PUBLIC CkGzip  : public CkMultiByteBase
 
 
 	// Un-Gzips from an in-memory image of a .gz file to a file.
-	bool UncompressMemToFile(const CkByteData &inData, const char *destPath);
+	bool UncompressMemToFile(CkByteData &inData, const char *destPath);
 
 	// Un-Gzips from an in-memory image of a .gz file to a file.
-	CkTask *UncompressMemToFileAsync(const CkByteData &inData, const char *destPath);
+	CkTask *UncompressMemToFileAsync(CkByteData &inData, const char *destPath);
 
 
 	// Un-Gzips from an in-memory image of a .gz file directly into memory.
-	bool UncompressMemory(const CkByteData &inData, CkByteData &outData);
+	bool UncompressMemory(CkByteData &inData, CkByteData &outData);
 
 	// Un-Gzips from an in-memory image of a .gz file directly into memory.
-	CkTask *UncompressMemoryAsync(const CkByteData &inData);
+	CkTask *UncompressMemoryAsync(CkByteData &inData);
 
 
 	// The reverse of CompressString.
@@ -372,20 +369,20 @@ class CK_VISIBLE_PUBLIC CkGzip  : public CkMultiByteBase
 	// The bytes in inData are uncompressed, then converted from  inCharset (if necessary) to
 	// return a string.
 	// 
-	bool UncompressString(const CkByteData &inData, const char *inCharset, CkString &outStr);
+	bool UncompressString(CkByteData &inData, const char *inCharset, CkString &outStr);
 
 	// The reverse of CompressString.
 	// 
 	// The bytes in inData are uncompressed, then converted from  inCharset (if necessary) to
 	// return a string.
 	// 
-	const char *uncompressString(const CkByteData &inData, const char *inCharset);
+	const char *uncompressString(CkByteData &inData, const char *inCharset);
 	// The reverse of CompressString.
 	// 
 	// The bytes in inData are uncompressed, then converted from  inCharset (if necessary) to
 	// return a string.
 	// 
-	CkTask *UncompressStringAsync(const CkByteData &inData, const char *inCharset);
+	CkTask *UncompressStringAsync(CkByteData &inData, const char *inCharset);
 
 
 	// The same as UncompressString, except the compressed data is provided in encoded
@@ -405,7 +402,7 @@ class CK_VISIBLE_PUBLIC CkGzip  : public CkMultiByteBase
 
 
 	// A convenience method for writing a binary byte array to a file.
-	bool WriteFile(const char *path, const CkByteData &binaryData);
+	bool WriteFile(const char *path, CkByteData &binaryData);
 
 
 	// Converts base64-gzip .xfdl data to a decompressed XML string. The xfldData contains

@@ -12,8 +12,6 @@
 #include "CkString.h"
 #include "CkMultiByteBase.h"
 
-class CkByteData;
-
 class CkTask;
 
 
@@ -27,7 +25,6 @@ class CkTask;
 class CK_VISIBLE_PUBLIC CkMessageSet  : public CkMultiByteBase
 {
     private:
-	
 
 	// Don't allow assignment or copying these objects.
 	CkMessageSet(const CkMessageSet &);

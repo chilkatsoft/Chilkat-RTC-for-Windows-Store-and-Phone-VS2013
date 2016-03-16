@@ -10,7 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkMultiByteBase.h"
+#include "CkClassWithCallbacks.h"
 
 class CkByteData;
 class CkTask;
@@ -24,10 +24,9 @@ class CkBaseProgress;
  
 
 // CLASS: CkUpload
-class CK_VISIBLE_PUBLIC CkUpload  : public CkMultiByteBase
+class CK_VISIBLE_PUBLIC CkUpload  : public CkClassWithCallbacks
 {
     private:
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkUpload(const CkUpload &);
@@ -440,7 +439,7 @@ class CK_VISIBLE_PUBLIC CkUpload  : public CkMultiByteBase
 
 	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
 	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible. The TLS ciphers supported in the latest version of Chilkat are:
+	// are possible. The TLS ciphers supported in Chilkat v9.5.0.55 and later are:
 	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
 	// TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
@@ -481,11 +480,36 @@ class CK_VISIBLE_PUBLIC CkUpload  : public CkMultiByteBase
 	// connections with servers having keys smaller than 1024 bits. Add the keyword
 	// "rsa2048" to disallow connections with servers having keys smaller than 2048
 	// bits.
+	// 
+	// Note: Prior to Chilkat v9.5.0.55, it was not possible to explicitly list allowed
+	// cipher suites. The deprecated means for indicating allowed ciphers was both
+	// incomplete and unprecise. For example, the following keywords could be listed to
+	// allow matching ciphers: "aes256-cbc", "aes128-cbc", "3des-cbc", and "rc4". These
+	// keywords will still be recognized, but programs should be updated to explicitly
+	// list the allowed ciphers.
+	// 
+	// secure-renegotiation: Starting in Chilkat v9.5.0.55, the keyword
+	// "secure-renegotiation" may be added to require that all renegotions be done
+	// securely (as per RFC 5746).
+	// 
+	// best-practices: Starting in Chilkat v9.5.0.55, this property may be set to the
+	// single keyword "best-practices". This will allow ciphers based on the current
+	// best practices. As new versions of Chilkat are released, the best practices may
+	// change. Changes will be noted here. The current best practices are:
+	// 
+	//     If the server uses an RSA key, it must be 1024 bits or greater.
+	//     All renegotations must be secure renegotiations.
+	//     All ciphers using RC4, DES, or 3DES are disallowed.
+	// 
+	// Example: The following string would restrict to 2 specific cipher suites,
+	// require RSA keys to be 1024 bits or greater, and require secure renegotiations:
+	// "TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, rsa1024,
+	// secure-renegotiation"
 	// 
 	void get_SslAllowedCiphers(CkString &str);
 	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
 	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible. The TLS ciphers supported in the latest version of Chilkat are:
+	// are possible. The TLS ciphers supported in Chilkat v9.5.0.55 and later are:
 	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
 	// TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
@@ -526,11 +550,36 @@ class CK_VISIBLE_PUBLIC CkUpload  : public CkMultiByteBase
 	// connections with servers having keys smaller than 1024 bits. Add the keyword
 	// "rsa2048" to disallow connections with servers having keys smaller than 2048
 	// bits.
+	// 
+	// Note: Prior to Chilkat v9.5.0.55, it was not possible to explicitly list allowed
+	// cipher suites. The deprecated means for indicating allowed ciphers was both
+	// incomplete and unprecise. For example, the following keywords could be listed to
+	// allow matching ciphers: "aes256-cbc", "aes128-cbc", "3des-cbc", and "rc4". These
+	// keywords will still be recognized, but programs should be updated to explicitly
+	// list the allowed ciphers.
+	// 
+	// secure-renegotiation: Starting in Chilkat v9.5.0.55, the keyword
+	// "secure-renegotiation" may be added to require that all renegotions be done
+	// securely (as per RFC 5746).
+	// 
+	// best-practices: Starting in Chilkat v9.5.0.55, this property may be set to the
+	// single keyword "best-practices". This will allow ciphers based on the current
+	// best practices. As new versions of Chilkat are released, the best practices may
+	// change. Changes will be noted here. The current best practices are:
+	// 
+	//     If the server uses an RSA key, it must be 1024 bits or greater.
+	//     All renegotations must be secure renegotiations.
+	//     All ciphers using RC4, DES, or 3DES are disallowed.
+	// 
+	// Example: The following string would restrict to 2 specific cipher suites,
+	// require RSA keys to be 1024 bits or greater, and require secure renegotiations:
+	// "TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, rsa1024,
+	// secure-renegotiation"
 	// 
 	const char *sslAllowedCiphers(void);
 	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
 	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible. The TLS ciphers supported in the latest version of Chilkat are:
+	// are possible. The TLS ciphers supported in Chilkat v9.5.0.55 and later are:
 	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
 	// TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
@@ -571,6 +620,31 @@ class CK_VISIBLE_PUBLIC CkUpload  : public CkMultiByteBase
 	// connections with servers having keys smaller than 1024 bits. Add the keyword
 	// "rsa2048" to disallow connections with servers having keys smaller than 2048
 	// bits.
+	// 
+	// Note: Prior to Chilkat v9.5.0.55, it was not possible to explicitly list allowed
+	// cipher suites. The deprecated means for indicating allowed ciphers was both
+	// incomplete and unprecise. For example, the following keywords could be listed to
+	// allow matching ciphers: "aes256-cbc", "aes128-cbc", "3des-cbc", and "rc4". These
+	// keywords will still be recognized, but programs should be updated to explicitly
+	// list the allowed ciphers.
+	// 
+	// secure-renegotiation: Starting in Chilkat v9.5.0.55, the keyword
+	// "secure-renegotiation" may be added to require that all renegotions be done
+	// securely (as per RFC 5746).
+	// 
+	// best-practices: Starting in Chilkat v9.5.0.55, this property may be set to the
+	// single keyword "best-practices". This will allow ciphers based on the current
+	// best practices. As new versions of Chilkat are released, the best practices may
+	// change. Changes will be noted here. The current best practices are:
+	// 
+	//     If the server uses an RSA key, it must be 1024 bits or greater.
+	//     All renegotations must be secure renegotiations.
+	//     All ciphers using RC4, DES, or 3DES are disallowed.
+	// 
+	// Example: The following string would restrict to 2 specific cipher suites,
+	// require RSA keys to be 1024 bits or greater, and require secure renegotiations:
+	// "TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, rsa1024,
+	// secure-renegotiation"
 	// 
 	void put_SslAllowedCiphers(const char *newVal);
 

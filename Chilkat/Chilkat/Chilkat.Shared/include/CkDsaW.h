@@ -124,7 +124,7 @@ class CK_VISIBLE_PUBLIC CkDsaW  : public CkWideCharBase
 	// Methods
 	// ----------------------
 	// Loads a DSA private key from in-memory DSA DER encoded bytes.
-	bool FromDer(const CkByteData &derData);
+	bool FromDer(CkByteData &derData);
 
 	// Loads a DSA private key from a DER-encoded file.
 	bool FromDerFile(const wchar_t *path);
@@ -138,7 +138,7 @@ class CK_VISIBLE_PUBLIC CkDsaW  : public CkWideCharBase
 	bool FromPem(const wchar_t *pemData);
 
 	// Loads a DSA public key from an in-memory DER-encoded byte array.
-	bool FromPublicDer(const CkByteData &derData);
+	bool FromPublicDer(CkByteData &derData);
 
 	// Loads a DSA public key from a DER-encoded file.
 	bool FromPublicDerFile(const wchar_t *path);
@@ -156,7 +156,7 @@ class CK_VISIBLE_PUBLIC CkDsaW  : public CkWideCharBase
 
 	// Generates a new DSA key from in-memory DER parameters created by OpenSSL. The
 	// newly generated key may be exported by calling one of the To* methods.
-	bool GenKeyFromParamsDer(const CkByteData &derBytes);
+	bool GenKeyFromParamsDer(CkByteData &derBytes);
 
 	// Generates a new DSA key from a DER-format parameters file created by OpenSSL. An
 	// example of using OpenSSL to generate DSA parameters in DER format is:

@@ -12,8 +12,6 @@
 #include "CkString.h"
 #include "CkMultiByteBase.h"
 
-class CkByteData;
-
 class CkEmail;
 class CkStringArray;
 class CkTask;
@@ -29,7 +27,6 @@ class CkTask;
 class CK_VISIBLE_PUBLIC CkEmailBundle  : public CkMultiByteBase
 {
     private:
-	
 
 	// Don't allow assignment or copying these objects.
 	CkEmailBundle(const CkEmailBundle &);
@@ -62,7 +59,7 @@ class CK_VISIBLE_PUBLIC CkEmailBundle  : public CkMultiByteBase
 	// Methods
 	// ----------------------
 	// Adds an email object to the bundle.
-	bool AddEmail(const CkEmail &email);
+	bool AddEmail(CkEmail &email);
 
 
 	// Returns the first email having a header field matching the headerFieldName and  headerFieldValue exactly
@@ -122,7 +119,7 @@ class CK_VISIBLE_PUBLIC CkEmailBundle  : public CkMultiByteBase
 
 	// Removes an email from the bundle. This does not remove the email from the mail
 	// server.
-	bool RemoveEmail(const CkEmail &email);
+	bool RemoveEmail(CkEmail &email);
 
 
 	// Removes the Nth email in a bundle. (Indexing begins at 0.)

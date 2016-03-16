@@ -445,6 +445,14 @@ String ^Chilkat::Imap::TlsCipherSuite::get()
     {
     return ref new String(m_impl ? m_impl->tlsCipherSuite() : L"");
     }
+String ^Chilkat::Imap::TlsPinSet::get()
+    {
+    return ref new String(m_impl ? m_impl->tlsPinSet() : L"");
+    }
+void Chilkat::Imap::TlsPinSet::set(String ^newVal)
+    {
+        if (m_impl) m_impl->put_TlsPinSet(newVal ? newVal->Data() : L"");
+    }
 String ^Chilkat::Imap::TlsVersion::get()
     {
     return ref new String(m_impl ? m_impl->tlsVersion() : L"");
@@ -456,14 +464,6 @@ int Chilkat::Imap::UidNext::get()
 int Chilkat::Imap::UidValidity::get()
     {
     return m_impl ? m_impl->get_UidValidity() : 0;
-    }
-String ^Chilkat::Imap::TlsPinSet::get()
-    {
-    return ref new String(m_impl ? m_impl->tlsPinSet() : L"");
-    }
-void Chilkat::Imap::TlsPinSet::set(String ^newVal)
-    {
-        if (m_impl) m_impl->put_TlsPinSet(newVal ? newVal->Data() : L"");
     }
 
 
@@ -508,7 +508,7 @@ return create_async([this, mailbox, email]() -> Boolean
 
 	if (m_impl == nullptr) { return false; }
 	if (email == nullptr) { return false; }
-	const CkEmailW* pObj1 = email->m_impl;
+	CkEmailW* pObj1 = email->m_impl;
 	 if (!pObj1) { return false; }
 	// --- prep output arg ---
 	CxImapProgress cxProgress(m_impl);
@@ -875,7 +875,7 @@ return create_async([this, messageSet]() -> EmailBundle ^
 
 	if (m_impl == nullptr) { return nullptr; }
 	if (messageSet == nullptr) { return nullptr; }
-	const CkMessageSetW* pObj0 = messageSet->m_impl;
+	CkMessageSetW* pObj0 = messageSet->m_impl;
 	 if (!pObj0) { return nullptr; }
 	// --- prep output arg ---
 	CxImapProgress cxProgress(m_impl);
@@ -898,7 +898,7 @@ return create_async([this, messageSet]() -> StringArray ^
 
 	if (m_impl == nullptr) { return nullptr; }
 	if (messageSet == nullptr) { return nullptr; }
-	const CkMessageSetW* pObj0 = messageSet->m_impl;
+	CkMessageSetW* pObj0 = messageSet->m_impl;
 	 if (!pObj0) { return nullptr; }
 	// --- prep output arg ---
 	CxImapProgress cxProgress(m_impl);
@@ -965,7 +965,7 @@ return create_async([this, messageSet]() -> EmailBundle ^
 
 	if (m_impl == nullptr) { return nullptr; }
 	if (messageSet == nullptr) { return nullptr; }
-	const CkMessageSetW* pObj0 = messageSet->m_impl;
+	CkMessageSetW* pObj0 = messageSet->m_impl;
 	 if (!pObj0) { return nullptr; }
 	// --- prep output arg ---
 	CxImapProgress cxProgress(m_impl);
@@ -1140,7 +1140,7 @@ Platform::String ^Imap::GetMailAttachFilename(Email ^email, int attachIndex)
     {
 	if (m_impl == nullptr) { return nullptr; }
 	if (email == nullptr) { return nullptr; }
-	const CkEmailW* pObj0 = email->m_impl;
+	CkEmailW* pObj0 = email->m_impl;
 	 if (!pObj0) { return nullptr; }
 	// --- prep output arg ---
 	CxImapProgress cxProgress(m_impl);
@@ -1155,7 +1155,7 @@ int Imap::GetMailAttachSize(Email ^email, int attachIndex)
     {
 	if (m_impl == nullptr) { return -1; }
 	if (email == nullptr) { return -1; }
-	const CkEmailW* pObj0 = email->m_impl;
+	CkEmailW* pObj0 = email->m_impl;
 	 if (!pObj0) { return -1; }
 	// --- prep output arg ---
 	CxImapProgress cxProgress(m_impl);
@@ -1164,15 +1164,11 @@ int Imap::GetMailAttachSize(Email ^email, int attachIndex)
 	// cppType = int
 	return m_impl->GetMailAttachSize(*pObj0,attachIndex);
     }
-IAsyncOperation<int>^ Imap::GetMailFlagAsync(Email ^email, Platform::String ^flagName)
+int Imap::GetMailFlag(Email ^email, Platform::String ^flagName)
     {
-return create_async([this, email, flagName]() -> int
-{
-// This runs in a thread pool thread...
-
 	if (m_impl == nullptr) { return -1; }
 	if (email == nullptr) { return -1; }
-	const CkEmailW* pObj0 = email->m_impl;
+	CkEmailW* pObj0 = email->m_impl;
 	 if (!pObj0) { return -1; }
 	// --- prep output arg ---
 	CxImapProgress cxProgress(m_impl);
@@ -1180,14 +1176,12 @@ return create_async([this, email, flagName]() -> int
 	// gType = int
 	// cppType = int
 	return m_impl->GetMailFlag(*pObj0,flagName ? flagName->Data() : L"");
-
-});
     }
 int Imap::GetMailNumAttach(Email ^email)
     {
 	if (m_impl == nullptr) { return -1; }
 	if (email == nullptr) { return -1; }
-	const CkEmailW* pObj0 = email->m_impl;
+	CkEmailW* pObj0 = email->m_impl;
 	 if (!pObj0) { return -1; }
 	// --- prep output arg ---
 	CxImapProgress cxProgress(m_impl);
@@ -1200,7 +1194,7 @@ int Imap::GetMailSize(Email ^email)
     {
 	if (m_impl == nullptr) { return -1; }
 	if (email == nullptr) { return -1; }
-	const CkEmailW* pObj0 = email->m_impl;
+	CkEmailW* pObj0 = email->m_impl;
 	 if (!pObj0) { return -1; }
 	// --- prep output arg ---
 	CxImapProgress cxProgress(m_impl);
@@ -1558,7 +1552,7 @@ Boolean Imap::SetDecryptCert2(Cert ^cert, PrivateKey ^key)
     {
 	if (m_impl == nullptr) { return false; }
 	if (cert == nullptr) { return false; }
-	const CkCertW* pObj0 = cert->m_impl;
+	CkCertW* pObj0 = cert->m_impl;
 	 if (!pObj0) { return false; }
 	if (key == nullptr) { return false; }
 	CkPrivateKeyW* pObj1 = key->m_impl;
@@ -1594,7 +1588,7 @@ return create_async([this, messageSet, flagName, value]() -> Boolean
 
 	if (m_impl == nullptr) { return false; }
 	if (messageSet == nullptr) { return false; }
-	const CkMessageSetW* pObj0 = messageSet->m_impl;
+	CkMessageSetW* pObj0 = messageSet->m_impl;
 	 if (!pObj0) { return false; }
 	// --- prep output arg ---
 	CxImapProgress cxProgress(m_impl);
@@ -1613,7 +1607,7 @@ return create_async([this, email, flagName, value]() -> Boolean
 
 	if (m_impl == nullptr) { return false; }
 	if (email == nullptr) { return false; }
-	const CkEmailW* pObj0 = email->m_impl;
+	CkEmailW* pObj0 = email->m_impl;
 	 if (!pObj0) { return false; }
 	// --- prep output arg ---
 	CxImapProgress cxProgress(m_impl);

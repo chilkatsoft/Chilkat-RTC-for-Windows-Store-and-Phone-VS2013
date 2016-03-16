@@ -196,7 +196,7 @@ class CK_VISIBLE_PUBLIC CkJavaKeyStoreW  : public CkWideCharBase
 	const wchar_t *trustedCertAlias(int index);
 
 	// Loads a Java keystore from in-memory byte data.
-	bool LoadBinary(const wchar_t *password, const CkByteData &jksData);
+	bool LoadBinary(const wchar_t *password, CkByteData &jksData);
 
 	// Loads a Java keystore from an encoded string (such as base64, hex, etc.)
 	bool LoadEncoded(const wchar_t *password, const wchar_t *jksEncData, const wchar_t *encoding);

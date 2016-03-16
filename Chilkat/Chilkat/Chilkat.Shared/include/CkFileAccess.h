@@ -13,8 +13,6 @@
 #include "CkMultiByteBase.h"
 
 class CkByteData;
-
-class CkByteData;
 class CkDateTime;
 
 
@@ -28,7 +26,6 @@ class CkDateTime;
 class CK_VISIBLE_PUBLIC CkFileAccess  : public CkMultiByteBase
 {
     private:
-	
 
 	// Don't allow assignment or copying these objects.
 	CkFileAccess(const CkFileAccess &);
@@ -219,7 +216,7 @@ class CK_VISIBLE_PUBLIC CkFileAccess  : public CkMultiByteBase
 
 
 	// Writes bytes to the currently open file.
-	bool FileWrite(const CkByteData &data);
+	bool FileWrite(CkByteData &data);
 
 
 	// Creates a temporary filepath of the form dirPath\ prefix_xxxx.TMP Where "xxxx" are
@@ -326,7 +323,7 @@ class CK_VISIBLE_PUBLIC CkFileAccess  : public CkMultiByteBase
 
 
 	// Opens/creates filePath, writes  fileData, and closes the file.
-	bool WriteEntireFile(const char *filename, const CkByteData &fileData);
+	bool WriteEntireFile(const char *filename, CkByteData &fileData);
 
 
 	// Opens filePath, writes  textData using the character encoding specified by  charset, and

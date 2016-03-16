@@ -1,4 +1,4 @@
-// This is a generated source file for Chilkat version 9.5.0.55
+// This is a generated source file for Chilkat version 9.5.0.56
 #ifndef _C_CkMime_H
 #define _C_CkMime_H
 #include "chilkatDefs.h"
@@ -100,9 +100,7 @@ CK_VISIBLE_PUBLIC BOOL CkMime_DecryptUsingPfxData(HCkMime cHandle, HCkByteData p
 CK_VISIBLE_PUBLIC BOOL CkMime_DecryptUsingPfxFile(HCkMime cHandle, const char *pfxFilePath, const char *pfxPassword);
 CK_VISIBLE_PUBLIC BOOL CkMime_Encrypt(HCkMime cHandle, HCkCert cert);
 CK_VISIBLE_PUBLIC BOOL CkMime_EncryptN(HCkMime cHandle);
-#ifndef MOBILE_MIME
 CK_VISIBLE_PUBLIC HCkStringArray CkMime_ExtractPartsToFiles(HCkMime cHandle, const char *dirPath);
-#endif
 CK_VISIBLE_PUBLIC HCkCert CkMime_FindIssuer(HCkMime cHandle, HCkCert cert);
 CK_VISIBLE_PUBLIC BOOL CkMime_GetBodyBinary(HCkMime cHandle, HCkByteData outData);
 CK_VISIBLE_PUBLIC BOOL CkMime_GetBodyDecoded(HCkMime cHandle, HCkString outStr);
@@ -131,6 +129,8 @@ CK_VISIBLE_PUBLIC BOOL CkMime_GetSignatureSigningTimeStr(HCkMime cHandle, int in
 CK_VISIBLE_PUBLIC const char *CkMime_getSignatureSigningTimeStr(HCkMime cHandle, int index);
 CK_VISIBLE_PUBLIC HCkCert CkMime_GetSignerCert(HCkMime cHandle, int index);
 CK_VISIBLE_PUBLIC HCkCertChain CkMime_GetSignerCertChain(HCkMime cHandle, int index);
+CK_VISIBLE_PUBLIC BOOL CkMime_GetStructure(HCkMime cHandle, const char *fmt, HCkString outStr);
+CK_VISIBLE_PUBLIC const char *CkMime_getStructure(HCkMime cHandle, const char *fmt);
 CK_VISIBLE_PUBLIC BOOL CkMime_GetXml(HCkMime cHandle, HCkString outStr);
 CK_VISIBLE_PUBLIC const char *CkMime_getXml(HCkMime cHandle);
 CK_VISIBLE_PUBLIC BOOL CkMime_HasSignatureSigningTime(HCkMime cHandle, int index);

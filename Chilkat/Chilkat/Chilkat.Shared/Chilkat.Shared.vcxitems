@@ -118,6 +118,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)HttpResponse.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Imap.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)JavaKeyStore.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)JsonArray.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)JsonObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Log.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Mailboxes.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MailMan.cpp" />
@@ -143,6 +145,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Spider.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Ssh.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SshKey.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Stream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StringArray.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Tar.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TrustedRoots.cpp" />

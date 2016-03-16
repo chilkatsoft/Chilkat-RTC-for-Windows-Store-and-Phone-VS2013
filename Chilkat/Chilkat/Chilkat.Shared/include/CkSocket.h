@@ -10,7 +10,7 @@
 #include "chilkatDefs.h"
 
 #include "CkString.h"
-#include "CkMultiByteBase.h"
+#include "CkClassWithCallbacks.h"
 
 class CkByteData;
 class CkTask;
@@ -27,10 +27,9 @@ class CkBaseProgress;
  
 
 // CLASS: CkSocket
-class CK_VISIBLE_PUBLIC CkSocket  : public CkMultiByteBase
+class CK_VISIBLE_PUBLIC CkSocket  : public CkClassWithCallbacks
 {
     private:
-	void *m_eventCallback;
 
 	// Don't allow assignment or copying these objects.
 	CkSocket(const CkSocket &);
@@ -679,12 +678,28 @@ class CK_VISIBLE_PUBLIC CkSocket  : public CkMultiByteBase
 	// point. It is provided as a way to keep count of the total number of bytes
 	// received on a socket connection, regardless of which method calls are used to
 	// receive the data.
+	// 
+	// Note: The ReceivedCount may be larger than the number of bytes returned by some
+	// methods. For methods such as ReceiveUntilMatch, the excess received on the
+	// socket (beyond the match), is buffered by Chilkat for subsequent method calls.
+	// The ReceivedCount is updated based on the actual number of bytes received on the
+	// underlying socket in real-time. (The ReceivedCount does not include the overhead
+	// bytes associated with the TLS and/or SSH protocols.
+	// 
 	int get_ReceivedCount(void);
 	// Any method that receives data will increase the value of this property by the
 	// number of bytes received. The application may reset this property to 0 at any
 	// point. It is provided as a way to keep count of the total number of bytes
 	// received on a socket connection, regardless of which method calls are used to
 	// receive the data.
+	// 
+	// Note: The ReceivedCount may be larger than the number of bytes returned by some
+	// methods. For methods such as ReceiveUntilMatch, the excess received on the
+	// socket (beyond the match), is buffered by Chilkat for subsequent method calls.
+	// The ReceivedCount is updated based on the actual number of bytes received on the
+	// underlying socket in real-time. (The ReceivedCount does not include the overhead
+	// bytes associated with the TLS and/or SSH protocols.
+	// 
 	void put_ReceivedCount(int newVal);
 
 	// Contains the last integer received via a call to ReceiveByte, ReceiveInt16, or
@@ -945,7 +960,7 @@ class CK_VISIBLE_PUBLIC CkSocket  : public CkMultiByteBase
 
 	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
 	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible. The TLS ciphers supported in the latest version of Chilkat are:
+	// are possible. The TLS ciphers supported in Chilkat v9.5.0.55 and later are:
 	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
 	// TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
@@ -986,11 +1001,36 @@ class CK_VISIBLE_PUBLIC CkSocket  : public CkMultiByteBase
 	// connections with servers having keys smaller than 1024 bits. Add the keyword
 	// "rsa2048" to disallow connections with servers having keys smaller than 2048
 	// bits.
+	// 
+	// Note: Prior to Chilkat v9.5.0.55, it was not possible to explicitly list allowed
+	// cipher suites. The deprecated means for indicating allowed ciphers was both
+	// incomplete and unprecise. For example, the following keywords could be listed to
+	// allow matching ciphers: "aes256-cbc", "aes128-cbc", "3des-cbc", and "rc4". These
+	// keywords will still be recognized, but programs should be updated to explicitly
+	// list the allowed ciphers.
+	// 
+	// secure-renegotiation: Starting in Chilkat v9.5.0.55, the keyword
+	// "secure-renegotiation" may be added to require that all renegotions be done
+	// securely (as per RFC 5746).
+	// 
+	// best-practices: Starting in Chilkat v9.5.0.55, this property may be set to the
+	// single keyword "best-practices". This will allow ciphers based on the current
+	// best practices. As new versions of Chilkat are released, the best practices may
+	// change. Changes will be noted here. The current best practices are:
+	// 
+	//     If the server uses an RSA key, it must be 1024 bits or greater.
+	//     All renegotations must be secure renegotiations.
+	//     All ciphers using RC4, DES, or 3DES are disallowed.
+	// 
+	// Example: The following string would restrict to 2 specific cipher suites,
+	// require RSA keys to be 1024 bits or greater, and require secure renegotiations:
+	// "TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, rsa1024,
+	// secure-renegotiation"
 	// 
 	void get_SslAllowedCiphers(CkString &str);
 	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
 	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible. The TLS ciphers supported in the latest version of Chilkat are:
+	// are possible. The TLS ciphers supported in Chilkat v9.5.0.55 and later are:
 	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
 	// TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
@@ -1031,11 +1071,36 @@ class CK_VISIBLE_PUBLIC CkSocket  : public CkMultiByteBase
 	// connections with servers having keys smaller than 1024 bits. Add the keyword
 	// "rsa2048" to disallow connections with servers having keys smaller than 2048
 	// bits.
+	// 
+	// Note: Prior to Chilkat v9.5.0.55, it was not possible to explicitly list allowed
+	// cipher suites. The deprecated means for indicating allowed ciphers was both
+	// incomplete and unprecise. For example, the following keywords could be listed to
+	// allow matching ciphers: "aes256-cbc", "aes128-cbc", "3des-cbc", and "rc4". These
+	// keywords will still be recognized, but programs should be updated to explicitly
+	// list the allowed ciphers.
+	// 
+	// secure-renegotiation: Starting in Chilkat v9.5.0.55, the keyword
+	// "secure-renegotiation" may be added to require that all renegotions be done
+	// securely (as per RFC 5746).
+	// 
+	// best-practices: Starting in Chilkat v9.5.0.55, this property may be set to the
+	// single keyword "best-practices". This will allow ciphers based on the current
+	// best practices. As new versions of Chilkat are released, the best practices may
+	// change. Changes will be noted here. The current best practices are:
+	// 
+	//     If the server uses an RSA key, it must be 1024 bits or greater.
+	//     All renegotations must be secure renegotiations.
+	//     All ciphers using RC4, DES, or 3DES are disallowed.
+	// 
+	// Example: The following string would restrict to 2 specific cipher suites,
+	// require RSA keys to be 1024 bits or greater, and require secure renegotiations:
+	// "TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, rsa1024,
+	// secure-renegotiation"
 	// 
 	const char *sslAllowedCiphers(void);
 	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
 	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible. The TLS ciphers supported in the latest version of Chilkat are:
+	// are possible. The TLS ciphers supported in Chilkat v9.5.0.55 and later are:
 	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
 	// TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	// TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
@@ -1076,6 +1141,31 @@ class CK_VISIBLE_PUBLIC CkSocket  : public CkMultiByteBase
 	// connections with servers having keys smaller than 1024 bits. Add the keyword
 	// "rsa2048" to disallow connections with servers having keys smaller than 2048
 	// bits.
+	// 
+	// Note: Prior to Chilkat v9.5.0.55, it was not possible to explicitly list allowed
+	// cipher suites. The deprecated means for indicating allowed ciphers was both
+	// incomplete and unprecise. For example, the following keywords could be listed to
+	// allow matching ciphers: "aes256-cbc", "aes128-cbc", "3des-cbc", and "rc4". These
+	// keywords will still be recognized, but programs should be updated to explicitly
+	// list the allowed ciphers.
+	// 
+	// secure-renegotiation: Starting in Chilkat v9.5.0.55, the keyword
+	// "secure-renegotiation" may be added to require that all renegotions be done
+	// securely (as per RFC 5746).
+	// 
+	// best-practices: Starting in Chilkat v9.5.0.55, this property may be set to the
+	// single keyword "best-practices". This will allow ciphers based on the current
+	// best practices. As new versions of Chilkat are released, the best practices may
+	// change. Changes will be noted here. The current best practices are:
+	// 
+	//     If the server uses an RSA key, it must be 1024 bits or greater.
+	//     All renegotations must be secure renegotiations.
+	//     All ciphers using RC4, DES, or 3DES are disallowed.
+	// 
+	// Example: The following string would restrict to 2 specific cipher suites,
+	// require RSA keys to be 1024 bits or greater, and require secure renegotiations:
+	// "TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, rsa1024,
+	// secure-renegotiation"
 	// 
 	void put_SslAllowedCiphers(const char *newVal);
 
@@ -1181,33 +1271,6 @@ class CK_VISIBLE_PUBLIC CkSocket  : public CkMultiByteBase
 	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
 	const char *tlsCipherSuite(void);
 
-	// Contains the current or last negotiated TLS protocol version. If no TLS
-	// connection has yet to be established, or if a connection as attempted and
-	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
-	// 1.1", and "TLS 1.2".
-	void get_TlsVersion(CkString &str);
-	// Contains the current or last negotiated TLS protocol version. If no TLS
-	// connection has yet to be established, or if a connection as attempted and
-	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
-	// 1.1", and "TLS 1.2".
-	const char *tlsVersion(void);
-
-	// Provides a way to store text data with the socket object. The UserData is purely
-	// for convenience and is not involved in the socket communications in any way. An
-	// application might use this property to keep extra information associated with
-	// the socket.
-	void get_UserData(CkString &str);
-	// Provides a way to store text data with the socket object. The UserData is purely
-	// for convenience and is not involved in the socket communications in any way. An
-	// application might use this property to keep extra information associated with
-	// the socket.
-	const char *userData(void);
-	// Provides a way to store text data with the socket object. The UserData is purely
-	// for convenience and is not involved in the socket communications in any way. An
-	// application might use this property to keep extra information associated with
-	// the socket.
-	void put_UserData(const char *newVal);
-
 	// Specifies a set of pins for Public Key Pinning for TLS connections. This
 	// property lists the expected SPKI fingerprints for the server certificates. If
 	// the server's certificate (sent during the TLS handshake) does not match any of
@@ -1262,6 +1325,33 @@ class CK_VISIBLE_PUBLIC CkSocket  : public CkMultiByteBase
 	// indicated in the link below.
 	// 
 	void put_TlsPinSet(const char *newVal);
+
+	// Contains the current or last negotiated TLS protocol version. If no TLS
+	// connection has yet to be established, or if a connection as attempted and
+	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
+	// 1.1", and "TLS 1.2".
+	void get_TlsVersion(CkString &str);
+	// Contains the current or last negotiated TLS protocol version. If no TLS
+	// connection has yet to be established, or if a connection as attempted and
+	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
+	// 1.1", and "TLS 1.2".
+	const char *tlsVersion(void);
+
+	// Provides a way to store text data with the socket object. The UserData is purely
+	// for convenience and is not involved in the socket communications in any way. An
+	// application might use this property to keep extra information associated with
+	// the socket.
+	void get_UserData(CkString &str);
+	// Provides a way to store text data with the socket object. The UserData is purely
+	// for convenience and is not involved in the socket communications in any way. An
+	// application might use this property to keep extra information associated with
+	// the socket.
+	const char *userData(void);
+	// Provides a way to store text data with the socket object. The UserData is purely
+	// for convenience and is not involved in the socket communications in any way. An
+	// application might use this property to keep extra information associated with
+	// the socket.
+	void put_UserData(const char *newVal);
 
 
 
@@ -1490,7 +1580,7 @@ class CK_VISIBLE_PUBLIC CkSocket  : public CkMultiByteBase
 	// introduced in Chilkat v9.5.0.52. Applications should use the new model, which is
 	// identified by methods having names ending with "Async" and return a task object.
 	// 
-	bool AsyncSendByteData(const CkByteData &data);
+	bool AsyncSendByteData(CkByteData &data);
 
 
 	// Initiates a background thread to send bytes on an already-connected socket (ssl
@@ -1500,7 +1590,7 @@ class CK_VISIBLE_PUBLIC CkSocket  : public CkMultiByteBase
 	// introduced in Chilkat v9.5.0.52. Applications should use the new model, which is
 	// identified by methods having names ending with "Async" and return a task object.
 	// 
-	bool AsyncSendBytes(const CkByteData &data);
+	bool AsyncSendBytes(CkByteData &data);
 
 
 	// Initiates a background thread to send text on an already-connected socket (ssl
@@ -2060,12 +2150,12 @@ class CK_VISIBLE_PUBLIC CkSocket  : public CkMultiByteBase
 	// Sends bytes over a connected SSL or non-SSL socket. If transmission halts for
 	// more than MaxSendIdleMs milliseconds, the send is aborted. This is a blocking
 	// (synchronous) method. It returns only after the bytes have been sent.
-	bool SendBytes(const CkByteData &data);
+	bool SendBytes(CkByteData &data);
 
 	// Sends bytes over a connected SSL or non-SSL socket. If transmission halts for
 	// more than MaxSendIdleMs milliseconds, the send is aborted. This is a blocking
 	// (synchronous) method. It returns only after the bytes have been sent.
-	CkTask *SendBytesAsync(const CkByteData &data);
+	CkTask *SendBytesAsync(CkByteData &data);
 
 
 	// The same as SendBytes, except the bytes are provided in encoded string form as
@@ -2258,6 +2348,15 @@ class CK_VISIBLE_PUBLIC CkSocket  : public CkMultiByteBase
 	bool TakeSocket(CkSocket &sock);
 
 
+	// Initiates a renegotiation of the TLS security parameters. This sends a
+	// ClientHello to re-do the TLS handshake to establish new TLS security params.
+	bool TlsRenegotiate(void);
+
+	// Initiates a renegotiation of the TLS security parameters. This sends a
+	// ClientHello to re-do the TLS handshake to establish new TLS security params.
+	CkTask *TlsRenegotiateAsync(void);
+
+
 	// Unlocks the component allowing for the full functionality to be used. An
 	// arbitrary string can be passed to initiate a fully-functional 30-day trial.
 	bool UnlockComponent(const char *unlockCode);
@@ -2307,15 +2406,6 @@ class CK_VISIBLE_PUBLIC CkSocket  : public CkMultiByteBase
 	// In all cases, the SSH tunnels can hold both unencrypted TCP connections and
 	// SSL/TLS connections.
 	bool UseSsh(CkSsh &ssh);
-
-
-	// Initiates a renegotiation of the TLS security parameters. This sends a
-	// ClientHello to re-do the TLS handshake to establish new TLS security params.
-	bool TlsRenegotiate(void);
-
-	// Initiates a renegotiation of the TLS security parameters. This sends a
-	// ClientHello to re-do the TLS handshake to establish new TLS security params.
-	CkTask *TlsRenegotiateAsync(void);
 
 
 

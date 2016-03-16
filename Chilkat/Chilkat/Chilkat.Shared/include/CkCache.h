@@ -12,8 +12,6 @@
 #include "CkString.h"
 #include "CkMultiByteBase.h"
 
-class CkByteData;
-
 class CkDateTime;
 class CkByteData;
 
@@ -28,7 +26,6 @@ class CkByteData;
 class CK_VISIBLE_PUBLIC CkCache  : public CkMultiByteBase
 {
     private:
-	
 
 	// Don't allow assignment or copying these objects.
 	CkCache(const CkCache &);
@@ -267,24 +264,24 @@ class CK_VISIBLE_PUBLIC CkCache  : public CkMultiByteBase
 	// The key may be any length and may include any characters. It should uniquely
 	// identify the cached item. (No two items in the cache should have the same key.)
 	// 
-	bool SaveToCache(const char *url, SYSTEMTIME &expire, const char *eTag, const CkByteData &data);
+	bool SaveToCache(const char *url, SYSTEMTIME &expire, const char *eTag, CkByteData &data);
 
 
 	// The same as SaveToCache, except the expire date/time is passed as a CkDateTime
 	// object.
-	bool SaveToCacheDt(const char *url, CkDateTime &expire, const char *eTag, const CkByteData &data);
+	bool SaveToCacheDt(const char *url, CkDateTime &expire, const char *eTag, CkByteData &data);
 
 
 	// Inserts or replaces an item in the cache. The cached item will have no
 	// expiration. The  eTag is optional and may be set to a zero-length string.
 	// Applications may use it as a place to save additional information about the
 	// cached item.
-	bool SaveToCacheNoExpire(const char *url, const char *eTag, const CkByteData &data);
+	bool SaveToCacheNoExpire(const char *url, const char *eTag, CkByteData &data);
 
 
 	// The same as SaveToCache, except the expire date/time is passed in RFC822 string
 	// format.
-	bool SaveToCacheStr(const char *url, const char *expireDateTimeStr, const char *eTag, const CkByteData &data);
+	bool SaveToCacheStr(const char *url, const char *expireDateTimeStr, const char *eTag, CkByteData &data);
 
 
 	// Updates the expire date/time for a cached item.

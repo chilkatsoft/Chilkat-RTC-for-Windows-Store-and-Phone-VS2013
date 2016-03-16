@@ -201,7 +201,7 @@ class CK_VISIBLE_PUBLIC CkFileAccessW  : public CkWideCharBase
 	int FileSize(const wchar_t *filename);
 
 	// Writes bytes to the currently open file.
-	bool FileWrite(const CkByteData &data);
+	bool FileWrite(CkByteData &data);
 
 	// Creates a temporary filepath of the form dirPath\ prefix_xxxx.TMP Where "xxxx" are
 	// random alpha-numeric chars. The returned filepath is guaranteed to not already
@@ -291,7 +291,7 @@ class CK_VISIBLE_PUBLIC CkFileAccessW  : public CkWideCharBase
 	bool TreeDelete(const wchar_t *path);
 
 	// Opens/creates filePath, writes  fileData, and closes the file.
-	bool WriteEntireFile(const wchar_t *filename, const CkByteData &fileData);
+	bool WriteEntireFile(const wchar_t *filename, CkByteData &fileData);
 
 	// Opens filePath, writes  textData using the character encoding specified by  charset, and
 	// closes the file. If  includedPreamble is true and the  charset is Unicode or utf-8, then the
